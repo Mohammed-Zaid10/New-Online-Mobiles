@@ -43,7 +43,7 @@ Pickup: ${form.pickup ? "Yes – Doorstep Pickup" : "No – Walk-in"}`;
 
     // 1. Direct background server-to-email dispatch via FormSubmit API
     try {
-      await fetch(`https://formsubmit.co/ajax/${SHOP.email}`, {
+      const res = await fetch(`https://formsubmit.co/ajax/${SHOP.email}`, {
         method: "POST",
         headers: { "Content-Type": "application/json", Accept: "application/json" },
         body: JSON.stringify({
@@ -60,8 +60,13 @@ Pickup: ${form.pickup ? "Yes – Doorstep Pickup" : "No – Walk-in"}`;
           full_details: msg,
         }),
       });
-    } catch {
-      // Fallback silently if network is offline
+      if (!res.ok) {
+        throw new Error("Form submission failed");
+      }
+    } catch (error) {
+      // Fallback: open user's email client with prefilled details
+      const mailtoLink = `mailto:${SHOP.email}?subject=${encodeURIComponent(`🛠️ New Repair Booking ${id}`)}&body=${encodeURIComponent(msg)}`;
+      window.location.href = mailtoLink;
     }
 
     // 2. Open WhatsApp for instant response

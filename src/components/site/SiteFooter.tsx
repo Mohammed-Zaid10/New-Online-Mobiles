@@ -54,9 +54,17 @@ export function SiteFooter() {
                 href={wa("Hi Online Mobiles! I have a question.")}
                 target="_blank"
                 rel="noreferrer"
-                className="inline-flex items-center gap-2 rounded-full bg-emerald-600 px-4 py-2 text-sm font-semibold text-white hover:bg-emerald-500 transition"
+                className="inline-flex items-center gap-2 rounded-full bg-emerald-600 px-4 py-2 text-sm font-semibold text-white hover:bg-emerald-500 transition shadow-sm"
               >
                 <MessageCircle className="h-4 w-4" /> WhatsApp
+              </a>
+              <a
+                href={SHOP.instagram}
+                target="_blank"
+                rel="noreferrer"
+                className="inline-flex items-center gap-2 rounded-full border border-pink-500/40 bg-gradient-to-r from-purple-600/20 via-pink-600/20 to-amber-500/20 px-4 py-2 text-sm font-semibold text-pink-400 hover:from-purple-600/30 hover:to-pink-600/30 transition shadow-sm"
+              >
+                <Instagram className="h-4 w-4 text-pink-400" /> @{SHOP.instagramHandle}
               </a>
               <a
                 href={`mailto:${SHOP.email}`}
@@ -88,7 +96,13 @@ export function SiteFooter() {
               Your one-stop premium mobile store. Genuine devices, certified repairs, honest prices — since 12+ years.
             </p>
             <div className="mt-5 flex gap-3">
-              <a href="#" aria-label="Instagram" className="grid h-9 w-9 place-items-center rounded-full bg-muted hover:bg-accent hover:text-accent-foreground">
+              <a
+                href={SHOP.instagram}
+                target="_blank"
+                rel="noreferrer"
+                aria-label="Instagram @shakeelahmedonline"
+                className="grid h-9 w-9 place-items-center rounded-full bg-pink-500/10 border border-pink-500/30 text-pink-400 hover:bg-pink-500/20 transition"
+              >
                 <Instagram className="h-4 w-4" />
               </a>
               <a href="#" aria-label="Facebook" className="grid h-9 w-9 place-items-center rounded-full bg-muted hover:bg-accent hover:text-accent-foreground">
@@ -130,8 +144,8 @@ export function SiteFooter() {
             <a href={`tel:${SHOP.phone}`} className="hover:text-foreground font-medium">{SHOP.phone}</a>
           </div>
           <div className="flex items-center gap-2">
-            <MessageCircle className="h-4 w-4 text-emerald-500" />
-            <a href={wa("Hi!")} target="_blank" rel="noreferrer" className="hover:text-foreground font-medium">WhatsApp: {SHOP.phone}</a>
+            <Instagram className="h-4 w-4 text-pink-400" />
+            <a href={SHOP.instagram} target="_blank" rel="noreferrer" className="hover:text-foreground font-medium text-pink-400">@{SHOP.instagramHandle}</a>
           </div>
           <div className="flex items-center gap-2">
             <Mail className="h-4 w-4 text-amber-500" />

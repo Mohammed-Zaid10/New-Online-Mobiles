@@ -55,34 +55,61 @@ function Home() {
   return (
     <>
       {/* Hero */}
-      <section className="relative overflow-hidden bg-[#0a0812] text-white">
-        {/* Full-section video background — client only to avoid SSR hydration mismatch */}
-        <HeroVideo className="absolute inset-0 h-full w-full object-cover opacity-30" />
+      <section className="relative overflow-hidden bg-[#040308] text-white">
+        {/* Full-section video background with dark luxury vignette */}
+        <HeroVideo className="absolute inset-0 h-full w-full object-cover opacity-45 filter contrast-125 brightness-90" />
 
-        {/* Dark overlay gradient so text stays readable */}
-        <div className="absolute inset-0 bg-gradient-to-r from-[#0a0812] via-[#0a0812]/80 to-transparent" />
-        <div className="absolute inset-0 bg-gradient-to-t from-[#0a0812]/80 via-transparent to-transparent" />
+        {/* Animated Dark Logo Watermark with Moving Glowing Rings */}
+        <div className="pointer-events-none absolute inset-0 flex items-center justify-center overflow-hidden z-0">
+          <div className="relative flex items-center justify-center w-[500px] h-[500px] sm:w-[750px] sm:h-[750px]">
+            {/* Outer Moving Glowing Ring 1 */}
+            <div className="absolute inset-0 rounded-full border-2 border-amber-500/50 shadow-[0_0_40px_rgba(245,158,11,0.3)] animate-spin-slow" />
+            
+            {/* Pulsing Glowing Ring 2 */}
+            <div className="absolute inset-10 rounded-full border border-dashed border-amber-400/60 animate-pulse" />
+            
+            {/* Counter Rotating Ring 3 */}
+            <div className="absolute inset-20 rounded-full border-2 border-dashed border-amber-300/50 animate-spin-reverse-slow" />
+            
+            {/* Inner Rotating Ring 4 */}
+            <div className="absolute inset-28 rounded-full border-4 border-amber-500/30 animate-spin-slow" />
+            
+            {/* Ambient Gold Glow Center */}
+            <div className="absolute inset-36 rounded-full bg-amber-500/20 blur-3xl animate-pulse" />
+
+            {/* Dimmed Logo Emblem */}
+            <img
+              src="/logo.jpg"
+              alt=""
+              className="h-[260px] w-[260px] sm:h-[400px] sm:w-[400px] rounded-full object-cover shadow-[0_0_60px_rgba(245,158,11,0.5)] opacity-35 filter contrast-125 brightness-110"
+            />
+          </div>
+        </div>
+
+        {/* Deep dark gradient overlays so text stays ultra-readable */}
+        <div className="absolute inset-0 z-0 bg-gradient-to-r from-[#040308] via-[#040308]/90 to-transparent" />
+        <div className="absolute inset-0 z-0 bg-gradient-to-t from-[#040308] via-transparent to-transparent" />
 
         <div className="relative z-10 mx-auto grid max-w-7xl items-center gap-10 px-4 py-20 md:grid-cols-2 md:px-6 md:py-28">
           {/* Left: Text content */}
           <div className="flex flex-col justify-center">
-            <div className="inline-flex w-fit items-center gap-2 rounded-full border border-amber-500/40 bg-slate-900/80 px-3.5 py-1 text-xs text-amber-300 backdrop-blur-md shadow-[0_0_15px_rgba(245,158,11,0.15)]">
+            <div className="inline-flex w-fit items-center gap-2 rounded-full border border-amber-500/50 bg-slate-950/90 px-4 py-1.5 text-xs text-amber-300 backdrop-blur-md shadow-[0_0_20px_rgba(245,158,11,0.2)]">
               <span className="h-2 w-2 rounded-full bg-emerald-400 animate-pulse" />
               Open today · {SHOP.hours}
             </div>
             <h1 className="mt-5 font-display text-4xl font-extrabold leading-[1.05] sm:text-6xl text-white">
               Premium mobiles.
               <br />
-              <span className="text-amber-400 drop-shadow-[0_0_20px_rgba(251,191,36,0.4)]">Honest service.</span>
+              <span className="text-amber-400 drop-shadow-[0_0_25px_rgba(251,191,36,0.5)]">Honest service.</span>
             </h1>
-            <p className="mt-5 max-w-lg text-slate-300 text-base leading-relaxed">
+            <p className="mt-5 max-w-lg text-slate-300 text-base sm:text-lg leading-relaxed">
               New smartphones, certified pre-owned, expert repairs, software services and everyday
               accessories — all under one warm, welcoming roof.
             </p>
             <div className="mt-8 flex flex-wrap gap-3">
               <Link
                 to="/mobiles"
-                className="inline-flex items-center gap-2 rounded-full bg-amber-500 px-6 py-3 text-sm font-bold text-slate-950 shadow-[0_0_25px_rgba(245,158,11,0.5)] transition hover:bg-amber-400 hover:scale-105"
+                className="inline-flex items-center gap-2 rounded-full bg-amber-500 px-6 py-3 text-sm font-bold text-slate-950 shadow-[0_0_30px_rgba(245,158,11,0.6)] transition hover:bg-amber-400 hover:scale-105"
               >
                 Shop mobiles <ArrowRight className="h-4 w-4" />
               </Link>
@@ -110,11 +137,11 @@ function Home() {
 
           {/* Right: Video preview card */}
           <div className="relative hidden md:flex items-center justify-center">
-            <div className="relative w-full max-w-md overflow-hidden rounded-3xl border border-amber-500/20 shadow-[0_0_60px_rgba(245,158,11,0.15)]">
+            <div className="relative w-full max-w-md overflow-hidden rounded-3xl border border-amber-500/40 shadow-[0_0_70px_rgba(245,158,11,0.25)]">
               <HeroVideo className="w-full rounded-3xl object-cover aspect-[4/5]" />
-              <div className="absolute inset-0 rounded-3xl ring-1 ring-amber-500/20 pointer-events-none" />
+              <div className="absolute inset-0 rounded-3xl ring-1 ring-amber-500/30 pointer-events-none" />
             </div>
-            <div className="absolute -bottom-4 -left-4 rounded-2xl border border-amber-500/30 bg-slate-900/95 p-4 shadow-2xl backdrop-blur-md">
+            <div className="absolute -bottom-4 -left-4 rounded-2xl border border-amber-500/40 bg-slate-950/95 p-4 shadow-2xl backdrop-blur-md">
               <div className="flex items-center gap-2 text-xs font-semibold text-white">
                 <ShieldCheck className="h-4 w-4 text-amber-400" /> Warranty on every repair
               </div>
