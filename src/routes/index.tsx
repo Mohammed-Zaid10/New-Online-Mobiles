@@ -57,9 +57,6 @@ function Home() {
     <>
       {/* Hero */}
       <section className="relative overflow-hidden bg-[#040308] text-white">
-        {/* Full-section video background with dark luxury vignette */}
-        <HeroVideo className="absolute inset-0 h-full w-full object-cover opacity-45 filter contrast-125 brightness-90" />
-
         {/* Animated Dark Logo Watermark with Moving Glowing Rings */}
         <div className="pointer-events-none absolute inset-0 flex items-center justify-center overflow-hidden z-0">
           <div className="relative flex items-center justify-center w-[500px] h-[500px] sm:w-[750px] sm:h-[750px]">
@@ -136,17 +133,31 @@ function Home() {
             </div>
           </div>
 
-          {/* Right: Video preview card */}
+          {/* Right: High-resolution iPhone 17 Pro Max Showcase Card */}
           <div className="relative hidden md:flex items-center justify-center">
-            <div className="relative w-full max-w-md overflow-hidden rounded-3xl border border-amber-500/40 shadow-[0_0_70px_rgba(245,158,11,0.25)]">
-              <HeroVideo className="w-full rounded-3xl object-cover aspect-[4/5]" />
+            <div className="relative w-full max-w-md overflow-hidden rounded-3xl border border-amber-500/40 shadow-[0_0_70px_rgba(245,158,11,0.25)] group">
+              <img
+                src="/iphone17-pro-max.jpg"
+                alt="iPhone 17 Pro Max"
+                className="w-full rounded-3xl object-cover aspect-[4/5] filter contrast-110 brightness-105 transition-transform duration-700 group-hover:scale-105"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-transparent" />
               <div className="absolute inset-0 rounded-3xl ring-1 ring-amber-500/30 pointer-events-none" />
-            </div>
-            <div className="absolute -bottom-4 -left-4 rounded-2xl border border-amber-500/40 bg-slate-950/95 p-4 shadow-2xl backdrop-blur-md">
-              <div className="flex items-center gap-2 text-xs font-semibold text-white">
-                <ShieldCheck className="h-4 w-4 text-amber-400" /> Warranty on every repair
+              
+              <div className="absolute bottom-4 left-4 right-4 rounded-2xl border border-amber-500/30 bg-slate-950/90 p-4 backdrop-blur-md">
+                <div className="flex items-center justify-between text-xs font-semibold text-white">
+                  <span className="flex items-center gap-1.5 text-amber-400">
+                    <Sparkles className="h-4 w-4" /> iPhone 17 Pro Max
+                  </span>
+                  <span className="rounded-full bg-emerald-500/20 px-2 py-0.5 text-[10px] text-emerald-400 border border-emerald-500/30">In Stock</span>
+                </div>
+                <div className="mt-1 text-[11px] text-slate-300">Titanium Design · A19 Pro Chip · Pro Camera System</div>
               </div>
-              <div className="mt-1 text-[11px] text-slate-400">Up to 6 months on parts & labour.</div>
+            </div>
+            <div className="absolute -bottom-4 -left-4 rounded-2xl border border-amber-500/40 bg-slate-950/95 p-3.5 shadow-2xl backdrop-blur-md">
+              <div className="flex items-center gap-2 text-xs font-semibold text-white">
+                <ShieldCheck className="h-4 w-4 text-amber-400" /> Written Warranty Included
+              </div>
             </div>
           </div>
         </div>
@@ -169,31 +180,40 @@ function Home() {
         </div>
       </section>
 
-      {/* Brands */}
+      {/* Brands & 3D Galaxy Z Fold 8 Ultra Showcase */}
       <section id="samsung-section" className="mx-auto max-w-7xl px-4 py-16 md:px-6">
-        <Section eyebrow="Shop by brand" title="All the brands you love" subtitle="From flagship iPhones to value-packed Redmi and everything between." />
-        <div className="mt-10 grid grid-cols-3 gap-3 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-7">
-          {brands.map((b) => (
-            <Link
-              key={b.slug}
-              to="/mobiles/$brand"
-              params={{ brand: b.slug }}
-              className="group flex flex-col items-center gap-2 rounded-2xl border border-border/70 bg-card p-4 text-center shadow-soft hover:-translate-y-0.5 hover:shadow-luxe transition"
-            >
-              <div
-                className="grid h-12 w-12 place-items-center rounded-xl p-2.5 shadow-sm transition-transform duration-300 group-hover:scale-110"
-                style={{ backgroundColor: b.logoBg }}
-              >
-                <img
-                  src={b.logo}
-                  alt={b.name}
-                  className="h-full w-full object-contain filter invert brightness-200"
-                />
-              </div>
-              <div className="text-sm font-semibold">{b.name}</div>
-              <div className="text-[11px] text-muted-foreground">{b.tagline}</div>
-            </Link>
-          ))}
+        <div className="grid gap-8 lg:grid-cols-[1fr_auto] lg:items-center">
+          <div>
+            <Section eyebrow="Shop by brand" title="All the brands you love" subtitle="From flagship iPhones to value-packed Redmi and everything between." />
+            <div className="mt-10 grid grid-cols-3 gap-3 sm:grid-cols-4 md:grid-cols-6">
+              {brands.map((b) => (
+                <Link
+                  key={b.slug}
+                  to="/mobiles/$brand"
+                  params={{ brand: b.slug }}
+                  className="group flex flex-col items-center gap-2 rounded-2xl border border-border/70 bg-card p-4 text-center shadow-soft hover:-translate-y-0.5 hover:shadow-luxe transition"
+                >
+                  <div
+                    className="grid h-12 w-12 place-items-center rounded-xl p-2.5 shadow-sm transition-transform duration-300 group-hover:scale-110"
+                    style={{ backgroundColor: b.logoBg }}
+                  >
+                    <img
+                      src={b.logo}
+                      alt={b.name}
+                      className="h-full w-full object-contain filter invert brightness-200"
+                    />
+                  </div>
+                  <div className="text-sm font-semibold">{b.name}</div>
+                  <div className="text-[11px] text-muted-foreground">{b.tagline}</div>
+                </Link>
+              ))}
+            </div>
+          </div>
+
+          {/* Embedded 3D Galaxy Z Fold 8 Ultra showcase positioned right beside brands */}
+          <div className="flex justify-center border-t border-border/40 pt-8 lg:border-t-0 lg:pt-0 lg:pl-6">
+            <Fold3D />
+          </div>
         </div>
       </section>
 
@@ -347,9 +367,6 @@ function Home() {
           <div className="absolute -right-16 -top-16 h-72 w-72 rounded-full bg-accent/40 blur-3xl" />
         </div>
       </section>
-
-      {/* Floating 3D Samsung Galaxy Z Fold Showcase */}
-      <Fold3D />
     </>
   );
 }

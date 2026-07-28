@@ -20,11 +20,11 @@ export function Fold3D() {
     // --- Scene Setup ---
     const scene = new THREE.Scene();
 
-    const width = container.clientWidth || 300;
-    const height = container.clientHeight || 340;
+    const width = container.clientWidth || 320;
+    const height = container.clientHeight || 360;
 
-    const camera = new THREE.PerspectiveCamera(38, width / height, 0.1, 100);
-    camera.position.set(0, 0, 8.5);
+    const camera = new THREE.PerspectiveCamera(36, width / height, 0.1, 100);
+    camera.position.set(0, 0, 8.2);
 
     const renderer = new THREE.WebGLRenderer({
       canvas,
@@ -38,7 +38,7 @@ export function Fold3D() {
     renderer.shadowMap.type = THREE.PCFSoftShadowMap;
 
     // --- Lighting ---
-    const ambientLight = new THREE.AmbientLight(0xffffff, 1.2);
+    const ambientLight = new THREE.AmbientLight(0xffffff, 1.4);
     scene.add(ambientLight);
 
     const keyLight = new THREE.DirectionalLight(0xffffff, 2.5);
@@ -46,30 +46,29 @@ export function Fold3D() {
     keyLight.castShadow = true;
     scene.add(keyLight);
 
-    const fillLight = new THREE.DirectionalLight(0x3b82f6, 1.8); // Subtle blue fill light
+    const fillLight = new THREE.DirectionalLight(0x22c55e, 1.2); // Soft green accent fill
     fillLight.position.set(-6, -2, 4);
     scene.add(fillLight);
 
-    const topLight = new THREE.DirectionalLight(0xfbbf24, 1.2); // Warm gold rim
+    const topLight = new THREE.DirectionalLight(0xfbbf24, 1.0); // Warm gold rim
     topLight.position.set(0, 8, -4);
     scene.add(topLight);
 
-    // --- Create Galaxy Z Fold Model ---
-    // Root group for floating & rotating
+    // --- Create Galaxy Z Fold 8 Ultra Model ---
     const rootGroup = new THREE.Group();
     scene.add(rootGroup);
 
-    // Materials
+    // Forest / Dark Olive Green Body Material (Matching uploaded image)
     const bodyMat = new THREE.MeshStandardMaterial({
-      color: 0x141518,
-      metalness: 0.85,
-      roughness: 0.25,
+      color: 0x1e2723, // Real Fold 8 Ultra Forest Green
+      metalness: 0.75,
+      roughness: 0.35,
     });
 
     const hingeMat = new THREE.MeshStandardMaterial({
-      color: 0x2d3036,
-      metalness: 0.95,
-      roughness: 0.15,
+      color: 0x2b3630,
+      metalness: 0.9,
+      roughness: 0.2,
     });
 
     const glassMat = new THREE.MeshPhysicalMaterial({
@@ -81,65 +80,41 @@ export function Fold3D() {
       clearcoatRoughness: 0.05,
     });
 
-    // Create Inner Display Wallpaper Texture procedurally
+    // Texture Loader for Real Galaxy Z Fold 8 Ultra Image
+    const textureLoader = new THREE.TextureLoader();
+    const realTexture = textureLoader.load("/galaxy-fold8-real.png");
+    realTexture.colorSpace = THREE.SRGBColorSpace;
+
+    // Fallback/Inner texture with Galaxy Z Fold 8 Ultra graphics
     const createScreenTexture = (text: string) => {
       const texCanvas = document.createElement("canvas");
       texCanvas.width = 512;
       texCanvas.height = 1024;
       const ctx = texCanvas.getContext("2d");
       if (ctx) {
-        // Dark AMOLED luxury gradient wallpaper
+        // Real Fold 8 Ultra Warm Cream/Olive wallpaper gradient
         const grad = ctx.createLinearGradient(0, 0, 512, 1024);
-        grad.addColorStop(0, "#080b14");
-        grad.addColorStop(0.3, "#0d1936");
-        grad.addColorStop(0.7, "#1d102f");
-        grad.addColorStop(1, "#050608");
+        grad.addColorStop(0, "#f3eedd");
+        grad.addColorStop(0.5, "#dcd4b8");
+        grad.addColorStop(1, "#a4b595");
         ctx.fillStyle = grad;
         ctx.fillRect(0, 0, 512, 1024);
 
-        // Vibrant abstract silk curves (Samsung Fold signature style)
+        // Bold "Galaxy Z Fold8 Ultra" typography
+        ctx.fillStyle = "#1e2b22";
+        ctx.font = "bold 52px sans-serif";
+        ctx.textAlign = "center";
         ctx.save();
-        ctx.globalCompositeOperation = "screen";
-        ctx.filter = "blur(30px)";
-
-        // Curve 1: Deep Cyan/Blue
-        ctx.beginPath();
-        ctx.fillStyle = "rgba(59, 130, 246, 0.7)";
-        ctx.arc(256, 400, 180, 0, Math.PI * 2);
-        ctx.fill();
-
-        // Curve 2: Gold/Purple Ribbon
-        ctx.beginPath();
-        ctx.fillStyle = "rgba(245, 158, 11, 0.6)";
-        ctx.arc(320, 600, 160, 0, Math.PI * 2);
-        ctx.fill();
-
-        // Curve 3: Violet Glow
-        ctx.beginPath();
-        ctx.fillStyle = "rgba(168, 85, 247, 0.5)";
-        ctx.arc(180, 520, 140, 0, Math.PI * 2);
-        ctx.fill();
+        ctx.translate(340, 600);
+        ctx.rotate(-Math.PI / 2);
+        ctx.fillText("Galaxy", 0, 0);
+        ctx.fillText("Z Fold8 Ultra", 0, 60);
         ctx.restore();
 
-        // Subtle logo text & UI overlay
-        ctx.fillStyle = "#ffffff";
-        ctx.font = "bold 28px sans-serif";
-        ctx.textAlign = "center";
-        ctx.fillText("Galaxy Z Fold", 256, 120);
-
-        ctx.fillStyle = "rgba(255, 255, 255, 0.6)";
-        ctx.font = "18px sans-serif";
-        ctx.fillText(text, 256, 155);
-
-        // Time widget
-        ctx.fillStyle = "#ffffff";
-        ctx.font = "bold 64px sans-serif";
-        ctx.fillText("10:08", 256, 260);
-
-        // Bottom app bar indicator
-        ctx.fillStyle = "rgba(255, 255, 255, 0.3)";
+        // Punch hole camera pin dot
+        ctx.fillStyle = "#000000";
         ctx.beginPath();
-        ctx.roundRect(176, 980, 160, 6, 3);
+        ctx.arc(256, 40, 10, 0, Math.PI * 2);
         ctx.fill();
       }
       const texture = new THREE.CanvasTexture(texCanvas);
@@ -147,26 +122,22 @@ export function Fold3D() {
       return texture;
     };
 
-    const screenTextureLeft = createScreenTexture("Left Inner Display");
-    const screenTextureRight = createScreenTexture("Right Inner Display");
-    const coverTexture = createScreenTexture("Cover Screen");
+    const innerTexture = createScreenTexture("Galaxy Z Fold8 Ultra");
 
-    const screenMatLeft = new THREE.MeshBasicMaterial({ map: screenTextureLeft });
-    const screenMatRight = new THREE.MeshBasicMaterial({ map: screenTextureRight });
-    const coverScreenMat = new THREE.MeshBasicMaterial({ map: coverTexture });
+    const coverScreenMat = new THREE.MeshBasicMaterial({ map: realTexture });
+    const innerScreenMat = new THREE.MeshBasicMaterial({ map: innerTexture });
 
     // Wing Dimensions
-    const w = 1.25; // Wing width
-    const h = 2.7;  // Height
-    const d = 0.08; // Thickness
+    const w = 1.3;
+    const h = 2.75;
+    const d = 0.075;
 
-    // --- Left Wing (Includes Hinge Axis at x = 0) ---
+    // --- Left Wing ---
     const leftWingGroup = new THREE.Group();
     rootGroup.add(leftWingGroup);
 
-    // Left Wing Body
     const leftMeshGroup = new THREE.Group();
-    leftMeshGroup.position.set(-w / 2, 0, 0); // Center mesh within its group
+    leftMeshGroup.position.set(-w / 2, 0, 0);
     leftWingGroup.add(leftMeshGroup);
 
     const bodyGeo = new THREE.BoxGeometry(w, h, d);
@@ -175,38 +146,47 @@ export function Fold3D() {
     leftBodyMesh.receiveShadow = true;
     leftMeshGroup.add(leftBodyMesh);
 
-    // Left Inner Screen (facing +Z relative to left wing)
-    const screenGeo = new THREE.PlaneGeometry(w - 0.06, h - 0.08);
-    const leftScreen = new THREE.Mesh(screenGeo, screenMatLeft);
+    // Left Inner Screen
+    const screenGeo = new THREE.PlaneGeometry(w - 0.04, h - 0.06);
+    const leftScreen = new THREE.Mesh(screenGeo, innerScreenMat);
     leftScreen.position.set(0, 0, d / 2 + 0.002);
     leftMeshGroup.add(leftScreen);
 
-    // Outer Back Panel of Left Wing (Back cover + Camera bump)
-    const camHousingGeo = new THREE.BoxGeometry(0.36, 1.1, 0.06);
+    // Outer Back Panel of Left Wing (Forest Green Back + Triple Camera Module)
+    const camHousingGeo = new THREE.BoxGeometry(0.38, 1.15, 0.07);
     const camHousing = new THREE.Mesh(camHousingGeo, bodyMat);
-    camHousing.position.set(-w / 4, h / 4, -d / 2 - 0.03);
+    camHousing.position.set(-w / 4, h / 4, -d / 2 - 0.035);
     leftMeshGroup.add(camHousing);
 
     // 3 Camera Lenses
     for (let i = 0; i < 3; i++) {
       const lensRing = new THREE.Mesh(
-        new THREE.CylinderGeometry(0.1, 0.1, 0.03, 24),
+        new THREE.CylinderGeometry(0.105, 0.105, 0.035, 24),
         hingeMat
       );
       lensRing.rotation.x = Math.PI / 2;
-      lensRing.position.set(-w / 4, h / 4 + 0.32 - i * 0.32, -d / 2 - 0.06);
+      lensRing.position.set(-w / 4, h / 4 + 0.35 - i * 0.35, -d / 2 - 0.07);
       leftMeshGroup.add(lensRing);
 
       const lensGlass = new THREE.Mesh(
-        new THREE.CylinderGeometry(0.07, 0.07, 0.032, 24),
+        new THREE.CylinderGeometry(0.075, 0.075, 0.037, 24),
         glassMat
       );
       lensGlass.rotation.x = Math.PI / 2;
-      lensGlass.position.set(-w / 4, h / 4 + 0.32 - i * 0.32, -d / 2 - 0.062);
+      lensGlass.position.set(-w / 4, h / 4 + 0.35 - i * 0.35, -d / 2 - 0.072);
       leftMeshGroup.add(lensGlass);
     }
 
-    // --- Right Wing (Attached at Hinge x = 0) ---
+    // Flash dot
+    const flashMesh = new THREE.Mesh(
+      new THREE.CylinderGeometry(0.03, 0.03, 0.02, 16),
+      new THREE.MeshBasicMaterial({ color: 0xfffaed })
+    );
+    flashMesh.rotation.x = Math.PI / 2;
+    flashMesh.position.set(-w / 4 + 0.26, h / 4 + 0.25, -d / 2 - 0.04);
+    leftMeshGroup.add(flashMesh);
+
+    // --- Right Wing ---
     const rightWingGroup = new THREE.Group();
     rootGroup.add(rightWingGroup);
 
@@ -219,24 +199,24 @@ export function Fold3D() {
     rightBodyMesh.receiveShadow = true;
     rightMeshGroup.add(rightBodyMesh);
 
-    // Right Inner Screen (facing +Z)
-    const rightScreen = new THREE.Mesh(screenGeo, screenMatRight);
+    // Right Inner Screen
+    const rightScreen = new THREE.Mesh(screenGeo, innerScreenMat);
     rightScreen.position.set(0, 0, d / 2 + 0.002);
     rightMeshGroup.add(rightScreen);
 
-    // Outer Cover Screen (on back of right wing - facing -Z)
+    // Outer Cover Screen (using Real Uploaded Texture)
     const coverScreen = new THREE.Mesh(screenGeo, coverScreenMat);
     coverScreen.position.set(0, 0, -d / 2 - 0.002);
-    coverScreen.rotation.y = Math.PI; // Face outwards back
+    coverScreen.rotation.y = Math.PI;
     rightMeshGroup.add(coverScreen);
 
     // --- Hinge Spine ---
-    const hingeGeo = new THREE.CylinderGeometry(0.06, 0.06, h - 0.04, 32);
+    const hingeGeo = new THREE.CylinderGeometry(0.055, 0.055, h - 0.04, 32);
     const hingeMesh = new THREE.Mesh(hingeGeo, hingeMat);
     hingeMesh.position.set(0, 0, 0);
     rootGroup.add(hingeMesh);
 
-    // --- Floor Shadow Plane ---
+    // --- Shadow Plane ---
     const shadowGeo = new THREE.PlaneGeometry(6, 6);
     const shadowCanvas = document.createElement("canvas");
     shadowCanvas.width = 128;
@@ -244,8 +224,8 @@ export function Fold3D() {
     const sCtx = shadowCanvas.getContext("2d");
     if (sCtx) {
       const g = sCtx.createRadialGradient(64, 64, 0, 64, 64, 64);
-      g.addColorStop(0, "rgba(0, 0, 0, 0.6)");
-      g.addColorStop(0.5, "rgba(0, 0, 0, 0.2)");
+      g.addColorStop(0, "rgba(0, 0, 0, 0.5)");
+      g.addColorStop(0.5, "rgba(0, 0, 0, 0.15)");
       g.addColorStop(1, "rgba(0, 0, 0, 0)");
       sCtx.fillStyle = g;
       sCtx.fillRect(0, 0, 128, 128);
@@ -254,7 +234,7 @@ export function Fold3D() {
     const shadowMat = new THREE.MeshBasicMaterial({
       map: shadowTex,
       transparent: true,
-      opacity: 0.7,
+      opacity: 0.65,
       depthWrite: false,
     });
     const shadowMesh = new THREE.Mesh(shadowGeo, shadowMat);
@@ -262,29 +242,27 @@ export function Fold3D() {
     shadowMesh.position.y = -2.1;
     scene.add(shadowMesh);
 
-    // --- Animation Loop Variables ---
+    // --- Animation Loop ---
     let animationFrameId: number;
     let clock = new THREE.Clock();
     let isTabActive = true;
 
-    const handleVisibilityChange = () => {
+    const handleVisibility = () => {
       isTabActive = !document.hidden;
     };
-    document.addEventListener("visibilitychange", handleVisibilityChange);
+    document.addEventListener("visibilitychange", handleVisibility);
 
-    // Resize Handler
     const handleResize = () => {
       if (!containerRef.current) return;
-      const nw = containerRef.current.clientWidth || 300;
-      const nh = containerRef.current.clientHeight || 340;
+      const nw = containerRef.current.clientWidth || 320;
+      const nh = containerRef.current.clientHeight || 360;
       camera.aspect = nw / nh;
       camera.updateProjectionMatrix();
       renderer.setSize(nw, nh);
     };
     window.addEventListener("resize", handleResize);
 
-    // Render loop
-    const cycleDuration = 14; // 14 seconds full loop cycle
+    const cycleDuration = 14;
 
     const animate = () => {
       animationFrameId = requestAnimationFrame(animate);
@@ -293,25 +271,17 @@ export function Fold3D() {
       const delta = clock.getDelta();
       const time = clock.getElapsedTime();
 
-      // Floating Movement (Sine wave 8-12px float)
-      const floatY = Math.sin(time * 2) * 0.12;
+      // Gentle Floating
+      const floatY = Math.sin(time * 2) * 0.1;
       rootGroup.position.y = floatY;
-      shadowMesh.scale.setScalar(1 - floatY * 0.15);
+      shadowMesh.scale.setScalar(1 - floatY * 0.12);
 
-      // Rotation & Fold Cycle Progress (0 to 1)
+      // Rotation & Fold Cycle Progress
       const cycleProgress = (time % cycleDuration) / cycleDuration;
-
-      // Rotation Speed (slow down when hovered)
-      const rotSpeed = hoverRef.current ? 0.3 : 1.0;
+      const rotSpeed = hoverRef.current ? 0.25 : 1.0;
       rootGroup.rotation.y += delta * 0.45 * rotSpeed;
 
-      // Smooth Fold/Unfold Animation Sequence:
-      // 0.0 -> 0.15: Folded (0°)
-      // 0.15 -> 0.45: Unfolding to 180° (Inner Screen)
-      // 0.45 -> 0.70: Fully Unfolded showcase (180°)
-      // 0.70 -> 0.90: Folding back to 0°
-      // 0.90 -> 1.00: Folded pause
-      let foldTarget = 0; // 0 = closed, 1 = 180° open
+      let foldTarget = 0;
       if (cycleProgress >= 0.15 && cycleProgress < 0.45) {
         const p = (cycleProgress - 0.15) / 0.3;
         foldTarget = THREE.MathUtils.smoothstep(p, 0, 1);
@@ -324,12 +294,8 @@ export function Fold3D() {
         foldTarget = 0;
       }
 
-      // Calculate wing angles based on foldTarget
-      // When foldTarget = 0: Left wing angle = +90° (+Math.PI/2), Right wing angle = -90° (-Math.PI/2) -> Closed parallel
-      // When foldTarget = 1: Left wing angle = 0°, Right wing angle = 0° -> Unfolded 180° flat
       const targetAngle = (1 - foldTarget) * (Math.PI / 2 - 0.05);
 
-      // Smooth interpolation for fold angles
       leftWingGroup.rotation.y = THREE.MathUtils.lerp(
         leftWingGroup.rotation.y,
         targetAngle,
@@ -341,20 +307,18 @@ export function Fold3D() {
         0.08
       );
 
-      // Subtle tilt for 3D realism
-      rootGroup.rotation.x = Math.sin(time * 1.5) * 0.08;
-      rootGroup.rotation.z = Math.cos(time * 1.2) * 0.04;
+      rootGroup.rotation.x = Math.sin(time * 1.5) * 0.06;
+      rootGroup.rotation.z = Math.cos(time * 1.2) * 0.03;
 
       renderer.render(scene, camera);
     };
 
     animate();
 
-    // Cleanup
     return () => {
       cancelAnimationFrame(animationFrameId);
       window.removeEventListener("resize", handleResize);
-      document.removeEventListener("visibilitychange", handleVisibilityChange);
+      document.removeEventListener("visibilitychange", handleVisibility);
       renderer.dispose();
       bodyGeo.dispose();
       bodyMat.dispose();
@@ -365,45 +329,42 @@ export function Fold3D() {
   }, []);
 
   const handleClick = () => {
-    // Smooth scroll to Featured Samsung Phones / Brands section
     const elem = document.getElementById("samsung-section") || document.getElementById("featured-mobiles");
     if (elem) {
       elem.scrollIntoView({ behavior: "smooth" });
-    } else {
-      window.scrollTo({ top: window.innerHeight * 0.8, behavior: "smooth" });
     }
   };
 
   return (
     <div
-      className="fixed bottom-6 right-6 z-40 hidden sm:block cursor-pointer select-none transition-transform duration-500 ease-out"
+      className="relative flex flex-col items-center justify-center cursor-pointer select-none py-4 transition-transform duration-500 ease-out"
       style={{
-        transform: isHovered ? "scale(1.06)" : "scale(1)",
+        transform: isHovered ? "scale(1.04)" : "scale(1)",
       }}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
       onClick={handleClick}
-      title="Click to explore Samsung Galaxy Z Fold & Foldables"
+      title="Galaxy Z Fold 8 Ultra Showcase"
     >
-      {/* Subtle Premium Blue Ambient Glow (10-15% opacity, large blur) */}
+      {/* Soft Green/Blue Glow */}
       <div
-        className="absolute inset-0 -z-10 rounded-full bg-blue-500/15 blur-3xl transition-opacity duration-500 pointer-events-none"
+        className="absolute inset-0 -z-10 rounded-full bg-emerald-500/15 blur-3xl transition-opacity duration-500 pointer-events-none"
         style={{
           opacity: isHovered ? 0.35 : 0.15,
-          transform: "scale(1.4)",
+          transform: "scale(1.3)",
         }}
       />
 
       {/* Floating Badge Tag */}
-      <div className="absolute -top-2 left-1/2 -translate-x-1/2 z-10 whitespace-nowrap rounded-full border border-blue-500/40 bg-slate-950/90 px-3 py-1 text-[11px] font-semibold text-blue-300 shadow-lg backdrop-blur-md transition-all duration-300 group-hover:border-blue-400">
-        <span className="inline-block h-1.5 w-1.5 rounded-full bg-blue-400 animate-ping mr-1.5" />
-        Galaxy Z Fold 3D
+      <div className="mb-2 inline-flex items-center gap-1.5 rounded-full border border-emerald-500/40 bg-slate-950/90 px-3.5 py-1 text-xs font-semibold text-emerald-300 shadow-md backdrop-blur-md">
+        <span className="h-1.5 w-1.5 rounded-full bg-emerald-400 animate-ping" />
+        Galaxy Z Fold 8 Ultra 3D
       </div>
 
-      {/* 3D Canvas Container */}
+      {/* 3D Canvas Container - Embedded Inline */}
       <div
         ref={containerRef}
-        className="w-[240px] h-[280px] md:w-[280px] md:h-[320px] lg:w-[310px] lg:h-[350px] relative"
+        className="w-[280px] h-[320px] sm:w-[320px] sm:h-[360px] relative"
       >
         <canvas ref={canvasRef} className="w-full h-full block" />
       </div>
