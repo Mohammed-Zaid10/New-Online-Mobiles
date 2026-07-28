@@ -55,51 +55,20 @@ function Home() {
   const featured = mobiles.slice(0, 8);
   return (
     <>
-      {/* ── Full-page animated background ─────────────────────────── */}
-      <style>{`
-        .home-page {
-          position: relative;
-          background: #07070f;
-        }
-        /* Animated mesh gradient orbs — pure CSS, no JS */
-        .home-page::before {
-          content: '';
-          position: fixed;
-          inset: 0;
-          z-index: 0;
-          pointer-events: none;
-          background:
-            radial-gradient(ellipse 900px 600px at 15% 10%,  rgba(120,80,255,0.13) 0%, transparent 70%),
-            radial-gradient(ellipse 700px 500px at 85% 5%,   rgba(245,158,11,0.10) 0%, transparent 65%),
-            radial-gradient(ellipse 600px 400px at 10% 60%,  rgba(16,185,129,0.07) 0%, transparent 60%),
-            radial-gradient(ellipse 800px 500px at 80% 80%,  rgba(99,102,241,0.09) 0%, transparent 65%),
-            radial-gradient(ellipse 1200px 800px at 50% 50%, rgba(30,20,60,0.6)   0%, transparent 80%);
-          animation: bg-shift 20s ease-in-out infinite alternate;
-        }
-        @keyframes bg-shift {
-          0%   { opacity: 0.85; background-position: 0% 0%;   }
-          50%  { opacity: 1;    background-position: 30% 20%; }
-          100% { opacity: 0.9;  background-position: 60% 40%; }
-        }
-        /* Subtle grain/noise texture overlay */
-        .home-page::after {
-          content: '';
-          position: fixed;
-          inset: 0;
-          z-index: 0;
-          pointer-events: none;
-          opacity: 0.025;
-          background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
-          background-size: 180px;
-        }
-        /* Every section sits above the fixed bg */
-        .home-page > * { position: relative; z-index: 1; }
-      `}</style>
-
-      <div className="home-page">
       {/* Hero */}
-      <section className="relative overflow-hidden bg-[#040308] text-white">
-        {/* Animated Dark Logo Watermark with Moving Glowing Rings */}
+      <section
+        className="relative overflow-hidden text-white"
+        style={{
+          backgroundImage: "url('/hero-bg.jpg')",
+          backgroundSize: "cover",
+          backgroundPosition: "center top",
+        }}
+      >
+        {/* Warm overlay so text stays sharp over the light image */}
+        <div className="absolute inset-0 z-0" style={{background: "linear-gradient(110deg, rgba(10,8,5,0.82) 0%, rgba(20,14,6,0.75) 45%, rgba(30,20,5,0.35) 100%)"}} />
+        <div className="absolute inset-0 z-0" style={{background: "linear-gradient(to top, rgba(10,8,5,0.7) 0%, transparent 55%)"}} />
+
+        {/* Animated rings — now warm gold to match image */}
         <div className="pointer-events-none absolute inset-0 flex items-center justify-center overflow-hidden z-0">
           <div className="relative flex items-center justify-center w-[500px] h-[500px] sm:w-[750px] sm:h-[750px]">
             {/* Outer Moving Glowing Ring 1 */}
@@ -210,16 +179,16 @@ function Home() {
       </section>
 
       {/* Perks */}
-      <section className="border-y border-white/8" style={{background: "rgba(255,255,255,0.03)"}}>
+      <section className="border-y border-border/60 bg-card/40">
         <div className="mx-auto grid max-w-7xl gap-6 px-4 py-10 sm:grid-cols-2 md:grid-cols-4 md:px-6">
           {perks.map((p) => (
             <div key={p.title} className="flex items-start gap-3">
-              <div className="grid h-11 w-11 place-items-center rounded-xl text-amber-400" style={{background: "rgba(245,158,11,0.12)"}}>
+              <div className="grid h-11 w-11 place-items-center rounded-xl bg-accent/15 text-accent">
                 <p.icon className="h-5 w-5" />
               </div>
               <div>
-                <div className="font-semibold text-white">{p.title}</div>
-                <div className="text-sm text-slate-400">{p.desc}</div>
+                <div className="font-semibold">{p.title}</div>
+                <div className="text-sm text-muted-foreground">{p.desc}</div>
               </div>
             </div>
           ))}
@@ -237,7 +206,8 @@ function Home() {
                   key={b.slug}
                   to="/mobiles/$brand"
                   params={{ brand: b.slug }}
-                  className="group flex flex-col items-center gap-2 rounded-2xl p-4 text-center transition hover:-translate-y-1" style={{background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.09)", boxShadow: "0 4px 24px rgba(0,0,0,0.3)"}}                >
+                  className="group flex flex-col items-center gap-2 rounded-2xl border border-border/70 bg-card p-4 text-center shadow-soft hover:-translate-y-0.5 hover:shadow-luxe transition"
+                >
                   <div
                     className="grid h-12 w-12 place-items-center rounded-xl p-2.5 shadow-sm transition-transform duration-300 group-hover:scale-110"
                     style={{ backgroundColor: b.logoBg }}
@@ -248,8 +218,8 @@ function Home() {
                       className="h-full w-full object-contain filter invert brightness-200"
                     />
                   </div>
-                  <div className="text-sm font-semibold text-slate-200">{b.name}</div>
-                  <div className="text-[11px] text-slate-500">{b.tagline}</div>
+                  <div className="text-sm font-semibold">{b.name}</div>
+                  <div className="text-[11px] text-muted-foreground">{b.tagline}</div>
                 </Link>
               ))}
             </div>
@@ -266,7 +236,7 @@ function Home() {
       <section id="featured-mobiles" className="mx-auto max-w-7xl px-4 py-8 md:px-6">
         <div className="flex items-end justify-between">
           <Section eyebrow="Featured" title="Trending smartphones" />
-          <Link to="/mobiles" className="hidden text-sm font-semibold text-amber-400 hover:underline sm:inline-flex items-center gap-1">
+          <Link to="/mobiles" className="hidden text-sm font-semibold text-accent hover:underline sm:inline-flex items-center gap-1">
             View all <ChevronRight className="h-4 w-4" />
           </Link>
         </div>
@@ -294,7 +264,7 @@ function Home() {
             { img: "/shop-3.jpg", label: "Accessories Wall", desc: "Cases, covers, chargers & accessories" },
             { img: "/shop-4.jpg", label: "Cases & More", desc: "Hundreds of phone cases & accessories" },
           ].map((s) => (
-            <div key={s.label} className="group relative overflow-hidden rounded-2xl shadow-soft hover:shadow-luxe transition" style={{border: "1px solid rgba(255,255,255,0.1)"}}>
+            <div key={s.label} className="group relative overflow-hidden rounded-2xl border border-border/70 shadow-soft hover:shadow-luxe transition">
               <img src={s.img} alt={s.label} loading="lazy" className="aspect-square w-full object-cover transition-transform duration-500 group-hover:scale-105" />
               <div className="absolute inset-0 bg-gradient-to-t from-primary/80 via-primary/20 to-transparent" />
               <div className="absolute inset-x-0 bottom-0 p-4 text-primary-foreground">
@@ -304,7 +274,7 @@ function Home() {
             </div>
           ))}
         </div>
-        <div className="relative overflow-hidden mt-10 rounded-3xl p-8 md:p-10" style={{background: "rgba(255,255,255,0.03)", border: "1px solid rgba(255,255,255,0.08)"}}>
+        <div className="relative overflow-hidden mt-10 rounded-3xl border border-border/60 bg-card/60 p-8 md:p-10">
           {/* Watermark Logo Background */}
           <div className="pointer-events-none absolute -right-20 -bottom-20 flex items-center justify-center opacity-10 dark:opacity-15 z-0">
             <div className="relative flex items-center justify-center w-[400px] h-[400px]">
@@ -325,15 +295,15 @@ function Home() {
               </p>
               <div className="mt-6 grid grid-cols-3 gap-4 text-center">
                 <div className="rounded-2xl border border-border/70 bg-background p-3">
-                  <div className="font-display text-2xl font-bold text-amber-400">15k+</div>
+                  <div className="font-display text-2xl font-bold text-accent">15k+</div>
                   <div className="mt-1 text-xs text-muted-foreground">Happy customers</div>
                 </div>
                 <div className="rounded-2xl border border-border/70 bg-background p-3">
-                  <div className="font-display text-2xl font-bold text-amber-400">12+</div>
+                  <div className="font-display text-2xl font-bold text-accent">12+</div>
                   <div className="mt-1 text-xs text-muted-foreground">Years in business</div>
                 </div>
                 <div className="rounded-2xl border border-border/70 bg-background p-3">
-                  <div className="font-display text-2xl font-bold text-amber-400">4.9★</div>
+                  <div className="font-display text-2xl font-bold text-accent">4.9★</div>
                   <div className="mt-1 text-xs text-muted-foreground">Google rating</div>
                 </div>
               </div>
@@ -382,7 +352,7 @@ function Home() {
             { name: "Anita S.", quote: "Bought a certified pre-owned S22 Ultra — looked brand new and came in original box.", stars: 5 },
             { name: "Mahesh B.", quote: "Best exchange value in the area and they set up my new phone completely before I left.", stars: 5 },
           ].map((t) => (
-            <div key={t.name} className="rounded-2xl p-6" style={{background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.09)"}}>
+            <div key={t.name} className="rounded-2xl border border-border/70 bg-card p-6 shadow-soft">
               <div className="flex gap-0.5 text-amber-400">
                 {Array.from({ length: t.stars }).map((_, i) => <Star key={i} className="h-4 w-4 fill-current" />)}
               </div>
@@ -398,22 +368,21 @@ function Home() {
 
       {/* CTA */}
       <section className="mx-auto max-w-7xl px-4 pb-16 md:px-6">
-        <div className="relative overflow-hidden rounded-3xl p-10 text-white shadow-luxe md:p-14" style={{background: "linear-gradient(135deg, #1e0a3c 0%, #2d0b4e 30%, #1a0a2e 60%, #0f0520 100%)", border: "1px solid rgba(139,92,246,0.3)"}}>
+        <div className="relative overflow-hidden rounded-3xl bg-primary p-10 text-primary-foreground shadow-luxe md:p-14">
           <div className="relative z-10 grid gap-6 md:grid-cols-[1fr_auto] md:items-center">
             <div>
               <h3 className="font-display text-3xl font-bold sm:text-4xl">Not sure which phone to pick?</h3>
               <p className="mt-2 max-w-xl opacity-90">Compare specs side-by-side or WhatsApp us — a real human replies in minutes.</p>
             </div>
             <div className="flex flex-wrap gap-3">
-              <Link to="/compare" className="rounded-full px-5 py-3 text-sm font-semibold text-slate-900 hover:opacity-90" style={{background: "linear-gradient(135deg,#e2e8f0,#a78bfa)"}}>Compare phones</Link>
-              <Link to="/trade-in" className="rounded-full border border-white/30 px-5 py-3 text-sm font-semibold text-white hover:bg-white/10">Trade-in value</Link>
+              <Link to="/compare" className="rounded-full bg-primary-foreground px-5 py-3 text-sm font-semibold text-primary hover:opacity-90">Compare phones</Link>
+              <Link to="/trade-in" className="rounded-full border border-primary-foreground/60 px-5 py-3 text-sm font-semibold hover:bg-primary-foreground/10">Trade-in value</Link>
             </div>
           </div>
           <div className="absolute -right-16 -top-16 h-72 w-72 rounded-full bg-accent/40 blur-3xl" />
         </div>
       </section>
 
-      </div> {/* end .home-page */}
     </>
   );
 }
