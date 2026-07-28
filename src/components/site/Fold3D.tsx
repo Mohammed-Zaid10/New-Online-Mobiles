@@ -28,12 +28,11 @@ export function Fold3D() {
         /* ── Outer fixed wrapper ── */
         .fold-phone {
           position: fixed;
-          right: 30px;
-          bottom: 30px;
-          z-index: 999;
-          pointer-events: auto;
-          cursor: pointer;
-          /* mix-blend-mode on images handles background removal */
+          right: 18px;
+          /* sit above the WhatsApp + Phone + scroll-top buttons (~200 px tall stack) */
+          bottom: 210px;
+          z-index: 38; /* below FloatingActions z-40 so buttons always clickable */
+          pointer-events: none; /* phone is decorative — clicks pass through to page */
           background: transparent;
         }
 

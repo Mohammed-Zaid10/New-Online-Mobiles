@@ -10,7 +10,7 @@ export function FloatingActions() {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
   return (
-    <div className="fixed bottom-5 right-5 z-40 flex flex-col items-end gap-3">
+    <div className="fixed bottom-5 right-5 z-50 flex flex-col items-end gap-3">
       {top && (
         <button
           onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
