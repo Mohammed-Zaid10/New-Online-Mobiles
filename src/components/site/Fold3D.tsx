@@ -127,17 +127,17 @@ export function Fold3D() {
     const innerLeftTex = createScreenTexture("inner_left");
     const innerRightTex = createScreenTexture("inner_right");
 
-    // Materials
+    // Pearl White Body & Polished Silver Metallic Hinge Materials
     const bodyMat = new THREE.MeshStandardMaterial({
-      color: 0x1c2621, // Forest Green Chassis
-      metalness: 0.8,
-      roughness: 0.28,
+      color: 0xf5f7fa, // Pearl White / Titanium White
+      metalness: 0.45,
+      roughness: 0.22,
     });
 
     const hingeMat = new THREE.MeshStandardMaterial({
-      color: 0x27342d,
-      metalness: 0.92,
-      roughness: 0.15,
+      color: 0xe2e8f0, // Polished Silver Chrome
+      metalness: 0.95,
+      roughness: 0.1,
     });
 
     const glassMat = new THREE.MeshPhysicalMaterial({
