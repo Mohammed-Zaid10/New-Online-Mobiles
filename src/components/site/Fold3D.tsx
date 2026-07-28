@@ -1,53 +1,39 @@
-import React, { useRef } from "react";
+import React from "react";
 
 /**
  * Samsung Galaxy Z Fold — 3-Layer CSS Animation
  *
- * ❌ NO rotateY  ❌ NO perspective  ❌ NO transform-origin
+ * ❌ NO position:fixed  — renders inline beside the brands section
+ * ❌ NO rotateY / perspective / transform-origin
  * ✅ Only: opacity · scale · clip-path
- * ✅ mix-blend-mode: multiply  →  white backgrounds become invisible
- *
- * Layers:
- *   layer-back   → phone closed, back panel
- *   layer-cover  → phone half-open with cover display
- *   layer-inner  → phone fully open, inner display
+ * ✅ mix-blend-mode: multiply  → white pixel backgrounds disappear
  */
 export function Fold3D() {
-  const wrapRef = useRef<HTMLDivElement>(null);
-
-  const handleClick = () => {
-    const el =
-      document.getElementById("samsung-section") ||
-      document.getElementById("featured-mobiles");
-    if (el) el.scrollIntoView({ behavior: "smooth" });
-  };
-
   return (
     <>
       <style>{`
-        /* ── Outer fixed wrapper ── */
+        /* ── Wrapper: inline block, no fixed positioning ── */
         .fold-phone {
-          position: fixed;
-          right: 18px;
-          /* sit above the WhatsApp + Phone + scroll-top buttons (~200 px tall stack) */
-          bottom: 210px;
-          z-index: 38; /* below FloatingActions z-40 so buttons always clickable */
-          pointer-events: none; /* phone is decorative — clicks pass through to page */
+          display: flex;
+          align-items: center;
+          justify-content: center;
           background: transparent;
+          /* No position:fixed — sits naturally in the grid column */
         }
 
-        /* ── Responsive stage (just a size box, no background) ── */
+        /* ── Responsive stage ── */
         .fold-stage {
           position: relative;
-          width: 120px;
-          height: 220px;
+          width: 140px;
+          height: 240px;
           background: transparent;
+          flex-shrink: 0;
         }
         @media (min-width: 640px) {
-          .fold-stage { width: 150px; height: 270px; }
+          .fold-stage { width: 165px; height: 285px; }
         }
         @media (min-width: 1024px) {
-          .fold-stage { width: 185px; height: 330px; }
+          .fold-stage { width: 200px; height: 340px; }
         }
 
         /* ── Shared layer styles ── */
@@ -59,80 +45,68 @@ export function Fold3D() {
           object-fit: contain;
           object-position: center;
           background: transparent;
-          /* KEY: multiply blending makes pure-white pixels completely invisible */
+          /*
+           * multiply: white (255,255,255) × page-bg = page-bg → invisible
+           * phone body stays visible because it's dark
+           */
           mix-blend-mode: multiply;
           backface-visibility: hidden;
           will-change: opacity, transform;
+          -webkit-user-drag: none;
           user-select: none;
           pointer-events: none;
-          -webkit-user-drag: none;
         }
 
-        /* ── Animation: Back Panel (0-20%, returns 80-100%) ── */
+        /* ── Layer 1: Closed back panel ── */
         .layer-back {
           opacity: 1;
-          animation: anim-back 9s ease-in-out infinite;
+          animation: fold-back 9s ease-in-out infinite;
         }
-        @keyframes anim-back {
-          0%   { opacity: 1; transform: scale(1); }
-          18%  { opacity: 1; transform: scale(1); }
-          32%  { opacity: 0; transform: scale(0.96); }
-          76%  { opacity: 0; transform: scale(0.96); }
-          90%  { opacity: 1; transform: scale(1); }
-          100% { opacity: 1; transform: scale(1); }
+        @keyframes fold-back {
+          0%,  18% { opacity: 1; transform: scale(1);    }
+          32%       { opacity: 0; transform: scale(0.96); }
+          76%       { opacity: 0; transform: scale(0.96); }
+          90%, 100% { opacity: 1; transform: scale(1);    }
         }
 
-        /* ── Animation: Cover/Half-open (20-45%, returns 65-80%) ── */
+        /* ── Layer 2: Half-open cover display ── */
         .layer-cover {
           opacity: 0;
-          animation: anim-cover 9s ease-in-out infinite;
+          animation: fold-cover 9s ease-in-out infinite;
         }
-        @keyframes anim-cover {
-          0%   { opacity: 0; transform: scale(0.96); }
-          18%  { opacity: 0; transform: scale(0.96); }
-          32%  { opacity: 1; transform: scale(1); }
-          46%  { opacity: 1; transform: scale(1); }
-          60%  { opacity: 0; transform: scale(0.96); }
-          74%  { opacity: 0; transform: scale(0.96); }
-          86%  { opacity: 1; transform: scale(1); }
-          94%  { opacity: 1; transform: scale(1); }
-          100% { opacity: 0; transform: scale(0.96); }
+        @keyframes fold-cover {
+          0%,  18% { opacity: 0; transform: scale(0.96); }
+          32%,  46% { opacity: 1; transform: scale(1);   }
+          60%       { opacity: 0; transform: scale(0.96); }
+          74%       { opacity: 0; transform: scale(0.96); }
+          86%,  94% { opacity: 1; transform: scale(1);   }
+          100%      { opacity: 0; transform: scale(0.96); }
         }
 
-        /* ── Animation: Inner display fully open (45-65%) ── */
+        /* ── Layer 3: Fully open inner display ── */
         .layer-inner {
           opacity: 0;
           transform: scale(0.9);
           clip-path: inset(0 20% 0 20%);
-          animation: anim-inner 9s ease-in-out infinite;
+          animation: fold-inner 9s ease-in-out infinite;
         }
-        @keyframes anim-inner {
-          0%   { opacity: 0; transform: scale(0.9);  clip-path: inset(0 20% 0 20%); }
-          46%  { opacity: 0; transform: scale(0.9);  clip-path: inset(0 20% 0 20%); }
-          62%  { opacity: 1; transform: scale(1);    clip-path: inset(0 0%  0 0%);  }
-          72%  { opacity: 1; transform: scale(1);    clip-path: inset(0 0%  0 0%);  }
-          80%  { opacity: 0; transform: scale(0.9);  clip-path: inset(0 20% 0 20%); }
-          100% { opacity: 0; transform: scale(0.9);  clip-path: inset(0 20% 0 20%); }
+        @keyframes fold-inner {
+          0%,  46% { opacity: 0; transform: scale(0.9); clip-path: inset(0 20% 0 20%); }
+          62%       { opacity: 1; transform: scale(1);   clip-path: inset(0 0%  0 0%);  }
+          72%       { opacity: 1; transform: scale(1);   clip-path: inset(0 0%  0 0%);  }
+          80%, 100% { opacity: 0; transform: scale(0.9); clip-path: inset(0 20% 0 20%); }
         }
 
-        /* ── Hover: slight float up ── */
+        /* ── Hover: gentle float ── */
         .fold-phone:hover .fold-stage {
           transform: translateY(-6px);
-          transition: transform 0.35s ease;
         }
         .fold-phone .fold-stage {
           transition: transform 0.35s ease;
         }
       `}</style>
 
-      <div
-        className="fold-phone"
-        ref={wrapRef}
-        onClick={handleClick}
-        title="Samsung Galaxy Z Fold — tap to explore"
-        role="button"
-        aria-label="Samsung Galaxy Z Fold animation"
-      >
+      <div className="fold-phone" aria-label="Samsung Galaxy Z Fold animation">
         <div className="fold-stage">
           {/* Layer 1 — Closed back panel */}
           <img
@@ -143,7 +117,7 @@ export function Fold3D() {
             decoding="async"
           />
 
-          {/* Layer 2 — Half-open with cover display */}
+          {/* Layer 2 — Half-open cover display */}
           <img
             className="fold-layer layer-cover"
             src="/phone-cover.jpg"

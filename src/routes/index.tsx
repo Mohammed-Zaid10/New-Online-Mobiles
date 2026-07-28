@@ -368,8 +368,6 @@ function Home() {
         </div>
       </section>
 
-      {/* Premium Fixed 2D Unfolding Galaxy Z Fold Animation */}
-      <Fold3D />
     </>
   );
 }
