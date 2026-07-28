@@ -367,6 +367,9 @@ function Home() {
           <div className="absolute -right-16 -top-16 h-72 w-72 rounded-full bg-accent/40 blur-3xl" />
         </div>
       </section>
+
+      {/* Premium Fixed 2D Unfolding Galaxy Z Fold Animation */}
+      <Fold3D />
     </>
   );
 }
