@@ -56,24 +56,24 @@ function Home() {
   return (
     <>
       {/* Hero */}
-      <section className="relative overflow-hidden bg-[#040308] text-white">
+      <section className="relative overflow-hidden text-white" style={{background: "linear-gradient(135deg, #1a1a2e 0%, #16213e 30%, #0f3460 60%, #1a1a2e 100%)"}}>
         {/* Animated Dark Logo Watermark with Moving Glowing Rings */}
         <div className="pointer-events-none absolute inset-0 flex items-center justify-center overflow-hidden z-0">
           <div className="relative flex items-center justify-center w-[500px] h-[500px] sm:w-[750px] sm:h-[750px]">
-            {/* Outer Moving Glowing Ring 1 */}
-            <div className="absolute inset-0 rounded-full border-2 border-amber-500/50 shadow-[0_0_40px_rgba(245,158,11,0.3)] animate-spin-slow" />
+            {/* Outer Moving Silver Ring 1 */}
+            <div className="absolute inset-0 rounded-full border-2 border-slate-400/40 shadow-[0_0_50px_rgba(148,163,184,0.25)] animate-spin-slow" />
             
-            {/* Pulsing Glowing Ring 2 */}
-            <div className="absolute inset-10 rounded-full border border-dashed border-amber-400/60 animate-pulse" />
+            {/* Pulsing Silver Ring 2 */}
+            <div className="absolute inset-10 rounded-full border border-dashed border-slate-300/50 animate-pulse" />
             
             {/* Counter Rotating Ring 3 */}
-            <div className="absolute inset-20 rounded-full border-2 border-dashed border-amber-300/50 animate-spin-reverse-slow" />
+            <div className="absolute inset-20 rounded-full border-2 border-dashed border-slate-400/35 animate-spin-reverse-slow" />
             
             {/* Inner Rotating Ring 4 */}
-            <div className="absolute inset-28 rounded-full border-4 border-amber-500/30 animate-spin-slow" />
+            <div className="absolute inset-28 rounded-full border-4 border-blue-400/20 animate-spin-slow" />
             
-            {/* Ambient Gold Glow Center */}
-            <div className="absolute inset-36 rounded-full bg-amber-500/20 blur-3xl animate-pulse" />
+            {/* Ambient Silver Glow Center */}
+            <div className="absolute inset-36 rounded-full bg-slate-400/15 blur-3xl animate-pulse" />
 
             {/* Dimmed Logo Emblem */}
             <img
@@ -84,21 +84,23 @@ function Home() {
           </div>
         </div>
 
-        {/* Deep dark gradient overlays so text stays ultra-readable */}
-        <div className="absolute inset-0 z-0 bg-gradient-to-r from-[#040308] via-[#040308]/90 to-transparent" />
-        <div className="absolute inset-0 z-0 bg-gradient-to-t from-[#040308] via-transparent to-transparent" />
+        {/* Mirror grey gradient overlays — text stays readable */}
+        <div className="absolute inset-0 z-0" style={{background: "linear-gradient(to right, rgba(15,25,50,0.97) 0%, rgba(15,25,50,0.88) 55%, rgba(15,25,50,0.1) 100%)"}} />
+        <div className="absolute inset-0 z-0" style={{background: "linear-gradient(to top, rgba(15,25,50,0.85) 0%, transparent 60%)"}} />
+        {/* Subtle mirror sheen overlay */}
+        <div className="absolute inset-0 z-0 opacity-30" style={{background: "radial-gradient(ellipse at 70% 40%, rgba(148,163,184,0.18) 0%, transparent 70%)"}} />
 
         <div className="relative z-10 mx-auto grid max-w-7xl items-center gap-10 px-4 py-20 md:grid-cols-2 md:px-6 md:py-28">
           {/* Left: Text content */}
           <div className="flex flex-col justify-center">
-            <div className="inline-flex w-fit items-center gap-2 rounded-full border border-amber-500/50 bg-slate-950/90 px-4 py-1.5 text-xs text-amber-300 backdrop-blur-md shadow-[0_0_20px_rgba(245,158,11,0.2)]">
+            <div className="inline-flex w-fit items-center gap-2 rounded-full border border-slate-400/40 bg-slate-800/80 px-4 py-1.5 text-xs text-slate-200 backdrop-blur-md shadow-[0_0_20px_rgba(148,163,184,0.2)]">
               <span className="h-2 w-2 rounded-full bg-emerald-400 animate-pulse" />
               Open today · {SHOP.hours}
             </div>
             <h1 className="mt-5 font-display text-4xl font-extrabold leading-[1.05] sm:text-6xl text-white">
               Premium mobiles.
               <br />
-              <span className="text-amber-400 drop-shadow-[0_0_25px_rgba(251,191,36,0.5)]">Honest service.</span>
+              <span className="drop-shadow-[0_0_25px_rgba(148,163,184,0.6)]" style={{background: "linear-gradient(90deg,#e2e8f0,#94a3b8,#cbd5e1)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent"}}>Honest service.</span>
             </h1>
             <p className="mt-5 max-w-lg text-slate-300 text-base sm:text-lg leading-relaxed">
               New smartphones, certified pre-owned, expert repairs, software services and everyday
@@ -107,7 +109,7 @@ function Home() {
             <div className="mt-8 flex flex-wrap gap-3">
               <Link
                 to="/mobiles"
-                className="inline-flex items-center gap-2 rounded-full bg-amber-500 px-6 py-3 text-sm font-bold text-slate-950 shadow-[0_0_30px_rgba(245,158,11,0.6)] transition hover:bg-amber-400 hover:scale-105"
+                className="inline-flex items-center gap-2 rounded-full px-6 py-3 text-sm font-bold text-slate-900 shadow-[0_0_30px_rgba(148,163,184,0.5)] transition hover:scale-105" style={{background: "linear-gradient(135deg, #e2e8f0 0%, #94a3b8 50%, #cbd5e1 100%)"}}
               >
                 Shop mobiles <ArrowRight className="h-4 w-4" />
               </Link>
@@ -127,36 +129,38 @@ function Home() {
               </a>
             </div>
             <div className="mt-10 grid grid-cols-3 gap-6 text-sm border-t border-slate-800/80 pt-6">
-              <div><div className="font-display text-2xl font-bold text-amber-400">15k+</div><div className="text-slate-400 text-xs">Happy customers</div></div>
-              <div><div className="font-display text-2xl font-bold text-amber-400">12+ yrs</div><div className="text-slate-400 text-xs">Experience</div></div>
-              <div><div className="font-display text-2xl font-bold text-amber-400">4.9★</div><div className="text-slate-400 text-xs">Google rating</div></div>
+              <div><div className="font-display text-2xl font-bold text-slate-200">15k+</div><div className="text-slate-400 text-xs">Happy customers</div></div>
+              <div><div className="font-display text-2xl font-bold text-slate-200">12+ yrs</div><div className="text-slate-400 text-xs">Experience</div></div>
+              <div><div className="font-display text-2xl font-bold text-slate-200">4.9★</div><div className="text-slate-400 text-xs">Google rating</div></div>
             </div>
           </div>
 
           {/* Right: High-resolution iPhone 17 Pro Max Showcase Card */}
           <div className="relative hidden md:flex items-center justify-center">
-            <div className="relative w-full max-w-md overflow-hidden rounded-3xl border border-amber-500/40 shadow-[0_0_70px_rgba(245,158,11,0.25)] group">
+            <div className="relative w-full max-w-md overflow-hidden rounded-3xl group" style={{border: "1px solid rgba(148,163,184,0.35)", boxShadow: "0 0 70px rgba(148,163,184,0.2), 0 25px 50px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.1)"}}>
               <img
                 src="/iphone17-pro-max.jpg"
                 alt="iPhone 17 Pro Max"
-                className="w-full rounded-3xl object-cover aspect-[4/5] filter contrast-110 brightness-105 transition-transform duration-700 group-hover:scale-105"
+                className="w-full rounded-3xl object-cover aspect-[4/5] filter contrast-105 brightness-100 saturate-90 transition-transform duration-700 group-hover:scale-105"
+                style={{filter: "contrast(1.05) brightness(0.95) saturate(0.85) hue-rotate(0deg)"}}
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-transparent" />
-              <div className="absolute inset-0 rounded-3xl ring-1 ring-amber-500/30 pointer-events-none" />
+              {/* Mirror grey gradient overlay on photo */}
+              <div className="absolute inset-0" style={{background: "linear-gradient(to top, rgba(15,25,50,0.85) 0%, rgba(30,41,59,0.2) 50%, transparent 100%)"}} />
+              <div className="absolute inset-0 rounded-3xl pointer-events-none" style={{boxShadow: "inset 0 0 0 1px rgba(148,163,184,0.2), inset 0 1px 0 rgba(255,255,255,0.08)"}} />
               
-              <div className="absolute bottom-4 left-4 right-4 rounded-2xl border border-amber-500/30 bg-slate-950/90 p-4 backdrop-blur-md">
+              <div className="absolute bottom-4 left-4 right-4 rounded-2xl p-4 backdrop-blur-md" style={{background: "rgba(15,23,42,0.88)", border: "1px solid rgba(148,163,184,0.25)", boxShadow: "inset 0 1px 0 rgba(255,255,255,0.07)"}}>
                 <div className="flex items-center justify-between text-xs font-semibold text-white">
-                  <span className="flex items-center gap-1.5 text-amber-400">
-                    <Sparkles className="h-4 w-4" /> iPhone 17 Pro Max
+                  <span className="flex items-center gap-1.5 text-slate-200">
+                    <Sparkles className="h-4 w-4 text-slate-300" /> iPhone 17 Pro Max
                   </span>
-                  <span className="rounded-full bg-emerald-500/20 px-2 py-0.5 text-[10px] text-emerald-400 border border-emerald-500/30">In Stock</span>
+                  <span className="rounded-full px-2 py-0.5 text-[10px] text-emerald-400" style={{background: "rgba(16,185,129,0.15)", border: "1px solid rgba(16,185,129,0.3)"}}>In Stock</span>
                 </div>
-                <div className="mt-1 text-[11px] text-slate-300">Titanium Design · A19 Pro Chip · Pro Camera System</div>
+                <div className="mt-1 text-[11px] text-slate-400">Titanium Design · A19 Pro Chip · Pro Camera System</div>
               </div>
             </div>
-            <div className="absolute -bottom-4 -left-4 rounded-2xl border border-amber-500/40 bg-slate-950/95 p-3.5 shadow-2xl backdrop-blur-md">
+            <div className="absolute -bottom-4 -left-4 rounded-2xl p-3.5 shadow-2xl backdrop-blur-md" style={{background: "rgba(15,23,42,0.95)", border: "1px solid rgba(148,163,184,0.3)", boxShadow: "0 8px 32px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.08)"}}>
               <div className="flex items-center gap-2 text-xs font-semibold text-white">
-                <ShieldCheck className="h-4 w-4 text-amber-400" /> Written Warranty Included
+                <ShieldCheck className="h-4 w-4 text-slate-300" /> Written Warranty Included
               </div>
             </div>
           </div>
