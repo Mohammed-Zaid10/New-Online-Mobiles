@@ -10,6 +10,7 @@ import { offers } from "@/data/offers";
 import { ProductCard } from "@/components/site/ProductCard";
 import { Section } from "@/components/site/Section";
 import { SHOP, wa } from "@/lib/shop";
+import { Fold3D } from "@/components/site/Fold3D";
 
 /** Simple video element — suppressHydrationWarning silences SSR mismatch for media elements */
 function HeroVideo({ className }: { className?: string }) {
@@ -169,7 +170,7 @@ function Home() {
       </section>
 
       {/* Brands */}
-      <section className="mx-auto max-w-7xl px-4 py-16 md:px-6">
+      <section id="samsung-section" className="mx-auto max-w-7xl px-4 py-16 md:px-6">
         <Section eyebrow="Shop by brand" title="All the brands you love" subtitle="From flagship iPhones to value-packed Redmi and everything between." />
         <div className="mt-10 grid grid-cols-3 gap-3 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-7">
           {brands.map((b) => (
@@ -197,7 +198,7 @@ function Home() {
       </section>
 
       {/* Featured */}
-      <section className="mx-auto max-w-7xl px-4 py-8 md:px-6">
+      <section id="featured-mobiles" className="mx-auto max-w-7xl px-4 py-8 md:px-6">
         <div className="flex items-end justify-between">
           <Section eyebrow="Featured" title="Trending smartphones" />
           <Link to="/mobiles" className="hidden text-sm font-semibold text-accent hover:underline sm:inline-flex items-center gap-1">
@@ -346,6 +347,9 @@ function Home() {
           <div className="absolute -right-16 -top-16 h-72 w-72 rounded-full bg-accent/40 blur-3xl" />
         </div>
       </section>
+
+      {/* Floating 3D Samsung Galaxy Z Fold Showcase */}
+      <Fold3D />
     </>
   );
 }
