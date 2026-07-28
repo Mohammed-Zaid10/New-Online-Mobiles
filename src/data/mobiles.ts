@@ -112,13 +112,19 @@ const androidSpec = (proc: string, ram: string, disp: string) => ({
   weight: "195 g",
 });
 
-const mk = (m: Omit<Mobile, "slug" | "id" | "rating" | "reviews">): Mobile => ({
-  id: `${m.brand}-${m.model.toLowerCase().replace(/[^a-z0-9]+/g, "-")}`,
-  slug: m.model.toLowerCase().replace(/[^a-z0-9]+/g, "-"),
-  rating: 4.4 + Math.random() * 0.5,
-  reviews: 40 + Math.floor(Math.random() * 400),
-  ...m,
-});
+const mk = (m: Omit<Mobile, "slug" | "id" | "rating" | "reviews">): Mobile => {
+  // Deterministic seed from brand+model string so SSR matches client (no Math.random)
+  const seed = (m.brand + m.model).split("").reduce((acc, c) => acc + c.charCodeAt(0), 0);
+  const rating = parseFloat((4.4 + (seed % 10) / 20).toFixed(1));
+  const reviews = 40 + (seed % 400);
+  return {
+    id: `${m.brand}-${m.model.toLowerCase().replace(/[^a-z0-9]+/g, "-")}`,
+    slug: m.model.toLowerCase().replace(/[^a-z0-9]+/g, "-"),
+    rating,
+    reviews,
+    ...m,
+  };
+};
 
 const rawMobiles: Mobile[] = [
   // Apple
