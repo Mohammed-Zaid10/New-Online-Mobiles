@@ -42,8 +42,8 @@ export function Fold3D() {
           z-index: 999;
           pointer-events: auto;
           cursor: pointer;
-          /* Soft drop-shadow — no glowing */
-          filter: drop-shadow(0 18px 22px rgba(0,0,0,0.55));
+          background: transparent !important;
+          filter: drop-shadow(0 18px 22px rgba(0,0,0,0.45));
         }
 
         /* Each layer sits on top of each other, same origin */
@@ -54,9 +54,8 @@ export function Fold3D() {
           width: 100%;
           height: 100%;
           object-fit: contain;
-          border-radius: 14px;
-          will-change: opacity, transform, width;
-          /* Prevent GPU compositing issues */
+          background: transparent !important;
+          will-change: opacity, transform;
           backface-visibility: hidden;
         }
 
@@ -65,6 +64,7 @@ export function Fold3D() {
           position: relative;
           width: 130px;
           height: 200px;
+          background: transparent !important;
         }
         @media (min-width: 640px) {
           .fold-stage { width: 170px; height: 260px; }
@@ -148,28 +148,28 @@ export function Fold3D() {
         title="Samsung Galaxy Z Fold — click to explore Samsung phones"
       >
         <div className="fold-stage">
-          {/* Layer 1 — Closed Back Panel (Image 1) */}
+          {/* Layer 1 — Closed Back Panel */}
           <img
             className="fold-layer layer-back"
-            src="/zfold-step1.png"
+            src="/fold-back.png"
             alt="Samsung Galaxy Z Fold — closed back"
             loading="eager"
             draggable={false}
           />
 
-          {/* Layer 2 — Cover Display Open (Image 2) */}
+          {/* Layer 2 — Cover Display Open */}
           <img
             className="fold-layer layer-cover"
-            src="/zfold-step2.png"
+            src="/fold-cover.png"
             alt="Samsung Galaxy Z Fold — cover display"
             loading="eager"
             draggable={false}
           />
 
-          {/* Layer 3 — Inner Main Display (Image 3) */}
+          {/* Layer 3 — Inner Main Display */}
           <img
             className="fold-layer layer-inner"
-            src="/zfold-step3.png"
+            src="/fold-inner.png"
             alt="Samsung Galaxy Z Fold — inner display open"
             loading="eager"
             draggable={false}
