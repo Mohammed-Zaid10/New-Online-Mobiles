@@ -50,7 +50,7 @@ If they ask about something we don't have, politely let them know they can conta
         }
       };
 
-      const URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${apiKey}`;
+      const URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-3.5-flash-lite:generateContent?key=${apiKey}`;
 
       const response = await fetch(URL, {
         method: "POST",
