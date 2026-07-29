@@ -1,5 +1,4 @@
 import { createServerFn } from "@tanstack/react-start";
-import { GoogleGenAI } from "@google/genai";
 import { mobiles } from "@/data/mobiles";
 import { SHOP, inr } from "@/lib/shop";
 
@@ -11,8 +10,6 @@ export const chatWithGemini = createServerFn({ method: "POST" })
     if (!apiKey) {
       throw new Error("GEMINI_API_KEY is not set in the environment.");
     }
-
-    const ai = new GoogleGenAI({ apiKey });
 
     // Format inventory for context
     const inventoryInfo = mobiles.slice(0, 15).map(m => 
@@ -35,18 +32,36 @@ ${inventoryInfo}
 If a user asks for a product not in this top 15 list, inform them they can check our full inventory on the website, or contact us directly on WhatsApp (${SHOP.whatsapp}).`;
 
     try {
-      const response = await ai.models.generateContent({
-        model: "gemini-2.5-flash",
+      // Structure the payload exactly like the REST API expects
+      const payload = {
+        system_instruction: {
+          parts: { text: systemPrompt }
+        },
         contents: [
           ...(data.history || []),
           { role: "user", parts: [{ text: data.message }] }
         ],
-        config: {
-          systemInstruction: systemPrompt,
+        generationConfig: {
           temperature: 0.7,
         }
+      };
+
+      const URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${apiKey}`;
+
+      const response = await fetch(URL, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload)
       });
-      return { text: response.text };
+
+      if (!response.ok) {
+        throw new Error(`API returned status: ${response.status}`);
+      }
+
+      const responseData = await response.json();
+      const text = responseData.candidates[0].content.parts[0].text;
+      
+      return { text };
     } catch (error: any) {
       console.error("Gemini API Error:", error);
       throw new Error("Failed to communicate with AI assistant.");
