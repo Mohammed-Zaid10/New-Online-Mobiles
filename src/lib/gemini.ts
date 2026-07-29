@@ -11,25 +11,29 @@ export const chatWithGemini = createServerFn({ method: "POST" })
       throw new Error("GEMINI_API_KEY is not set in the environment.");
     }
 
-    // Format inventory for context
-    const inventoryInfo = mobiles.slice(0, 15).map(m => 
-      `- ${m.brand} ${m.name}: ${m.price ? inr(m.price) : "Out of stock"}. Specs: ${m.specs.processor}, ${m.specs.ram}, ${m.specs.storage}. Camera: ${m.specs.camera}. Battery: ${m.specs.battery}`
+    // Format entire inventory for context (Gemini 2.5 Flash has a huge context window)
+    const inventoryInfo = mobiles.map(m => 
+      `- ${m.brand} ${m.name}: ${m.price ? inr(m.price) : "Out of stock"}. Specs: Processor: ${m.specs.processor}, RAM: ${m.specs.ram}, Storage: ${m.specs.storage}. Camera: ${m.specs.camera}. Battery: ${m.specs.battery}`
     ).join("\n");
 
-    const systemPrompt = `You are the friendly, helpful AI assistant for ${SHOP.name}.
+    const systemPrompt = `You are the expert mobile consultant and AI assistant for ${SHOP.name}.
 Address: ${SHOP.address}
 Hours: ${SHOP.hours}
 Phone: ${SHOP.phone}
 WhatsApp: ${SHOP.whatsapp}
 Email: ${SHOP.email}
 
-Your job is to assist customers browsing the website. You should answer questions about our products, pricing, and shop details. Keep your answers concise, friendly, and helpful. Do not mention that you are an AI unless asked.
-Always use Indian Rupees (₹) for pricing.
+Your job is to assist customers browsing the website. You should act as a highly knowledgeable smartphone expert.
+1. Answer questions about our products, pricing, and shop details.
+2. If a customer asks for a recommendation or comparison (e.g., "which phone is better in camera?", "best gaming phone?"), carefully compare the specs (processor, camera, battery) of the phones in our inventory and give a clear, helpful recommendation based on their needs.
+3. Always use Indian Rupees (₹) for pricing.
+4. Keep your answers conversational, friendly, and structured (use bullet points if listing multiple phones).
+5. If relevant, remind customers that we also stock all smartphone accessories (cases, tempered glass, chargers, earbuds) at our physical store.
 
-Here is a summary of some top mobiles in our inventory:
+Here is our complete mobile inventory with detailed specs:
 ${inventoryInfo}
 
-If a user asks for a product not in this top 15 list, inform them they can check our full inventory on the website, or contact us directly on WhatsApp (${SHOP.whatsapp}).`;
+If they ask about something we don't have, politely let them know they can contact us on WhatsApp (${SHOP.whatsapp}) to check if we can source it for them.`;
 
     try {
       // Structure the payload exactly like the REST API expects
