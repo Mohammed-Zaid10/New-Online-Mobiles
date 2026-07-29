@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { ArrowUp, MessageCircle, Phone, Bot } from "lucide-react";
+import { ArrowUp, MessageCircle, Phone, Sparkles } from "lucide-react";
 import { SHOP, wa } from "@/lib/shop";
 import { ChatBot } from "./ChatBot";
 
@@ -36,11 +36,11 @@ export function FloatingActions() {
           {/* AI Chat Button */}
           <button
             onClick={() => setIsChatOpen(true)}
-            className="grid h-12 w-12 place-items-center rounded-full bg-violet-600 text-white shadow-sm hover:scale-105 transition-transform"
-            aria-label="AI Assistant"
-            title="AI Assistant"
+            className="grid h-12 w-12 place-items-center rounded-full bg-[#5D4037] text-white shadow-sm hover:scale-105 transition-transform"
+            aria-label="Meta AI Assistant"
+            title="Meta AI Assistant"
           >
-            <Bot className="h-6 w-6" />
+            <Sparkles className="h-6 w-6" />
           </button>
 
           {/* Call Button */}

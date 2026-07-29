@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from "react";
-import { Send, Bot, User, X, Loader2 } from "lucide-react";
+import { Send, User, X, Loader2, Sparkles } from "lucide-react";
 import { chatWithGemini } from "@/lib/gemini";
 
 interface ChatBotProps {
@@ -58,20 +58,20 @@ export function ChatBot({ isOpen, onClose }: ChatBotProps) {
   if (!isOpen) return null;
 
   return (
-    <div className="fixed bottom-24 right-5 z-50 w-[350px] overflow-hidden rounded-2xl border border-border/70 bg-card shadow-luxe transition-all animate-in slide-in-from-bottom-5">
+    <div className="fixed bottom-24 right-4 z-50 w-[calc(100vw-2rem)] sm:w-[350px] max-h-[75vh] flex flex-col overflow-hidden rounded-2xl border border-border/70 bg-card shadow-2xl transition-all animate-in slide-in-from-bottom-5">
       {/* Header */}
-      <div className="flex items-center justify-between bg-primary p-4 text-primary-foreground">
-        <div className="flex items-center gap-2">
-          <div className="grid h-8 w-8 place-items-center rounded-full bg-white/20">
-            <Bot className="h-5 w-5" />
+      <div className="flex items-center justify-between bg-[#5D4037] p-4 text-white">
+        <div className="flex items-center gap-3">
+          <div className="grid h-9 w-9 place-items-center rounded-full bg-white text-[#5D4037] shadow-sm">
+            <Sparkles className="h-5 w-5" />
           </div>
           <div>
-            <h3 className="font-semibold leading-none">AI Assistant</h3>
-            <p className="mt-1 text-[10px] opacity-80">Powered by Gemini</p>
+            <h3 className="font-semibold leading-none text-white">Meta AI Assistant</h3>
+            <p className="mt-1 text-[11px] text-white/80">Online Mobiles Expert</p>
           </div>
         </div>
-        <button onClick={onClose} className="rounded-full p-1.5 hover:bg-white/20 transition">
-          <X className="h-4 w-4" />
+        <button onClick={onClose} className="rounded-full bg-white/10 p-2 hover:bg-white/20 transition-colors" aria-label="Close Chat">
+          <X className="h-4 w-4 text-white" />
         </button>
       </div>
 
