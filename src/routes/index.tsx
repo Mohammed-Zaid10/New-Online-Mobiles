@@ -64,11 +64,11 @@ function Home() {
           backgroundPosition: "center top",
         }}
       >
-        {/* Strong dark overlay on left (text side), fades right (image side) */}
-        <div className="absolute inset-0 z-0" style={{background: "linear-gradient(105deg, rgba(8,6,20,0.88) 0%, rgba(15,10,30,0.80) 40%, rgba(20,15,35,0.40) 70%, rgba(20,15,35,0.15) 100%)", backdropFilter: "blur(0px)"}} />
-        <div className="absolute inset-0 z-0" style={{background: "linear-gradient(to top, rgba(8,6,20,0.65) 0%, transparent 50%)"}}/>
+        {/* Semi-transparent overlay — keeps text readable, lets light colors shine */}
+        <div className="absolute inset-0 z-0" style={{background: "linear-gradient(110deg, rgba(8,6,20,0.78) 0%, rgba(15,10,35,0.65) 40%, rgba(20,10,40,0.25) 75%, transparent 100%)"}} />
+        <div className="absolute inset-0 z-0" style={{background: "linear-gradient(to top, rgba(8,6,20,0.60) 0%, transparent 50%)"}} />
 
-        {/* Animated rings — warm gold */}
+        {/* Animated rings — purple/blue to match the light image palette */}
         <div className="pointer-events-none absolute inset-0 flex items-center justify-center overflow-hidden z-0">
           <div className="relative flex items-center justify-center w-[500px] h-[500px] sm:w-[750px] sm:h-[750px]">
             {/* Outer Moving Glowing Ring 1 */}
