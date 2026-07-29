@@ -81,8 +81,8 @@ export function ChatBot({ isOpen, onClose }: ChatBotProps) {
           {messages.map((m, i) => (
             <div key={i} className={`flex ${m.role === "user" ? "justify-end" : "justify-start"} gap-2`}>
               {m.role === "model" && (
-                <div className="grid h-7 w-7 shrink-0 place-items-center rounded-full bg-primary/10 text-primary">
-                  <Bot className="h-4 w-4" />
+                <div className="grid h-7 w-7 shrink-0 place-items-center rounded-full bg-[#5D4037]/10 text-[#5D4037]">
+                  <Sparkles className="h-4 w-4" />
                 </div>
               )}
               <div
@@ -106,8 +106,8 @@ export function ChatBot({ isOpen, onClose }: ChatBotProps) {
           ))}
           {isLoading && (
             <div className="flex justify-start gap-2">
-              <div className="grid h-7 w-7 shrink-0 place-items-center rounded-full bg-primary/10 text-primary">
-                <Bot className="h-4 w-4" />
+              <div className="grid h-7 w-7 shrink-0 place-items-center rounded-full bg-[#5D4037]/10 text-[#5D4037]">
+                <Sparkles className="h-4 w-4" />
               </div>
               <div className="flex items-center rounded-2xl rounded-tl-sm bg-card border border-border/70 p-3">
                 <Loader2 className="h-4 w-4 animate-spin text-muted-foreground" />
