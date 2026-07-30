@@ -13,6 +13,7 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as R360ViewerRouteImport } from './routes/360-viewer'
 import { Route as AboutRouteImport } from './routes/about'
 import { Route as AccessoriesRouteImport } from './routes/accessories'
+import { Route as BatteryCalculatorRouteImport } from './routes/battery-calculator'
 import { Route as BookRepairRouteImport } from './routes/book-repair'
 import { Route as CameraCompareRouteImport } from './routes/camera-compare'
 import { Route as CompareRouteImport } from './routes/compare'
@@ -53,6 +54,11 @@ const AboutRoute = AboutRouteImport.update({
 const AccessoriesRoute = AccessoriesRouteImport.update({
   id: '/accessories',
   path: '/accessories',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const BatteryCalculatorRoute = BatteryCalculatorRouteImport.update({
+  id: '/battery-calculator',
+  path: '/battery-calculator',
   getParentRoute: () => rootRouteImport,
 } as any)
 const BookRepairRoute = BookRepairRouteImport.update({
@@ -166,6 +172,7 @@ export interface FileRoutesByFullPath {
   '/360-viewer': typeof R360ViewerRoute
   '/about': typeof AboutRoute
   '/accessories': typeof AccessoriesRouteWithChildren
+  '/battery-calculator': typeof BatteryCalculatorRoute
   '/book-repair': typeof BookRepairRoute
   '/camera-compare': typeof CameraCompareRoute
   '/compare': typeof CompareRoute
@@ -193,6 +200,7 @@ export interface FileRoutesByTo {
   '/360-viewer': typeof R360ViewerRoute
   '/about': typeof AboutRoute
   '/accessories': typeof AccessoriesRouteWithChildren
+  '/battery-calculator': typeof BatteryCalculatorRoute
   '/book-repair': typeof BookRepairRoute
   '/camera-compare': typeof CameraCompareRoute
   '/compare': typeof CompareRoute
@@ -220,6 +228,7 @@ export interface FileRoutesById {
   '/360-viewer': typeof R360ViewerRoute
   '/about': typeof AboutRoute
   '/accessories': typeof AccessoriesRouteWithChildren
+  '/battery-calculator': typeof BatteryCalculatorRoute
   '/book-repair': typeof BookRepairRoute
   '/camera-compare': typeof CameraCompareRoute
   '/compare': typeof CompareRoute
@@ -249,6 +258,7 @@ export interface FileRouteTypes {
     | '/360-viewer'
     | '/about'
     | '/accessories'
+    | '/battery-calculator'
     | '/book-repair'
     | '/camera-compare'
     | '/compare'
@@ -276,6 +286,7 @@ export interface FileRouteTypes {
     | '/360-viewer'
     | '/about'
     | '/accessories'
+    | '/battery-calculator'
     | '/book-repair'
     | '/camera-compare'
     | '/compare'
@@ -302,6 +313,7 @@ export interface FileRouteTypes {
     | '/360-viewer'
     | '/about'
     | '/accessories'
+    | '/battery-calculator'
     | '/book-repair'
     | '/camera-compare'
     | '/compare'
@@ -330,6 +342,7 @@ export interface RootRouteChildren {
   R360ViewerRoute: typeof R360ViewerRoute
   AboutRoute: typeof AboutRoute
   AccessoriesRoute: typeof AccessoriesRouteWithChildren
+  BatteryCalculatorRoute: typeof BatteryCalculatorRoute
   BookRepairRoute: typeof BookRepairRoute
   CameraCompareRoute: typeof CameraCompareRoute
   CompareRoute: typeof CompareRoute
@@ -375,6 +388,13 @@ declare module '@tanstack/react-router' {
       path: '/accessories'
       fullPath: '/accessories'
       preLoaderRoute: typeof AccessoriesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/battery-calculator': {
+      id: '/battery-calculator'
+      path: '/battery-calculator'
+      fullPath: '/battery-calculator'
+      preLoaderRoute: typeof BatteryCalculatorRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/book-repair': {
@@ -590,6 +610,7 @@ const rootRouteChildren: RootRouteChildren = {
   R360ViewerRoute: R360ViewerRoute,
   AboutRoute: AboutRoute,
   AccessoriesRoute: AccessoriesRouteWithChildren,
+  BatteryCalculatorRoute: BatteryCalculatorRoute,
   BookRepairRoute: BookRepairRoute,
   CameraCompareRoute: CameraCompareRoute,
   CompareRoute: CompareRoute,
