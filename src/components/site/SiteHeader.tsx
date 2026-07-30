@@ -12,6 +12,7 @@ const NAV = [
   { label: "Software", to: "/software" },
   { label: "Offers", to: "/offers" },
   { label: "Compare", to: "/compare" },
+  { label: "Phone Finder", to: "/phone-finder" },
   { label: "Trade-In", to: "/trade-in" },
   { label: "Track", to: "/track" },
 ] as const;

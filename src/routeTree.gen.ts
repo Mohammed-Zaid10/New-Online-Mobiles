@@ -18,6 +18,7 @@ import { Route as ContactRouteImport } from './routes/contact'
 import { Route as FaqRouteImport } from './routes/faq'
 import { Route as MobilesRouteImport } from './routes/mobiles'
 import { Route as OffersRouteImport } from './routes/offers'
+import { Route as PhoneFinderRouteImport } from './routes/phone-finder'
 import { Route as RepairRouteImport } from './routes/repair'
 import { Route as SoftwareRouteImport } from './routes/software'
 import { Route as TrackRouteImport } from './routes/track'
@@ -74,6 +75,11 @@ const MobilesRoute = MobilesRouteImport.update({
 const OffersRoute = OffersRouteImport.update({
   id: '/offers',
   path: '/offers',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PhoneFinderRoute = PhoneFinderRouteImport.update({
+  id: '/phone-finder',
+  path: '/phone-finder',
   getParentRoute: () => rootRouteImport,
 } as any)
 const RepairRoute = RepairRouteImport.update({
@@ -147,6 +153,7 @@ export interface FileRoutesByFullPath {
   '/faq': typeof FaqRoute
   '/mobiles': typeof MobilesRouteWithChildren
   '/offers': typeof OffersRoute
+  '/phone-finder': typeof PhoneFinderRoute
   '/repair': typeof RepairRouteWithChildren
   '/software': typeof SoftwareRoute
   '/track': typeof TrackRoute
@@ -169,6 +176,7 @@ export interface FileRoutesByTo {
   '/contact': typeof ContactRoute
   '/faq': typeof FaqRoute
   '/offers': typeof OffersRoute
+  '/phone-finder': typeof PhoneFinderRoute
   '/repair': typeof RepairRouteWithChildren
   '/software': typeof SoftwareRoute
   '/track': typeof TrackRoute
@@ -193,6 +201,7 @@ export interface FileRoutesById {
   '/faq': typeof FaqRoute
   '/mobiles': typeof MobilesRouteWithChildren
   '/offers': typeof OffersRoute
+  '/phone-finder': typeof PhoneFinderRoute
   '/repair': typeof RepairRouteWithChildren
   '/software': typeof SoftwareRoute
   '/track': typeof TrackRoute
@@ -218,6 +227,7 @@ export interface FileRouteTypes {
     | '/faq'
     | '/mobiles'
     | '/offers'
+    | '/phone-finder'
     | '/repair'
     | '/software'
     | '/track'
@@ -240,6 +250,7 @@ export interface FileRouteTypes {
     | '/contact'
     | '/faq'
     | '/offers'
+    | '/phone-finder'
     | '/repair'
     | '/software'
     | '/track'
@@ -263,6 +274,7 @@ export interface FileRouteTypes {
     | '/faq'
     | '/mobiles'
     | '/offers'
+    | '/phone-finder'
     | '/repair'
     | '/software'
     | '/track'
@@ -287,6 +299,7 @@ export interface RootRouteChildren {
   FaqRoute: typeof FaqRoute
   MobilesRoute: typeof MobilesRouteWithChildren
   OffersRoute: typeof OffersRoute
+  PhoneFinderRoute: typeof PhoneFinderRoute
   RepairRoute: typeof RepairRouteWithChildren
   SoftwareRoute: typeof SoftwareRoute
   TrackRoute: typeof TrackRoute
@@ -358,6 +371,13 @@ declare module '@tanstack/react-router' {
       path: '/offers'
       fullPath: '/offers'
       preLoaderRoute: typeof OffersRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/phone-finder': {
+      id: '/phone-finder'
+      path: '/phone-finder'
+      fullPath: '/phone-finder'
+      preLoaderRoute: typeof PhoneFinderRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/repair': {
@@ -515,6 +535,7 @@ const rootRouteChildren: RootRouteChildren = {
   FaqRoute: FaqRoute,
   MobilesRoute: MobilesRouteWithChildren,
   OffersRoute: OffersRoute,
+  PhoneFinderRoute: PhoneFinderRoute,
   RepairRoute: RepairRouteWithChildren,
   SoftwareRoute: SoftwareRoute,
   TrackRoute: TrackRoute,
