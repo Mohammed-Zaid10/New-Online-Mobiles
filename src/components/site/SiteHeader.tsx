@@ -17,6 +17,7 @@ const NAV = [
   { label: "Camera Compare", to: "/camera-compare" },
   { label: "Size Compare", to: "/size-compare" },
   { label: "Battery Calculator", to: "/battery-calculator" },
+  { label: "Repair Calculator", to: "/repair-calculator" },
   { label: "Trade-In", to: "/trade-in" },
   { label: "Track", to: "/track" },
 ] as const;
