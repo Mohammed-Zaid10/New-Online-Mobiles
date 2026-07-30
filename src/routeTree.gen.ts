@@ -14,6 +14,7 @@ import { Route as R360ViewerRouteImport } from './routes/360-viewer'
 import { Route as AboutRouteImport } from './routes/about'
 import { Route as AccessoriesRouteImport } from './routes/accessories'
 import { Route as BookRepairRouteImport } from './routes/book-repair'
+import { Route as CameraCompareRouteImport } from './routes/camera-compare'
 import { Route as CompareRouteImport } from './routes/compare'
 import { Route as ContactRouteImport } from './routes/contact'
 import { Route as FaqRouteImport } from './routes/faq'
@@ -56,6 +57,11 @@ const AccessoriesRoute = AccessoriesRouteImport.update({
 const BookRepairRoute = BookRepairRouteImport.update({
   id: '/book-repair',
   path: '/book-repair',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CameraCompareRoute = CameraCompareRouteImport.update({
+  id: '/camera-compare',
+  path: '/camera-compare',
   getParentRoute: () => rootRouteImport,
 } as any)
 const CompareRoute = CompareRouteImport.update({
@@ -155,6 +161,7 @@ export interface FileRoutesByFullPath {
   '/about': typeof AboutRoute
   '/accessories': typeof AccessoriesRouteWithChildren
   '/book-repair': typeof BookRepairRoute
+  '/camera-compare': typeof CameraCompareRoute
   '/compare': typeof CompareRoute
   '/contact': typeof ContactRoute
   '/faq': typeof FaqRoute
@@ -180,6 +187,7 @@ export interface FileRoutesByTo {
   '/about': typeof AboutRoute
   '/accessories': typeof AccessoriesRouteWithChildren
   '/book-repair': typeof BookRepairRoute
+  '/camera-compare': typeof CameraCompareRoute
   '/compare': typeof CompareRoute
   '/contact': typeof ContactRoute
   '/faq': typeof FaqRoute
@@ -205,6 +213,7 @@ export interface FileRoutesById {
   '/about': typeof AboutRoute
   '/accessories': typeof AccessoriesRouteWithChildren
   '/book-repair': typeof BookRepairRoute
+  '/camera-compare': typeof CameraCompareRoute
   '/compare': typeof CompareRoute
   '/contact': typeof ContactRoute
   '/faq': typeof FaqRoute
@@ -232,6 +241,7 @@ export interface FileRouteTypes {
     | '/about'
     | '/accessories'
     | '/book-repair'
+    | '/camera-compare'
     | '/compare'
     | '/contact'
     | '/faq'
@@ -257,6 +267,7 @@ export interface FileRouteTypes {
     | '/about'
     | '/accessories'
     | '/book-repair'
+    | '/camera-compare'
     | '/compare'
     | '/contact'
     | '/faq'
@@ -281,6 +292,7 @@ export interface FileRouteTypes {
     | '/about'
     | '/accessories'
     | '/book-repair'
+    | '/camera-compare'
     | '/compare'
     | '/contact'
     | '/faq'
@@ -307,6 +319,7 @@ export interface RootRouteChildren {
   AboutRoute: typeof AboutRoute
   AccessoriesRoute: typeof AccessoriesRouteWithChildren
   BookRepairRoute: typeof BookRepairRoute
+  CameraCompareRoute: typeof CameraCompareRoute
   CompareRoute: typeof CompareRoute
   ContactRoute: typeof ContactRoute
   FaqRoute: typeof FaqRoute
@@ -356,6 +369,13 @@ declare module '@tanstack/react-router' {
       path: '/book-repair'
       fullPath: '/book-repair'
       preLoaderRoute: typeof BookRepairRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/camera-compare': {
+      id: '/camera-compare'
+      path: '/camera-compare'
+      fullPath: '/camera-compare'
+      preLoaderRoute: typeof CameraCompareRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/compare': {
@@ -551,6 +571,7 @@ const rootRouteChildren: RootRouteChildren = {
   AboutRoute: AboutRoute,
   AccessoriesRoute: AccessoriesRouteWithChildren,
   BookRepairRoute: BookRepairRoute,
+  CameraCompareRoute: CameraCompareRoute,
   CompareRoute: CompareRoute,
   ContactRoute: ContactRoute,
   FaqRoute: FaqRoute,
