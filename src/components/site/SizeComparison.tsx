@@ -1,7 +1,6 @@
 import React, { useState, useMemo } from "react";
 import { 
-  Ruler, RotateCw, Maximize2, Layers, Check, X, 
-  ArrowLeftRight, Info, Sparkles, Scale, Smartphone, Shirt
+  Ruler, RotateCw, Layers, ArrowLeftRight, Scale, Smartphone, Shirt
 } from "lucide-react";
 
 export interface PhoneDimensionData {
@@ -144,7 +143,7 @@ export const PHONE_DIMENSIONS: Record<string, PhoneDimensionData> = {
 export function SizeComparison() {
   const [phoneAId, setPhoneAId] = useState<string>("iphone-16-pro-max");
   const [phoneBId, setPhoneBId] = useState<string>("samsung-s25-ultra");
-  const [isRotated, setIsRotated] = useState<boolean>(false); // false = portrait, true = landscape
+  const [isRotated, setIsRotated] = useState<boolean>(false);
   const [viewMode, setViewMode] = useState<"side-by-side" | "overlay" | "pocket">("side-by-side");
   const [showRuler, setShowRuler] = useState<boolean>(true);
   const [pocketType, setPocketType] = useState<"jeansFront" | "jeansBack" | "jacket">("jeansFront");
@@ -152,10 +151,9 @@ export function SizeComparison() {
   const phoneA = PHONE_DIMENSIONS[phoneAId] || PHONE_DIMENSIONS["iphone-16-pro-max"];
   const phoneB = PHONE_DIMENSIONS[phoneBId] || PHONE_DIMENSIONS["samsung-s25-ultra"];
 
-  // Scale factor: 1 millimeter = 2.3 pixels for accurate visual ratio
-  const PIXELS_PER_MM = 2.3;
+  // Scale factor: 1 mm = 1.95px for a clean, proportional real-size display without header overlap
+  const PIXELS_PER_MM = 1.95;
 
-  // Calculate percentage differences
   const diffs = useMemo(() => {
     const heightDiff = +(phoneA.heightMm - phoneB.heightMm).toFixed(1);
     const widthDiff = +(phoneA.widthMm - phoneB.widthMm).toFixed(1);
@@ -168,15 +166,15 @@ export function SizeComparison() {
   }, [phoneA, phoneB]);
 
   return (
-    <div className="w-full space-y-8">
-      {/* Header & Selector Bar */}
+    <div className="w-full space-y-6">
+      {/* Header & Selectors */}
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 bg-card/80 p-6 rounded-3xl border border-border/70 shadow-luxe backdrop-blur-md">
         <div>
           <div className="flex items-center gap-2 text-primary font-bold text-xs uppercase tracking-wider mb-1">
-            <Ruler className="h-4 w-4" /> 1:1 Accurate Dimension Lab
+            <Ruler className="h-4 w-4" /> 1:1 Scale Dimension Lab
           </div>
           <h2 className="font-display text-2xl font-bold text-foreground">Real Size Phone Comparison</h2>
-          <p className="text-sm text-muted-foreground mt-1">Compare actual height, width, thickness, and weight scaled to millimeter precision.</p>
+          <p className="text-sm text-muted-foreground mt-1">Real-life product photography scaled to exact millimeter dimensions.</p>
         </div>
 
         {/* Controls & Selectors */}
@@ -221,9 +219,8 @@ export function SizeComparison() {
         </div>
       </div>
 
-      {/* Mode & Animation Toolbar */}
+      {/* View Toolbar */}
       <div className="flex flex-wrap items-center justify-between gap-4 bg-muted/30 p-4 rounded-2xl border border-border/50">
-        {/* View mode toggle */}
         <div className="flex items-center gap-2">
           <button
             onClick={() => setViewMode("side-by-side")}
@@ -251,7 +248,6 @@ export function SizeComparison() {
           </button>
         </div>
 
-        {/* Rotate & Ruler options */}
         <div className="flex items-center gap-2">
           <button
             onClick={() => setIsRotated(r => !r)}
@@ -274,12 +270,12 @@ export function SizeComparison() {
 
       {/* Main Interactive Stage */}
       {viewMode !== "pocket" ? (
-        <div className="relative w-full min-h-[460px] md:min-h-[520px] bg-gradient-to-b from-card to-muted/30 rounded-3xl border border-border/70 p-6 flex items-center justify-center overflow-hidden shadow-inner">
-          {/* Animated Ruler Grid Background */}
+        <div className="relative w-full min-h-[420px] md:min-h-[460px] bg-gradient-to-b from-card to-muted/30 rounded-3xl border border-border/70 p-6 flex items-center justify-center overflow-hidden shadow-inner">
+          {/* Ruler Grid Background */}
           {showRuler && (
-            <div className="absolute inset-0 pointer-events-none opacity-40">
+            <div className="absolute inset-0 pointer-events-none opacity-30">
               <div className="absolute left-6 top-0 bottom-0 w-8 border-r border-dashed border-primary/40 flex flex-col justify-between py-6">
-                {[0, 25, 50, 75, 100, 125, 150, 175].map((mm) => (
+                {[0, 40, 80, 120, 160].map((mm) => (
                   <div key={mm} className="relative flex items-center">
                     <div className="w-3 h-px bg-primary/60" />
                     <span className="ml-1 text-[9px] font-mono text-primary font-bold">{mm}mm</span>
@@ -291,8 +287,8 @@ export function SizeComparison() {
 
           {/* Side by Side View */}
           {viewMode === "side-by-side" && (
-            <div className={`flex items-center justify-center gap-12 md:gap-20 transition-all duration-500 ${isRotated ? "flex-col" : "flex-row"}`}>
-              {/* Phone A Render */}
+            <div className={`flex items-end justify-center gap-12 md:gap-20 transition-all duration-500 ${isRotated ? "flex-col items-center" : "flex-row"}`}>
+              {/* Phone A Render - Clean Image without extra artificial border boxes */}
               <div className="flex flex-col items-center gap-3">
                 <div className="text-center">
                   <span className="text-[11px] font-bold text-primary uppercase tracking-wider">{phoneA.brand}</span>
@@ -301,29 +297,27 @@ export function SizeComparison() {
                 </div>
 
                 <div
-                  className="relative rounded-[28px] border-4 border-foreground/80 bg-background shadow-2xl transition-all duration-500 overflow-hidden flex items-center justify-center"
+                  className="relative transition-all duration-500 flex items-center justify-center filter drop-shadow-2xl"
                   style={{
                     width: (isRotated ? phoneA.heightMm : phoneA.widthMm) * PIXELS_PER_MM,
                     height: (isRotated ? phoneA.widthMm : phoneA.heightMm) * PIXELS_PER_MM,
-                    borderColor: phoneA.colorHex
                   }}
                 >
                   <img
                     src={phoneA.image}
                     alt={phoneA.name}
-                    className="w-full h-full object-cover opacity-90"
+                    className="w-full h-full object-contain rounded-2xl"
                   />
-                  {/* Screen Bezel & Screen Size Badge */}
-                  <div className="absolute inset-2 rounded-[20px] border border-white/20 pointer-events-none flex items-center justify-center bg-black/20 backdrop-blur-[1px]">
-                    <span className="bg-black/80 text-white font-mono text-[10px] font-bold px-2 py-0.5 rounded-full border border-white/20">
-                      {phoneA.screenSizeInches}" ({phoneA.screenToBodyRatio}%)
-                    </span>
+
+                  {/* Floating Specs Pill */}
+                  <div className="absolute bottom-3 bg-black/85 text-white font-mono text-[10px] font-bold px-2.5 py-1 rounded-full border border-white/20 shadow-lg backdrop-blur-sm pointer-events-none">
+                    {phoneA.screenSizeInches}" ({phoneA.screenToBodyRatio}%)
                   </div>
 
                   {/* Height Ruler Tag */}
                   {showRuler && (
-                    <div className="absolute -right-7 top-0 bottom-0 flex flex-col justify-between items-center text-[9px] font-mono font-bold text-primary">
-                      <span className="bg-background px-1 rounded border border-primary/30">{phoneA.heightMm}mm</span>
+                    <div className="absolute -right-8 top-0 bottom-0 flex flex-col justify-between items-center text-[9px] font-mono font-bold text-primary pointer-events-none">
+                      <span className="bg-background/90 px-1 rounded border border-primary/30 shadow-xs">{phoneA.heightMm}mm</span>
                     </div>
                   )}
                 </div>
@@ -333,7 +327,7 @@ export function SizeComparison() {
                 </div>
               </div>
 
-              {/* Phone B Render */}
+              {/* Phone B Render - Clean Image without extra artificial border boxes */}
               <div className="flex flex-col items-center gap-3">
                 <div className="text-center">
                   <span className="text-[11px] font-bold text-primary uppercase tracking-wider">{phoneB.brand}</span>
@@ -342,29 +336,27 @@ export function SizeComparison() {
                 </div>
 
                 <div
-                  className="relative rounded-[28px] border-4 border-foreground/80 bg-background shadow-2xl transition-all duration-500 overflow-hidden flex items-center justify-center"
+                  className="relative transition-all duration-500 flex items-center justify-center filter drop-shadow-2xl"
                   style={{
                     width: (isRotated ? phoneB.heightMm : phoneB.widthMm) * PIXELS_PER_MM,
                     height: (isRotated ? phoneB.widthMm : phoneB.heightMm) * PIXELS_PER_MM,
-                    borderColor: phoneB.colorHex
                   }}
                 >
                   <img
                     src={phoneB.image}
                     alt={phoneB.name}
-                    className="w-full h-full object-cover opacity-90"
+                    className="w-full h-full object-contain rounded-2xl"
                   />
-                  {/* Screen Bezel & Screen Size Badge */}
-                  <div className="absolute inset-2 rounded-[20px] border border-white/20 pointer-events-none flex items-center justify-center bg-black/20 backdrop-blur-[1px]">
-                    <span className="bg-black/80 text-white font-mono text-[10px] font-bold px-2 py-0.5 rounded-full border border-white/20">
-                      {phoneB.screenSizeInches}" ({phoneB.screenToBodyRatio}%)
-                    </span>
+
+                  {/* Floating Specs Pill */}
+                  <div className="absolute bottom-3 bg-black/85 text-white font-mono text-[10px] font-bold px-2.5 py-1 rounded-full border border-white/20 shadow-lg backdrop-blur-sm pointer-events-none">
+                    {phoneB.screenSizeInches}" ({phoneB.screenToBodyRatio}%)
                   </div>
 
                   {/* Height Ruler Tag */}
                   {showRuler && (
-                    <div className="absolute -right-7 top-0 bottom-0 flex flex-col justify-between items-center text-[9px] font-mono font-bold text-primary">
-                      <span className="bg-background px-1 rounded border border-primary/30">{phoneB.heightMm}mm</span>
+                    <div className="absolute -right-8 top-0 bottom-0 flex flex-col justify-between items-center text-[9px] font-mono font-bold text-primary pointer-events-none">
+                      <span className="bg-background/90 px-1 rounded border border-primary/30 shadow-xs">{phoneB.heightMm}mm</span>
                     </div>
                   )}
                 </div>
@@ -376,31 +368,33 @@ export function SizeComparison() {
             </div>
           )}
 
-          {/* Overlay View (Ghost Mode) */}
+          {/* Overlay View (Ghost Mode - Scaled Real Photos) */}
           {viewMode === "overlay" && (
-            <div className="relative flex items-center justify-center min-h-[380px]">
-              {/* Phone A (Background Outline) */}
+            <div className="relative flex items-center justify-center min-h-[350px]">
+              {/* Phone A (Underneath) */}
               <div
-                className="absolute rounded-[28px] border-4 border-primary bg-primary/20 shadow-2xl transition-all duration-500 flex items-center justify-center"
+                className="absolute transition-all duration-500 opacity-70 filter drop-shadow-xl"
                 style={{
                   width: (isRotated ? phoneA.heightMm : phoneA.widthMm) * PIXELS_PER_MM,
                   height: (isRotated ? phoneA.widthMm : phoneA.heightMm) * PIXELS_PER_MM,
                 }}
               >
-                <div className="absolute top-2 left-2 bg-primary text-primary-foreground font-bold text-[10px] px-2 py-0.5 rounded-full">
+                <img src={phoneA.image} alt={phoneA.name} className="w-full h-full object-contain rounded-2xl" />
+                <div className="absolute top-2 left-2 bg-primary text-primary-foreground font-bold text-[10px] px-2 py-0.5 rounded-full shadow">
                   {phoneA.name} ({phoneA.heightMm}mm)
                 </div>
               </div>
 
-              {/* Phone B (Foreground Semi-Transparent Overlay) */}
+              {/* Phone B (Overlayed with Semi-Transparency) */}
               <div
-                className="absolute rounded-[28px] border-4 border-amber-500 bg-amber-500/30 backdrop-blur-[1px] shadow-2xl transition-all duration-500 flex items-center justify-center"
+                className="absolute transition-all duration-500 opacity-80 filter drop-shadow-xl"
                 style={{
                   width: (isRotated ? phoneB.heightMm : phoneB.widthMm) * PIXELS_PER_MM,
                   height: (isRotated ? phoneB.widthMm : phoneB.heightMm) * PIXELS_PER_MM,
                 }}
               >
-                <div className="absolute bottom-2 right-2 bg-amber-500 text-black font-bold text-[10px] px-2 py-0.5 rounded-full shadow-md">
+                <img src={phoneB.image} alt={phoneB.name} className="w-full h-full object-contain rounded-2xl" />
+                <div className="absolute bottom-2 right-2 bg-amber-500 text-black font-bold text-[10px] px-2 py-0.5 rounded-full shadow">
                   {phoneB.name} ({phoneB.heightMm}mm)
                 </div>
               </div>
@@ -454,13 +448,13 @@ export function SizeComparison() {
               {/* Graphic Pocket Outline */}
               <div className="relative h-44 bg-blue-900/10 border-2 border-dashed border-blue-500/40 rounded-b-3xl rounded-t-lg p-4 flex items-end justify-center overflow-hidden">
                 <div
-                  className="rounded-2xl border-2 border-primary bg-primary/20 flex flex-col items-center justify-center shadow-lg transition-all duration-300"
+                  className="rounded-2xl border border-primary/50 shadow-lg transition-all duration-300 flex items-center justify-center overflow-hidden"
                   style={{
-                    width: phoneA.widthMm * 1.5,
-                    height: phoneA.heightMm * 1.05,
+                    width: phoneA.widthMm * 1.3,
+                    height: phoneA.heightMm * 0.95,
                   }}
                 >
-                  <span className="text-[10px] font-bold text-primary text-center px-1">{phoneA.name}</span>
+                  <img src={phoneA.image} alt={phoneA.name} className="w-full h-full object-contain" />
                 </div>
                 <div className="absolute top-2 text-[10px] font-mono text-muted-foreground">Pocket Opening</div>
               </div>
@@ -487,13 +481,13 @@ export function SizeComparison() {
               {/* Graphic Pocket Outline */}
               <div className="relative h-44 bg-blue-900/10 border-2 border-dashed border-blue-500/40 rounded-b-3xl rounded-t-lg p-4 flex items-end justify-center overflow-hidden">
                 <div
-                  className="rounded-2xl border-2 border-amber-500 bg-amber-500/20 flex flex-col items-center justify-center shadow-lg transition-all duration-300"
+                  className="rounded-2xl border border-amber-500/50 shadow-lg transition-all duration-300 flex items-center justify-center overflow-hidden"
                   style={{
-                    width: phoneB.widthMm * 1.5,
-                    height: phoneB.heightMm * 1.05,
+                    width: phoneB.widthMm * 1.3,
+                    height: phoneB.heightMm * 0.95,
                   }}
                 >
-                  <span className="text-[10px] font-bold text-amber-500 text-center px-1">{phoneB.name}</span>
+                  <img src={phoneB.image} alt={phoneB.name} className="w-full h-full object-contain" />
                 </div>
                 <div className="absolute top-2 text-[10px] font-mono text-muted-foreground">Pocket Opening</div>
               </div>
@@ -504,7 +498,7 @@ export function SizeComparison() {
         </div>
       )}
 
-      {/* Specifications Comparison Table */}
+      {/* Specs Comparison Table */}
       <div className="bg-card border border-border/70 rounded-3xl p-6 sm:p-8 space-y-6 shadow-sm">
         <div className="flex items-center justify-between border-b border-border/50 pb-4">
           <div className="flex items-center gap-3">
