@@ -22,6 +22,7 @@ import { Route as MobilesRouteImport } from './routes/mobiles'
 import { Route as OffersRouteImport } from './routes/offers'
 import { Route as PhoneFinderRouteImport } from './routes/phone-finder'
 import { Route as RepairRouteImport } from './routes/repair'
+import { Route as SizeCompareRouteImport } from './routes/size-compare'
 import { Route as SoftwareRouteImport } from './routes/software'
 import { Route as TrackRouteImport } from './routes/track'
 import { Route as TradeInRouteImport } from './routes/trade-in'
@@ -99,6 +100,11 @@ const RepairRoute = RepairRouteImport.update({
   path: '/repair',
   getParentRoute: () => rootRouteImport,
 } as any)
+const SizeCompareRoute = SizeCompareRouteImport.update({
+  id: '/size-compare',
+  path: '/size-compare',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const SoftwareRoute = SoftwareRouteImport.update({
   id: '/software',
   path: '/software',
@@ -169,6 +175,7 @@ export interface FileRoutesByFullPath {
   '/offers': typeof OffersRoute
   '/phone-finder': typeof PhoneFinderRoute
   '/repair': typeof RepairRouteWithChildren
+  '/size-compare': typeof SizeCompareRoute
   '/software': typeof SoftwareRoute
   '/track': typeof TrackRoute
   '/trade-in': typeof TradeInRoute
@@ -194,6 +201,7 @@ export interface FileRoutesByTo {
   '/offers': typeof OffersRoute
   '/phone-finder': typeof PhoneFinderRoute
   '/repair': typeof RepairRouteWithChildren
+  '/size-compare': typeof SizeCompareRoute
   '/software': typeof SoftwareRoute
   '/track': typeof TrackRoute
   '/trade-in': typeof TradeInRoute
@@ -221,6 +229,7 @@ export interface FileRoutesById {
   '/offers': typeof OffersRoute
   '/phone-finder': typeof PhoneFinderRoute
   '/repair': typeof RepairRouteWithChildren
+  '/size-compare': typeof SizeCompareRoute
   '/software': typeof SoftwareRoute
   '/track': typeof TrackRoute
   '/trade-in': typeof TradeInRoute
@@ -249,6 +258,7 @@ export interface FileRouteTypes {
     | '/offers'
     | '/phone-finder'
     | '/repair'
+    | '/size-compare'
     | '/software'
     | '/track'
     | '/trade-in'
@@ -274,6 +284,7 @@ export interface FileRouteTypes {
     | '/offers'
     | '/phone-finder'
     | '/repair'
+    | '/size-compare'
     | '/software'
     | '/track'
     | '/trade-in'
@@ -300,6 +311,7 @@ export interface FileRouteTypes {
     | '/offers'
     | '/phone-finder'
     | '/repair'
+    | '/size-compare'
     | '/software'
     | '/track'
     | '/trade-in'
@@ -327,6 +339,7 @@ export interface RootRouteChildren {
   OffersRoute: typeof OffersRoute
   PhoneFinderRoute: typeof PhoneFinderRoute
   RepairRoute: typeof RepairRouteWithChildren
+  SizeCompareRoute: typeof SizeCompareRoute
   SoftwareRoute: typeof SoftwareRoute
   TrackRoute: typeof TrackRoute
   TradeInRoute: typeof TradeInRoute
@@ -425,6 +438,13 @@ declare module '@tanstack/react-router' {
       path: '/repair'
       fullPath: '/repair'
       preLoaderRoute: typeof RepairRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/size-compare': {
+      id: '/size-compare'
+      path: '/size-compare'
+      fullPath: '/size-compare'
+      preLoaderRoute: typeof SizeCompareRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/software': {
@@ -579,6 +599,7 @@ const rootRouteChildren: RootRouteChildren = {
   OffersRoute: OffersRoute,
   PhoneFinderRoute: PhoneFinderRoute,
   RepairRoute: RepairRouteWithChildren,
+  SizeCompareRoute: SizeCompareRoute,
   SoftwareRoute: SoftwareRoute,
   TrackRoute: TrackRoute,
   TradeInRoute: TradeInRoute,

@@ -15,6 +15,7 @@ const NAV = [
   { label: "Phone Finder", to: "/phone-finder" },
   { label: "360° View", to: "/360-viewer" },
   { label: "Camera Compare", to: "/camera-compare" },
+  { label: "Size Compare", to: "/size-compare" },
   { label: "Trade-In", to: "/trade-in" },
   { label: "Track", to: "/track" },
 ] as const;
