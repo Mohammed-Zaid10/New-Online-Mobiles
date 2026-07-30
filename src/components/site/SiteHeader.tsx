@@ -13,6 +13,7 @@ const NAV = [
   { label: "Offers", to: "/offers" },
   { label: "Compare", to: "/compare" },
   { label: "Phone Finder", to: "/phone-finder" },
+  { label: "360° View", to: "/360-viewer" },
   { label: "Trade-In", to: "/trade-in" },
   { label: "Track", to: "/track" },
 ] as const;

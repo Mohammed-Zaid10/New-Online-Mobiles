@@ -10,6 +10,7 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as R360ViewerRouteImport } from './routes/360-viewer'
 import { Route as AboutRouteImport } from './routes/about'
 import { Route as AccessoriesRouteImport } from './routes/accessories'
 import { Route as BookRepairRouteImport } from './routes/book-repair'
@@ -35,6 +36,11 @@ import { Route as MobilesBrandModelRouteImport } from './routes/mobiles.$brand.$
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const R360ViewerRoute = R360ViewerRouteImport.update({
+  id: '/360-viewer',
+  path: '/360-viewer',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AboutRoute = AboutRouteImport.update({
@@ -145,6 +151,7 @@ const MobilesBrandModelRoute = MobilesBrandModelRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/360-viewer': typeof R360ViewerRoute
   '/about': typeof AboutRoute
   '/accessories': typeof AccessoriesRouteWithChildren
   '/book-repair': typeof BookRepairRoute
@@ -169,6 +176,7 @@ export interface FileRoutesByFullPath {
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/360-viewer': typeof R360ViewerRoute
   '/about': typeof AboutRoute
   '/accessories': typeof AccessoriesRouteWithChildren
   '/book-repair': typeof BookRepairRoute
@@ -193,6 +201,7 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/360-viewer': typeof R360ViewerRoute
   '/about': typeof AboutRoute
   '/accessories': typeof AccessoriesRouteWithChildren
   '/book-repair': typeof BookRepairRoute
@@ -219,6 +228,7 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/360-viewer'
     | '/about'
     | '/accessories'
     | '/book-repair'
@@ -243,6 +253,7 @@ export interface FileRouteTypes {
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/360-viewer'
     | '/about'
     | '/accessories'
     | '/book-repair'
@@ -266,6 +277,7 @@ export interface FileRouteTypes {
   id:
     | '__root__'
     | '/'
+    | '/360-viewer'
     | '/about'
     | '/accessories'
     | '/book-repair'
@@ -291,6 +303,7 @@ export interface FileRouteTypes {
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  R360ViewerRoute: typeof R360ViewerRoute
   AboutRoute: typeof AboutRoute
   AccessoriesRoute: typeof AccessoriesRouteWithChildren
   BookRepairRoute: typeof BookRepairRoute
@@ -315,6 +328,13 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/360-viewer': {
+      id: '/360-viewer'
+      path: '/360-viewer'
+      fullPath: '/360-viewer'
+      preLoaderRoute: typeof R360ViewerRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/about': {
@@ -527,6 +547,7 @@ const UsedRouteWithChildren = UsedRoute._addFileChildren(UsedRouteChildren)
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  R360ViewerRoute: R360ViewerRoute,
   AboutRoute: AboutRoute,
   AccessoriesRoute: AccessoriesRouteWithChildren,
   BookRepairRoute: BookRepairRoute,
