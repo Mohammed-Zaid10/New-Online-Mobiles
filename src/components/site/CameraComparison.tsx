@@ -1,10 +1,8 @@
-import React, { useState, useRef, useEffect, useCallback } from "react";
+import React, { useState, useRef, useCallback } from "react";
 import { 
   Camera, Sun, Moon, User, ZoomIn, Focus, Smile, Video, 
-  Sparkles, SlidersHorizontal, ArrowLeftRight, Check, Info, ShieldCheck, Zap
+  Sparkles, SlidersHorizontal, ArrowLeftRight, Check, Info, Eye
 } from "lucide-react";
-import { mobiles, type Mobile } from "@/data/mobiles";
-import { inr } from "@/lib/shop";
 
 export type CameraMode = "daylight" | "night" | "portrait" | "zoom" | "macro" | "selfie" | "video";
 
@@ -13,16 +11,60 @@ export interface CameraModeInfo {
   label: string;
   icon: React.ElementType;
   description: string;
+  // Unified single master photo scene for comparing both phones on the exact same image
+  masterImage: string;
 }
 
 export const CAMERA_MODES: CameraModeInfo[] = [
-  { id: "daylight", label: "Daylight", icon: Sun, description: "Dynamic range, color accuracy, and highlight control under direct sunlight." },
-  { id: "night", label: "Night", icon: Moon, description: "Low-light exposure, noise reduction, and dark detail preservation." },
-  { id: "portrait", label: "Portrait", icon: User, description: "Edge detection, realistic bokeh blur, and skin tone rendition." },
-  { id: "zoom", label: "Zoom (5x/10x)", icon: ZoomIn, description: "Telephoto clarity, optical sharpness, and text legibility at distance." },
-  { id: "macro", label: "Macro", icon: Focus, description: "Ultra close-up focus, texture detail, and minimum focal distance." },
-  { id: "selfie", label: "Selfie", icon: Smile, description: "Front camera detail, HDR exposure, and facial texture." },
-  { id: "video", label: "Video (4K/8K)", icon: Video, description: "OIS stabilization, frame rate stability, and dynamic range during motion." },
+  { 
+    id: "daylight", 
+    label: "Daylight", 
+    icon: Sun, 
+    description: "Compare highlight recovery, sky rendition, and dynamic range on the exact same sunlit scene.",
+    masterImage: "https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05?w=1600&q=90"
+  },
+  { 
+    id: "night", 
+    label: "Night", 
+    icon: Moon, 
+    description: "Compare dark noise handling, neon light flare control, and shadow illumination in pitch dark.",
+    masterImage: "https://images.unsplash.com/photo-1519501025264-65ba15a82390?w=1600&q=90"
+  },
+  { 
+    id: "portrait", 
+    label: "Portrait", 
+    icon: User, 
+    description: "Compare edge detection blur, skin tone warmth, and facial detail accuracy.",
+    masterImage: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=1600&q=90"
+  },
+  { 
+    id: "zoom", 
+    label: "Zoom (5x/10x)", 
+    icon: ZoomIn, 
+    description: "Compare distant text sharpness, periscope clarity, and optical edge compression.",
+    masterImage: "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=1600&q=90"
+  },
+  { 
+    id: "macro", 
+    label: "Macro", 
+    icon: Focus, 
+    description: "Compare micro-texture detail, leaf vein sharpness, and minimum focus distance.",
+    masterImage: "https://images.unsplash.com/photo-1550684848-fac1c5b4e853?w=1600&q=90"
+  },
+  { 
+    id: "selfie", 
+    label: "Selfie", 
+    icon: Smile, 
+    description: "Compare front camera skin texture, backlight control, and facial highlights.",
+    masterImage: "https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=1600&q=90"
+  },
+  { 
+    id: "video", 
+    label: "Video Still", 
+    icon: Video, 
+    description: "Compare frame stabilization, cinematic contrast, and video HDR tone mapping.",
+    masterImage: "https://images.unsplash.com/photo-1536240478700-b869070f9279?w=1600&q=90"
+  },
 ];
 
 export interface PhoneCameraProfile {
@@ -33,19 +75,17 @@ export interface PhoneCameraProfile {
   ultrawide: string;
   telephoto: string;
   frontCamera: string;
-  videoCaps: string;
-  aiEngine: string;
-  highlights: string[];
+  colorScience: string;
+  // Specific CSS filter transformation to model the phone's unique ISP color signature & contrast curves
+  filterStyle: string;
   samples: Record<CameraMode, {
-    image: string;
     score: number;
+    toneBadge: string;
     strengths: string[];
-    weaknesses: string[];
     summary: string;
   }>;
 }
 
-// Sample realistic camera comparison dataset for top flagship phones
 export const CAMERA_PROFILES: Record<string, PhoneCameraProfile> = {
   "iphone-16-pro-max": {
     id: "iphone-16-pro-max",
@@ -53,60 +93,52 @@ export const CAMERA_PROFILES: Record<string, PhoneCameraProfile> = {
     brand: "Apple",
     mainSensor: "48MP Fusion (f/1.78, 2nd Gen Sensor-Shift OIS)",
     ultrawide: "48MP Ultra Wide (f/2.2, Hybrid Focus Pixels)",
-    telephoto: "12MP 5x Tetraprism Telephoto (120mm, 3D OIS)",
-    frontCamera: "12MP TrueDepth (f/1.9, Autofocus)",
-    videoCaps: "4K Dolby Vision HDR at 120 fps, ProRes Log",
-    aiEngine: "Photographic Styles & Apple Intelligence ISP",
-    highlights: ["Industry-leading 4K 120fps Dolby Vision", "Zero shutter lag & precise natural skin tones", "48MP Macro detail with autofocus"],
+    telephoto: "12MP 5x Tetraprism (120mm, 3D OIS)",
+    frontCamera: "12MP TrueDepth AF (f/1.9)",
+    colorScience: "Natural Warm / Photographic Styles ISP",
+    filterStyle: "contrast(1.02) saturate(1.05) sepia(0.04) brightness(1.01)",
     samples: {
       daylight: {
-        image: "https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05?w=1400&q=85",
         score: 96,
-        strengths: ["True-to-life color calibration", "Phenomenal highlight recovery in bright skies", "Zero edge distortion"],
-        weaknesses: ["Slightly conservative saturation"],
-        summary: "The iPhone 16 Pro Max produces exceptionally realistic daylight imagery with subtle shadows and natural skin tones, avoiding harsh over-sharpening."
+        toneBadge: "Natural Warmth & Soft Sky Highlights",
+        strengths: ["True-to-life color calibration", "Subtle highlight roll-off without harsh clipping", "Natural shadow gradations"],
+        summary: "Photonic Engine applies minimal artificial saturation, giving photos an organic, camera-like warmth with smooth highlight roll-off."
       },
       night: {
-        image: "https://images.unsplash.com/photo-1519501025264-65ba15a82390?w=1400&q=85",
         score: 94,
-        strengths: ["Instant night mode capture (1-2s)", "Minimal lens flare flare-reduction coating", "Deep shadow contrast"],
-        weaknesses: ["Occasional warm color cast on streetlights"],
-        summary: "Photonic Engine maintains realistic dark skies without artificial brightened noise, preserving genuine nighttime atmosphere."
+        toneBadge: "Authentic Night Contrast & Reduced Lens Flare",
+        strengths: ["Instant night mode capture", "Anti-reflective lens coating eliminates ghosting", "Preserves deep natural darkness"],
+        summary: "Night mode keeps dark skies genuinely dark rather than turning night scenes into artificial daytime."
       },
       portrait: {
-        image: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=1400&q=85",
         score: 97,
-        strengths: ["Flawless hair strand edge isolation", "Adjustable focal point after shot", "Warm natural skin tones"],
-        weaknesses: ["Background blur can occasionally feel aggressive at f/1.4 default"],
-        summary: "Best-in-class depth mapping with realistic optical drop-off that mimics a full-frame 85mm prime lens."
+        toneBadge: "Warm Realistic Skin Tones & Hair Detail",
+        strengths: ["Flawless hair edge segmentation", "Natural skin warm tones", "Optical f/1.4 depth drop-off"],
+        summary: "Delivers portrait studio lighting with accurate depth mapping and realistic bokeh transition around subtle hair strands."
       },
       zoom: {
-        image: "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=1400&q=85",
         score: 92,
-        strengths: ["5x optical sharpness is crisp", "3D sensor-shift stabilization keeps 25x zoom steady", "Color match across lenses"],
-        weaknesses: ["Beyond 15x digital crop loses fine detail compared to 200MP periscopes"],
-        summary: "The 120mm tetraprism optic provides clean, noise-free shots up to 10x hybrid zoom with identical color temperature to the main lens."
+        toneBadge: "Clean 5x Optical Sharpness",
+        strengths: ["Zero noise up to 10x hybrid zoom", "Color matches main sensor exactly", "3D sensor-shift stabilization"],
+        summary: "120mm tetraprism lens retains exact color temperature and shadow detail matching the main 48MP camera."
       },
       macro: {
-        image: "https://images.unsplash.com/photo-1550684848-fac1c5b4e853?w=1400&q=85",
         score: 95,
-        strengths: ["48MP sensor crop yields staggering detail", "2cm focus distance", "Automatic macro auto-switch"],
-        weaknesses: ["Requires good lighting for 48MP full sharpness"],
-        summary: "The new 48MP ultra-wide sensor renders minute textures like leaf veins and water droplets with zero fringe blur."
+        toneBadge: "48MP Ultra-Wide Fine Detail",
+        strengths: ["Subtle micro-textures", "Natural color spectrum", "Autofocus subject tracking"],
+        summary: "The 48MP ultra-wide sensor renders minute details like water droplets and leaf veins without edge halos."
       },
       selfie: {
-        image: "https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=1400&q=85",
         score: 95,
-        strengths: ["Autofocus keeps face sharp at any arm length", "4K 60fps front video with HDR", "Natural texture without skin smoothing"],
-        weaknesses: ["Reveals skin imperfections candidly"],
-        summary: "TrueDepth front camera offers accurate depth detection, realistic skin rendering, and sharp focus from close-up to selfie stick distances."
+        toneBadge: "TrueDepth Realistic Texture",
+        strengths: ["Autofocus at any distance", "No skin smoothing filters", "Accurate facial geometry"],
+        summary: "Captures natural skin texture, freckles, and pore detail without aggressive cosmetic smoothing."
       },
       video: {
-        image: "https://images.unsplash.com/photo-1536240478700-b869070f9279?w=1400&q=85",
         score: 99,
-        strengths: ["4K 120fps Dolby Vision continuous recording", "Studio-quality 4-mic Spatial Audio setup", "Action Mode gimbal-grade stabilization"],
-        weaknesses: ["ProRes files consume heavy storage space"],
-        summary: "Undisputed champion in mobile video. Dynamic range in 4K 120fps HDR is unrivaled with cinema-ready color grading."
+        toneBadge: "4K 120fps Dolby Vision HDR",
+        strengths: ["Industry-leading stabilization", "Smooth exposure transitions", "ProRes Log color flexibility"],
+        summary: "Undisputed benchmark for video with cinema-grade dynamic range, 4K 120fps HDR, and rock-solid OIS."
       }
     }
   },
@@ -116,60 +148,52 @@ export const CAMERA_PROFILES: Record<string, PhoneCameraProfile> = {
     brand: "Samsung",
     mainSensor: "200MP ISOCELL HP2 (f/1.7, OIS)",
     ultrawide: "50MP Ultra Wide (f/1.9, 120° FOV)",
-    telephoto: "50MP 5x Periscope (f/3.4, OIS) + 10MP 3x Telephoto",
+    telephoto: "50MP 5x Periscope + 10MP 3x Telephoto",
     frontCamera: "12MP High-Speed AF (f/2.2)",
-    videoCaps: "8K at 30 fps, 4K at 120 fps, 10-bit HDR10+",
-    aiEngine: "ProVisual Engine & Galaxy AI Detail Enhancer",
-    highlights: ["200MP detail crop capability", "100x Space Zoom with AI super resolution", "Dual telephoto optics (3x & 5x)"],
+    colorScience: "Vibrant Punch / ProVisual Engine",
+    filterStyle: "contrast(1.12) saturate(1.24) brightness(1.04) hue-rotate(-2deg)",
     samples: {
       daylight: {
-        image: "https://images.unsplash.com/photo-1506744038136-46273834b3fb?w=1400&q=85",
         score: 95,
-        strengths: ["Vibrant contrast & punchy greens/blues", "Massive 200MP resolution mode", "Exceptional landscape sharpness"],
-        weaknesses: ["Can slightly over-sharpen fine foliage"],
-        summary: "Produces striking, Instagram-ready daylight photos with bright exposures and incredibly detailed landscape textures."
+        toneBadge: "Vibrant Colors & High Saturation",
+        strengths: ["Vibrant punchy greens and sky blues", "200MP detail crop resolution", "Ultra-sharp fine foliage"],
+        summary: "ProVisual Engine enhances blues and greens, producing punchy, vibrant daylight photos with sharp detail."
       },
       night: {
-        image: "https://images.unsplash.com/photo-1509198397868-475647b2a1e5?w=1400&q=85",
         score: 96,
-        strengths: ["Brightest low-light shots with 16-in-1 binning", "Nightography AI preserves shadow details", "Ultra-wide handles night lighting well"],
-        weaknesses: ["Takes 2-3s longer to process AI noise reduction"],
-        summary: "Turns pitch dark scenes into clear, illuminated photos with crisp highlights and impressive noise reduction."
+        toneBadge: "Bright Nightography & Shadow Boost",
+        strengths: ["16-in-1 pixel binning yields bright low light", "Multi-frame AI noise reduction", "Brightened shadow areas"],
+        summary: "Nightography turns dark scenes visibly brighter, illuminating hidden shadow details in dim environments."
       },
       portrait: {
-        image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=1400&q=85",
         score: 94,
-        strengths: ["Dedicated 3x and 5x optical portrait angles", "Rich background separation", "ProVisual AI smooths lighting"],
-        weaknesses: ["Skin tones lean slightly warmer/yellow"],
-        summary: "Dual telephoto lenses offer versatile 70mm and 115mm portrait compression, perfect for headshots and full-body portraits."
+        toneBadge: "Vivid Portrait Compression (3x & 5x)",
+        strengths: ["Dual telephoto 70mm & 115mm angles", "Rich contrast subject pop", "Smooth background blur"],
+        summary: "Offers versatile 3x and 5x optical focal lengths for compressed background portrait shots with punchy contrast."
       },
       zoom: {
-        image: "https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?w=1400&q=85",
         score: 98,
-        strengths: ["50MP 5x periscope maintains optical clarity to 10x", "100x Space Zoom AI zoom lock", "Superior distant text reading"],
-        weaknesses: ["100x requires stable hands or tripod"],
-        summary: "The undisputed king of zoom distance. 10x to 30x digital zoom remains remarkably clear thanks to multi-frame AI fusion."
+        toneBadge: "100x Space Zoom & AI Detail Reconstruction",
+        strengths: ["50MP 5x periscope clarity", "AI text enhancement at 30x+", "Zoom lock stabilization"],
+        summary: "The periscope optic combined with AI resolution reconstruction provides superior distant text reading beyond 10x."
       },
       macro: {
-        image: "https://images.unsplash.com/photo-1518709268805-4e9042af9f23?w=1400&q=85",
         score: 93,
-        strengths: ["50MP ultra-wide captures intricate texture", "Wide depth of field", "Vibrant macro colors"],
-        weaknesses: ["Requires manually holding distance at 2.5cm"],
-        summary: "Ultra-wide auto-focus creates ultra-crisp close-ups with vivid colors and sharp detail across the frame."
+        toneBadge: "High-Contrast 50MP Macro",
+        strengths: ["Vibrant macro color pop", "Edge-to-edge sharpness", "Ultra-wide macro auto-switch"],
+        summary: "Macro mode accentuates micro contrast and color saturation for eye-popping close-ups."
       },
       selfie: {
-        image: "https://images.unsplash.com/photo-1524504388940-b1c1722653e1?w=1400&q=85",
         score: 93,
-        strengths: ["Dual-pixel AF for quick subject lock", "Warm flattering skin tone option", "4K 60fps video"],
-        weaknesses: ["Slightly softer hair edge separation"],
-        summary: "Delivers bright, flattering selfies with custom color tone filters (Warm or Natural) and rapid auto-focus."
+        toneBadge: "Bright Flattering Selfie Tone",
+        strengths: ["Dual-pixel fast autofocus", "Flattering warm lighting", "Clear 4K front video"],
+        summary: "Renders bright, polished selfies with slight skin smoothing and vivid facial highlights."
       },
       video: {
-        image: "https://images.unsplash.com/photo-1492691527719-9d1e07e534b4?w=1400&q=85",
         score: 95,
-        strengths: ["8K 30fps high-resolution recording", "Super Steady OIS mode", "HDR10+ vivid colors"],
-        weaknesses: ["Slight low-light noise in 8K mode"],
-        summary: "Offers versatile 8K capture and rock-solid stabilization with Super Steady mode for action dynamic shots."
+        toneBadge: "8K 30fps & Super Steady OIS",
+        strengths: ["8K ultra high resolution mode", "Super Steady video mode", "Vivid HDR10+ color"],
+        summary: "Records 8K high-detail video and uses Super Steady OIS to eliminate camera shake during movement."
       }
     }
   },
@@ -179,60 +203,52 @@ export const CAMERA_PROFILES: Record<string, PhoneCameraProfile> = {
     brand: "Google",
     mainSensor: "50MP Octa PD (f/1.68, OIS)",
     ultrawide: "48MP Quad PD (f/1.7, 123° FOV)",
-    telephoto: "48MP Quad PD 5x Telephoto (f/2.8, OIS)",
-    frontCamera: "42MP Dual PD (f/2.2, Autofocus)",
-    videoCaps: "8K Video Boost AI, 4K at 60 fps Night Sight Video",
-    aiEngine: "Tensor G4 ISP & Cloud Video Boost AI",
-    highlights: ["Cloud-powered Video Boost with Night Sight", "HDR+ computational photography algorithm", "Best skin tone accuracy (Real Tone)"],
+    telephoto: "48MP 5x Telephoto (f/2.8, OIS)",
+    frontCamera: "42MP Dual PD Ultra-Wide (f/2.2)",
+    colorScience: "Real Tone / Cool HDR+ Algorithm",
+    filterStyle: "contrast(1.14) saturate(0.98) brightness(1.05) hue-rotate(3deg)",
     samples: {
       daylight: {
-        image: "https://images.unsplash.com/photo-1472214103451-9374bd1c798e?w=1400&q=85",
         score: 97,
-        strengths: ["Unmatched contrast & shadow detail", "Real Tone skin accuracy", "Zero blown-out highlights"],
-        weaknesses: ["Cooler white balance signature"],
-        summary: "Google's legendary HDR+ algorithm balances harsh sunlight and deep shadows better than any smartphone camera."
+        toneBadge: "Cool Crisp Tones & Lifted HDR Shadows",
+        strengths: ["HDR+ lifts shadow detail cleanly", "Cooler accurate white balance", "Real Tone skin accuracy"],
+        summary: "Google's computational HDR+ lifts dark shadow areas while maintaining cool, accurate sky tones."
       },
       night: {
-        image: "https://images.unsplash.com/photo-1509198397868-475647b2a1e5?w=1400&q=85",
         score: 98,
-        strengths: ["Night Sight with Astrophotography mode", "Cleanest dark sky noise handling", "Accurate neon sign exposure"],
-        weaknesses: ["Processing takes 3-4s per shot"],
-        summary: "Night Sight renders night scenes with stunning clarity, pinpoint star capture in Astrophotography, and zero noise artifacts."
+        toneBadge: "Astrophotography & Clean Night Sight",
+        strengths: ["Astrophotography star pinpoint capture", "Cleanest night sky noise handling", "No blown-out neon light flares"],
+        summary: "Night Sight balances neon signs and pitch dark skies with minimal noise and pinpoint astrophotography."
       },
       portrait: {
-        image: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=1400&q=85",
         score: 96,
-        strengths: ["Real Tone accurately captures all skin tones", "Natural segmentation blur", "42MP front selfie portrait mode"],
-        weaknesses: ["Less control over manual aperture simulation"],
-        summary: "Real Tone guarantees authentic skin colors for every complexion, paired with soft, convincing bokeh."
+        toneBadge: "Real Tone & Precise Segmentation",
+        strengths: ["Authentic skin tones for all complexions", "Natural optical bokeh blur", "42MP front portrait detail"],
+        summary: "Real Tone technology preserves genuine skin shades with realistic micro-contrast and accurate edge separation."
       },
       zoom: {
-        image: "https://images.unsplash.com/photo-1519681393784-d120267933ba?w=1400&q=85",
         score: 94,
-        strengths: ["Super Res Zoom 30x with AI reconstruction", "48MP 5x optical telephoto detail", "High contrast at distance"],
-        weaknesses: ["30x digital zoom can look painterly in low light"],
-        summary: "Super Res Zoom uses AI diffusion models to recreate crisp text and fine geometry up to 30x magnification."
+        toneBadge: "Super Res Zoom AI Processing",
+        strengths: ["Super Res Zoom AI 30x", "Clean high-contrast text", "Color consistency with main lens"],
+        summary: "Super Res Zoom leverages AI diffusion algorithms to reconstruct sharp geometric edges at high digital zoom."
       },
       macro: {
-        image: "https://images.unsplash.com/photo-1501004318641-b39e6451bec6?w=1400&q=85",
         score: 94,
-        strengths: ["48MP ultra-wide close focus at 2cm", "Sharp edge-to-edge detail", "Natural lighting correction"],
-        weaknesses: ["Requires steady hands for extreme closeups"],
-        summary: "Macro Focus snaps precise micro details, from insect wings to fabric weaves with zero distortion."
+        toneBadge: "Macro Focus Sharp Edge Contrast",
+        strengths: ["Close 2cm focus distance", "Sharp micro contrast", "Clean white balance"],
+        summary: "Captures crisp micro textures with high contrast and neutral white balance."
       },
       selfie: {
-        image: "https://images.unsplash.com/photo-1517841905240-472988babdf9?w=1400&q=85",
         score: 96,
-        strengths: ["42MP high-res front sensor with 103° ultra-wide field", "Autofocus with Real Tone", "Sharp group selfie focus"],
-        weaknesses: ["Strong contrast can emphasize shadows around eyes"],
-        summary: "Massive 42MP front camera with ultra-wide angle captures detailed group selfies with true skin tones."
+        toneBadge: "42MP Ultra-Wide Group Selfie",
+        strengths: ["103° wide field of view", "High 42MP facial detail", "Real Tone accurate skin color"],
+        summary: "42MP front camera with ultra-wide angle captures detailed group selfies with accurate skin tones."
       },
       video: {
-        image: "https://images.unsplash.com/photo-1518173946687-a4c8a383392e?w=1400&q=85",
         score: 94,
-        strengths: ["Video Boost upgrades footage to 8K in cloud", "Night Sight Video removes grain in darkness", "Audio Magic Eraser"],
-        weaknesses: ["Video Boost requires cloud upload time"],
-        summary: "Video Boost uses Google server-side AI processing to enhance exposure, dynamic range, and stabilization after shooting."
+        toneBadge: "Cloud Video Boost & Night Sight Video",
+        strengths: ["Video Boost 8K AI enhancement", "Night Sight video noise removal", "Audio Magic Eraser"],
+        summary: "Cloud Video Boost enhances low-light footage and dynamic range with server-side AI processing."
       }
     }
   },
@@ -242,60 +258,52 @@ export const CAMERA_PROFILES: Record<string, PhoneCameraProfile> = {
     brand: "Vivo",
     mainSensor: "50MP 1-inch Sony IMX989 (f/1.75, OIS)",
     ultrawide: "50MP Ultra Wide (f/2.0, 119° FOV)",
-    telephoto: "50MP ZEISS APO Floating Periscope (f/2.5, OIS)",
+    telephoto: "50MP ZEISS APO Periscope (f/2.5, OIS)",
     frontCamera: "32MP HD Selfie (f/2.0)",
-    videoCaps: "4K Cinematic Portrait Video at 60 fps",
-    aiEngine: "ZEISS T* Coating & V3 Imaging Chip",
-    highlights: ["Massive 1-inch Sony main sensor", "ZEISS APO Floating Telephoto macro", "ZEISS Style Bokeh simulations"],
+    colorScience: "ZEISS Natural Color & V3 Imaging Chip",
+    filterStyle: "contrast(1.18) saturate(1.10) brightness(0.98) sepia(0.02)",
     samples: {
       daylight: {
-        image: "https://images.unsplash.com/photo-1506744038136-46273834b3fb?w=1400&q=85",
         score: 96,
-        strengths: ["1-inch sensor optical background blur", "ZEISS Natural Color mode", "Zero flare with T* coating"],
-        weaknesses: ["Default mode can be punchy"],
-        summary: "The 1-inch Sony sensor provides genuine optical depth-of-field and rich dynamic range even without AI tricks."
+        toneBadge: "ZEISS 1-Inch Sensor Optical Depth",
+        strengths: ["Genuine 1-inch optical depth of field", "ZEISS T* anti-glare coating", "Rich cinematic contrast"],
+        summary: "The 1-inch Sony sensor provides natural optical background blur and rich cinematic contrast."
       },
       night: {
-        image: "https://images.unsplash.com/photo-1519501025264-65ba15a82390?w=1400&q=85",
         score: 97,
-        strengths: ["1-inch sensor collects maximum light", "ZEISS T* anti-glare coating", "Rich shadow gradations"],
-        weaknesses: ["Night processing can brighten dark alleys heavily"],
-        summary: "Exceptional light gathering capability thanks to the massive 1-inch main sensor and custom V3 imaging chip."
+        toneBadge: "1-Inch Light Gathering & ZEISS T* Anti-Flare",
+        strengths: ["Massive 1-inch light gathering", "Zero streetlight lens flare", "V3 ISP noise reduction"],
+        summary: "1-inch hardware sensor combined with ZEISS T* anti-reflection coating yields flare-free, ultra-clean night photos."
       },
       portrait: {
-        image: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=1400&q=85",
         score: 98,
-        strengths: ["Classic ZEISS Bokeh styles (Biotar, Sonnar, Planar)", "APO 100mm portrait focal length", "Silky smooth skin tones"],
-        weaknesses: ["Lots of filter choices can feel overwhelming"],
-        summary: "Widely regarded as the ultimate portrait smartphone camera, replicating iconic legendary ZEISS camera lenses."
+        toneBadge: "ZEISS Classic Lens Bokeh Styles",
+        strengths: ["Iconic ZEISS Bokeh (Biotar, Sonnar, Planar)", "100mm portrait compression", "Silky smooth skin rendering"],
+        summary: "Simulates iconic ZEISS anamorphic and prime lenses with silky bokeh and flattering portrait compression."
       },
       zoom: {
-        image: "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=1400&q=85",
         score: 95,
-        strengths: ["ZEISS APO certified telephoto optics", "Sunset mode tele-photo enhancement", "100x digital clarity"],
-        weaknesses: ["Slight color shift between main and telephoto"],
-        summary: "Floating periscope optics deliver aberration-free 4.3x optical zoom with unmatched color purity."
+        toneBadge: "ZEISS APO Floating Telephoto",
+        strengths: ["Apochromatic color-fringe correction", "Sunset telephoto mode", "Crisp 4.3x to 10x optical clarity"],
+        summary: "APO certified floating telephoto optics correct chromatic aberration for pure, color-accurate zoom shots."
       },
       macro: {
-        image: "https://images.unsplash.com/photo-1550684848-fac1c5b4e853?w=1400&q=85",
         score: 97,
-        strengths: ["Telephoto macro at 100mm equivalent", "Extreme 100x microscopic focus", "Zero distortion"],
-        weaknesses: ["Requires standing 15cm back"],
-        summary: "Unique telephoto macro lets you photograph insects and small textures from a comfortable distance without casting shadows."
+        toneBadge: "Telephoto 100mm Micro Macro",
+        strengths: ["100mm telephoto macro from 15cm distance", "Zero perspective distortion", "Extreme magnification"],
+        summary: "Telephoto macro lets you capture tiny details from a distance without blocking light or casting phone shadows."
       },
       selfie: {
-        image: "https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=1400&q=85",
         score: 91,
-        strengths: ["High 32MP detail", "Smooth beauty mode customization", "Good backlight compensation"],
-        weaknesses: ["Fixed focus front camera"],
-        summary: "Delivers crisp, flattering selfies with customizable ZEISS soft focus and skin refinement modes."
+        toneBadge: "ZEISS Soft Portrait Glow",
+        strengths: ["32MP facial detail", "Flattering portrait lighting", "Custom beauty refinement"],
+        summary: "Renders crisp selfies with customizable ZEISS portrait lighting styles."
       },
       video: {
-        image: "https://images.unsplash.com/photo-1536240478700-b869070f9279?w=1400&q=85",
         score: 93,
-        strengths: ["4K 60fps ZEISS Cinematic Portrait video", "Custom V3 chip real-time blur", "Good night video clarity"],
-        weaknesses: ["Stabilization at 4K 60fps is slightly below iPhone"],
-        summary: "4K Cinematic Portrait video adds cinema-style rack focus and lens flare effects in real time."
+        toneBadge: "4K ZEISS Cinematic Portrait Video",
+        strengths: ["Real-time 4K cinematic rack focus", "V3 imaging chip processing", "Low light video clarity"],
+        summary: "4K Cinematic Portrait video adds cinema-style rack focus and lens blur in real time."
       }
     }
   }
@@ -345,27 +353,25 @@ export function CameraComparison() {
 
   return (
     <div className="w-full space-y-8">
-      {/* Header & Controls */}
+      {/* Header & Phone Selection Controls */}
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 bg-card/80 p-6 rounded-3xl border border-border/70 shadow-luxe backdrop-blur-md">
         <div>
           <div className="flex items-center gap-2 text-primary font-bold text-xs uppercase tracking-wider mb-1">
-            <Camera className="h-4 w-4" /> Interactive Camera Simulator
+            <Camera className="h-4 w-4" /> Real-Time Image Quality Comparison
           </div>
-          <h2 className="font-display text-2xl font-bold text-foreground">Side-by-Side Camera Test</h2>
-          <p className="text-sm text-muted-foreground mt-1">Drag the slider to compare real photo quality across daylight, night, zoom, macro, and video specs.</p>
+          <h2 className="font-display text-2xl font-bold text-foreground">Same Photo · ISP Color & Quality Test</h2>
+          <p className="text-sm text-muted-foreground mt-1">Drag the slider across the <strong>exact same test scene</strong> to reveal color science, shadow lift, contrast, and sharpening differences between Phone A and Phone B.</p>
         </div>
 
         {/* Phone Selectors */}
         <div className="flex flex-wrap items-center gap-3">
           <div className="space-y-1">
-            <label className="text-xs font-semibold text-muted-foreground block">Phone A (Left)</label>
+            <label className="text-xs font-semibold text-muted-foreground block">Phone A (Left Side)</label>
             <select
               value={phoneAId}
               onChange={(e) => {
                 const val = e.target.value;
-                if (val === phoneBId) {
-                  setPhoneBId(phoneAId);
-                }
+                if (val === phoneBId) setPhoneBId(phoneAId);
                 setPhoneAId(val);
               }}
               className="bg-background border border-border/80 rounded-xl px-3 py-2 text-sm font-semibold text-foreground shadow-sm focus:outline-none focus:ring-2 focus:ring-primary"
@@ -381,14 +387,12 @@ export function CameraComparison() {
           </div>
 
           <div className="space-y-1">
-            <label className="text-xs font-semibold text-muted-foreground block">Phone B (Right)</label>
+            <label className="text-xs font-semibold text-muted-foreground block">Phone B (Right Side)</label>
             <select
               value={phoneBId}
               onChange={(e) => {
                 const val = e.target.value;
-                if (val === phoneAId) {
-                  setPhoneAId(phoneBId);
-                }
+                if (val === phoneAId) setPhoneAId(phoneBId);
                 setPhoneBId(val);
               }}
               className="bg-background border border-border/80 rounded-xl px-3 py-2 text-sm font-semibold text-foreground shadow-sm focus:outline-none focus:ring-2 focus:ring-primary"
@@ -424,14 +428,19 @@ export function CameraComparison() {
       </div>
 
       {/* Mode Description Banner */}
-      <div className="bg-primary/5 border border-primary/20 rounded-2xl p-4 flex items-center gap-3">
-        <Info className="h-5 w-5 text-primary flex-shrink-0" />
-        <p className="text-xs text-foreground/80 font-medium">
-          <strong className="text-primary font-bold">{activeModeObj.label} Mode Test:</strong> {activeModeObj.description}
-        </p>
+      <div className="bg-primary/5 border border-primary/20 rounded-2xl p-4 flex items-center justify-between gap-3">
+        <div className="flex items-center gap-3">
+          <Info className="h-5 w-5 text-primary flex-shrink-0" />
+          <p className="text-xs text-foreground/80 font-medium">
+            <strong className="text-primary font-bold">{activeModeObj.label} Scene:</strong> {activeModeObj.description}
+          </p>
+        </div>
+        <div className="hidden sm:flex items-center gap-1.5 text-xs text-muted-foreground bg-background/80 px-3 py-1 rounded-full border border-border/50">
+          <Eye className="h-3.5 w-3.5 text-primary" /> Single Unified Test Photo
+        </div>
       </div>
 
-      {/* Split Screen Slider Stage */}
+      {/* Split Screen Slider Stage (Using SAME Master Scene Image with Phone Filter Tuning) */}
       <div
         ref={containerRef}
         onPointerDown={handlePointerDown}
@@ -440,40 +449,52 @@ export function CameraComparison() {
         onPointerLeave={handlePointerUp}
         className="relative w-full h-[380px] sm:h-[480px] md:h-[550px] rounded-3xl overflow-hidden shadow-2xl border border-border/70 select-none cursor-ew-resize touch-none"
       >
-        {/* Phone B Image (Background / Right Side) */}
-        <div className="absolute inset-0 w-full h-full">
+        {/* Phone B (Right Side - Exact Same Master Image with Phone B Filter Profile) */}
+        <div className="absolute inset-0 w-full h-full bg-black">
           <img
-            src={sampleB.image}
+            src={activeModeObj.masterImage}
             alt={`${phoneB.name} ${activeModeObj.label}`}
-            className="w-full h-full object-cover transition-transform duration-300"
+            className="w-full h-full object-cover transition-all duration-300"
+            style={{ filter: phoneB.filterStyle }}
           />
           {/* Label Right */}
-          <div className="absolute top-4 right-4 z-10 flex items-center gap-2 bg-black/75 backdrop-blur-md px-3.5 py-1.5 rounded-full border border-white/20 text-white text-xs font-bold shadow-lg">
-            <span>{phoneB.name}</span>
-            <span className="bg-primary px-2 py-0.5 rounded-full text-[10px] font-black">{sampleB.score}%</span>
+          <div className="absolute top-4 right-4 z-10 flex flex-col items-end gap-1">
+            <div className="flex items-center gap-2 bg-black/80 backdrop-blur-md px-3.5 py-1.5 rounded-full border border-white/20 text-white text-xs font-bold shadow-lg">
+              <span>{phoneB.name}</span>
+              <span className="bg-primary px-2 py-0.5 rounded-full text-[10px] font-black">{sampleB.score}%</span>
+            </div>
+            <span className="text-[10px] font-semibold bg-white/90 text-black px-2.5 py-0.5 rounded-full shadow-sm backdrop-blur">
+              {sampleB.toneBadge}
+            </span>
           </div>
         </div>
 
-        {/* Phone A Image (Foreground / Left Side with Clip Path) */}
+        {/* Phone A (Left Side - Exact Same Master Image with Phone A Filter Profile & Clipped) */}
         <div
-          className="absolute inset-0 w-full h-full overflow-hidden"
+          className="absolute inset-0 w-full h-full overflow-hidden bg-black"
           style={{ clipPath: `polygon(0 0, ${sliderPosition}% 0, ${sliderPosition}% 100%, 0 100%)` }}
         >
           <img
-            src={sampleA.image}
+            src={activeModeObj.masterImage}
             alt={`${phoneA.name} ${activeModeObj.label}`}
-            className="w-full h-full object-cover transition-transform duration-300"
+            className="w-full h-full object-cover transition-all duration-300"
+            style={{ filter: phoneA.filterStyle }}
           />
           {/* Label Left */}
-          <div className="absolute top-4 left-4 z-10 flex items-center gap-2 bg-black/75 backdrop-blur-md px-3.5 py-1.5 rounded-full border border-white/20 text-white text-xs font-bold shadow-lg">
-            <span>{phoneA.name}</span>
-            <span className="bg-primary px-2 py-0.5 rounded-full text-[10px] font-black">{sampleA.score}%</span>
+          <div className="absolute top-4 left-4 z-10 flex flex-col items-start gap-1">
+            <div className="flex items-center gap-2 bg-black/80 backdrop-blur-md px-3.5 py-1.5 rounded-full border border-white/20 text-white text-xs font-bold shadow-lg">
+              <span>{phoneA.name}</span>
+              <span className="bg-primary px-2 py-0.5 rounded-full text-[10px] font-black">{sampleA.score}%</span>
+            </div>
+            <span className="text-[10px] font-semibold bg-white/90 text-black px-2.5 py-0.5 rounded-full shadow-sm backdrop-blur">
+              {sampleA.toneBadge}
+            </span>
           </div>
         </div>
 
         {/* Slider Handle Divider Line */}
         <div
-          className="absolute top-0 bottom-0 w-1 bg-white shadow-[0_0_15px_rgba(0,0,0,0.5)] z-20 pointer-events-none"
+          className="absolute top-0 bottom-0 w-1 bg-white shadow-[0_0_15px_rgba(0,0,0,0.6)] z-20 pointer-events-none"
           style={{ left: `${sliderPosition}%` }}
         >
           <div className="absolute top-1/2 -translate-y-1/2 -translate-x-1/2 h-11 w-11 rounded-full bg-white text-black shadow-2xl flex items-center justify-center border-2 border-primary">
@@ -482,19 +503,20 @@ export function CameraComparison() {
         </div>
 
         {/* Drag Hint Footer Overlay */}
-        <div className="absolute bottom-4 left-1/2 -translate-x-1/2 z-10 bg-black/60 backdrop-blur-md text-white/90 px-4 py-1.5 rounded-full text-xs font-medium border border-white/10 pointer-events-none">
-          Drag left/right to compare details
+        <div className="absolute bottom-4 left-1/2 -translate-x-1/2 z-10 bg-black/70 backdrop-blur-md text-white/90 px-4 py-1.5 rounded-full text-xs font-medium border border-white/15 pointer-events-none shadow-md">
+          Drag slider to compare photo color & quality tuning
         </div>
       </div>
 
-      {/* AI Camera Analysis & Specs Grid */}
+      {/* Camera Tuning & Specs Grid */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        {/* Phone A Camera Card */}
+        {/* Phone A Camera Profile Card */}
         <div className="bg-card border border-border/70 rounded-3xl p-6 space-y-4 shadow-sm hover:shadow-md transition-shadow">
           <div className="flex items-center justify-between border-b border-border/50 pb-4">
             <div>
-              <span className="text-xs font-bold uppercase tracking-wider text-primary">{phoneA.brand}</span>
+              <span className="text-xs font-bold uppercase tracking-wider text-primary">{phoneA.brand} Color Profile</span>
               <h3 className="text-xl font-bold text-foreground">{phoneA.name}</h3>
+              <span className="text-xs font-medium text-muted-foreground">{phoneA.colorScience}</span>
             </div>
             <div className="text-right">
               <span className="text-xs text-muted-foreground block">Mode Score</span>
@@ -525,12 +547,12 @@ export function CameraComparison() {
           {/* Mode Specific Analysis */}
           <div className="bg-muted/40 rounded-2xl p-4 space-y-3 border border-border/40">
             <div className="flex items-center gap-2 text-xs font-bold text-foreground">
-              <Sparkles className="h-4 w-4 text-primary" /> {activeModeObj.label} Performance Analysis
+              <Sparkles className="h-4 w-4 text-primary" /> {activeModeObj.label} Tuning Characteristic
             </div>
             <p className="text-xs text-muted-foreground leading-relaxed">{sampleA.summary}</p>
             
             <div className="space-y-1.5 pt-1">
-              <span className="text-[11px] font-bold text-foreground uppercase tracking-wider block">Strengths:</span>
+              <span className="text-[11px] font-bold text-foreground uppercase tracking-wider block">Key Highlights:</span>
               {sampleA.strengths.map((str, idx) => (
                 <div key={idx} className="flex items-center gap-2 text-xs text-foreground/90">
                   <Check className="h-3.5 w-3.5 text-emerald-500 flex-shrink-0" />
@@ -541,12 +563,13 @@ export function CameraComparison() {
           </div>
         </div>
 
-        {/* Phone B Camera Card */}
+        {/* Phone B Camera Profile Card */}
         <div className="bg-card border border-border/70 rounded-3xl p-6 space-y-4 shadow-sm hover:shadow-md transition-shadow">
           <div className="flex items-center justify-between border-b border-border/50 pb-4">
             <div>
-              <span className="text-xs font-bold uppercase tracking-wider text-primary">{phoneB.brand}</span>
+              <span className="text-xs font-bold uppercase tracking-wider text-primary">{phoneB.brand} Color Profile</span>
               <h3 className="text-xl font-bold text-foreground">{phoneB.name}</h3>
+              <span className="text-xs font-medium text-muted-foreground">{phoneB.colorScience}</span>
             </div>
             <div className="text-right">
               <span className="text-xs text-muted-foreground block">Mode Score</span>
@@ -577,12 +600,12 @@ export function CameraComparison() {
           {/* Mode Specific Analysis */}
           <div className="bg-muted/40 rounded-2xl p-4 space-y-3 border border-border/40">
             <div className="flex items-center gap-2 text-xs font-bold text-foreground">
-              <Sparkles className="h-4 w-4 text-primary" /> {activeModeObj.label} Performance Analysis
+              <Sparkles className="h-4 w-4 text-primary" /> {activeModeObj.label} Tuning Characteristic
             </div>
             <p className="text-xs text-muted-foreground leading-relaxed">{sampleB.summary}</p>
             
             <div className="space-y-1.5 pt-1">
-              <span className="text-[11px] font-bold text-foreground uppercase tracking-wider block">Strengths:</span>
+              <span className="text-[11px] font-bold text-foreground uppercase tracking-wider block">Key Highlights:</span>
               {sampleB.strengths.map((str, idx) => (
                 <div key={idx} className="flex items-center gap-2 text-xs text-foreground/90">
                   <Check className="h-3.5 w-3.5 text-emerald-500 flex-shrink-0" />
@@ -601,23 +624,18 @@ export function CameraComparison() {
             <Sparkles className="h-5 w-5" />
           </div>
           <div>
-            <span className="text-xs font-bold uppercase tracking-wider text-primary">AI Camera Verdict</span>
-            <h4 className="text-lg font-bold text-foreground">Which phone takes better {activeModeObj.label.toLowerCase()} photos?</h4>
+            <span className="text-xs font-bold uppercase tracking-wider text-primary">ISP Quality Comparison Summary</span>
+            <h4 className="text-lg font-bold text-foreground">Understanding the Photo Difference on {activeModeObj.label}</h4>
           </div>
         </div>
         <p className="text-sm text-foreground/80 leading-relaxed pt-1">
+          When comparing the exact same photo, <strong>{phoneA.name}</strong> renders with a <em>{sampleA.toneBadge.toLowerCase()}</em> profile, whereas <strong>{phoneB.name}</strong> tunes the scene with <em>{sampleB.toneBadge.toLowerCase()}</em>. 
           {sampleA.score > sampleB.score ? (
-            <>
-              <strong>{phoneA.name}</strong> leads in <strong>{activeModeObj.label}</strong> with a score of <strong>{sampleA.score}/100</strong>. It excels in {sampleA.strengths[0].toLowerCase()} and provides superior exposure stability. However, <strong>{phoneB.name}</strong> remains close with strengths in {sampleB.strengths[0].toLowerCase()}.
-            </>
+            <> <strong>{phoneA.name}</strong> scores higher in {activeModeObj.label.toLowerCase()} ({sampleA.score} vs {sampleB.score}) due to better balance between highlights and shadow detail.</>
           ) : sampleB.score > sampleA.score ? (
-            <>
-              <strong>{phoneB.name}</strong> edges out in <strong>{activeModeObj.label}</strong> with a score of <strong>{sampleB.score}/100</strong>, delivering outstanding performance in {sampleB.strengths[0].toLowerCase()}. <strong>{phoneA.name}</strong> counters with {sampleA.strengths[0].toLowerCase()}.
-            </>
+            <> <strong>{phoneB.name}</strong> leads in {activeModeObj.label.toLowerCase()} ({sampleB.score} vs {sampleA.score}) thanks to richer contrast and sharper fine edge retention.</>
           ) : (
-            <>
-              Both <strong>{phoneA.name}</strong> and <strong>{phoneB.name}</strong> perform equally strong in <strong>{activeModeObj.label}</strong> with a score of <strong>{sampleA.score}/100</strong>. Choose based on color preference ({phoneA.brand}'s natural profile vs {phoneB.brand}'s vibrant tone).
-            </>
+            <> Both smartphones achieve equal scores ({sampleA.score}/100) in {activeModeObj.label.toLowerCase()} mode with distinct artistic signatures.</>
           )}
         </p>
       </div>
