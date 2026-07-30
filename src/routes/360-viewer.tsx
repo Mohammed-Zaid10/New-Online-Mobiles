@@ -3,7 +3,7 @@ import { ProductViewer360, SAMPLE_360_PRODUCTS } from "@/components/site/Product
 import { PageHeader } from "@/components/site/Section";
 import { Breadcrumbs } from "@/components/site/Breadcrumbs";
 import { SHOP } from "@/lib/shop";
-import { Compass, Sparkles, Smartphone, ShieldCheck, Zap } from "lucide-react";
+import { Compass, Sparkles, Smartphone } from "lucide-react";
 
 export const Route = createFileRoute("/360-viewer")({
   head: () => ({
