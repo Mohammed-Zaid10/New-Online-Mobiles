@@ -364,7 +364,11 @@ export function ProductViewer360({ product = SAMPLE_360_PRODUCTS[0], className =
     velocityRef.current = 0;
     const now = Date.now();
     if (now - lastTapTimeRef.current < 300) {
-      zoomLevel > 1 ? handleResetView() : setZoomLevel(2.5);
+      if (zoomLevel > 1) {
+        setZoomLevel(1); setPanOffset({ x: 0, y: 0 }); setFrameIndex(0); setIsAutoSpin(false);
+      } else {
+        setZoomLevel(2.5);
+      }
     }
     lastTapTimeRef.current = now;
     (e.currentTarget as HTMLElement).setPointerCapture(e.pointerId);
@@ -408,6 +412,8 @@ export function ProductViewer360({ product = SAMPLE_360_PRODUCTS[0], className =
   const handleResetView = () => { setZoomLevel(1); setPanOffset({ x: 0, y: 0 }); setFrameIndex(0); setIsAutoSpin(false); };
   const handleZoomIn  = () => setZoomLevel(p => Math.min(p + 0.5, 3.5));
   const handleZoomOut = () => setZoomLevel(p => Math.max(p - 0.5, 1));
+  const handleRotateLeft  = () => setFrameIndex(p => (p - 1 + TOTAL_FRAMES) % TOTAL_FRAMES);
+  const handleRotateRight = () => setFrameIndex(p => (p + 1) % TOTAL_FRAMES);
 
   const toggleFullscreen = () => {
     if (!containerRef.current) return;
