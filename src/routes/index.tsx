@@ -1,4 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
+import { useState, useEffect } from "react";
 import {
   ArrowRight, BadgeCheck, ShieldCheck, Sparkles, Wrench, Zap,
   MessageCircle, Star, ChevronRight,
@@ -206,7 +207,18 @@ function Home() {
       {/* Category promos */}
       <section className="mx-auto max-w-7xl px-4 py-16 md:px-6">
         <div className="grid gap-6 md:grid-cols-3">
-          <PromoCard title="Our Mobile Collection" desc="Hundreds of smartphones from top brands — Apple, Samsung, OnePlus, Vivo, Oppo & more at honest prices." img="/shop-1.jpg" to="/mobiles" cta="Shop all mobiles" />
+          <SlideshowPromoCard
+            title="Our Mobile Collection"
+            desc="Hundreds of smartphones from top brands — Apple, Samsung, OnePlus, Vivo, Oppo & more at honest prices."
+            images={[
+              "/shop/shop-accessories-wall.jpg",
+              "/shop/shop-used-counter.jpg",
+              "/shop/shop-karbonn-jio.jpg",
+              "/shop/shop-cases-cables.jpg",
+            ]}
+            to="/mobiles"
+            cta="Shop all mobiles"
+          />
           <PromoCard title="Certified Pre-Owned" desc="Glass counter full of quality-checked used phones — Samsung, Oppo & more with price tags & warranty." img="/shop-2.jpg" to="/used" cta="Shop used mobiles" />
           <PromoCard title="Cases & Accessories" desc="Massive wall of phone cases, covers, cables, earbuds, chargers & everything your phone needs." img="/shop-4.jpg" to="/accessories" cta="Browse accessories" />
         </div>
@@ -217,10 +229,10 @@ function Home() {
         <Section center eyebrow="Visit us in person" title="Step inside our shop" subtitle="12+ years of trusted mobile retail — every shelf stocked with genuine products at honest prices." />
         <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
           {[
-            { img: "/shop-1.jpg", label: "Mobile Showroom", desc: "Branded phones displayed with price & specs" },
-            { img: "/shop-2.jpg", label: "Used Phones Counter", desc: "Quality-verified pre-owned phones with price tags" },
-            { img: "/shop-3.jpg", label: "Accessories Wall", desc: "Cases, covers, chargers & accessories" },
-            { img: "/shop-4.jpg", label: "Cases & More", desc: "Hundreds of phone cases & accessories" },
+            { img: "/shop/shop-accessories-wall.jpg", label: "Mobile Showroom", desc: "Branded phones displayed with price & specs" },
+            { img: "/shop/shop-used-counter.jpg", label: "Used Phones Counter", desc: "Quality-verified pre-owned phones with price tags" },
+            { img: "/shop/shop-karbonn-jio.jpg", label: "Feature Phones & More", desc: "Karbonn, Jio, Nokia & budget phones" },
+            { img: "/shop/shop-cases-cables.jpg", label: "Cases & Accessories", desc: "Hundreds of phone cases, cables & earphones" },
           ].map((s) => (
             <div key={s.label} className="group relative overflow-hidden rounded-2xl border border-border/70 shadow-soft hover:shadow-luxe transition">
               <img src={s.img} alt={s.label} loading="lazy" className="aspect-square w-full object-cover transition-transform duration-500 group-hover:scale-105" />
@@ -345,6 +357,59 @@ function PromoCard({ title, desc, img, to, cta }: { title: string; desc: string;
   return (
     <Link to={to as any} className="group relative overflow-hidden rounded-2xl border border-border/70 shadow-soft hover:shadow-luxe transition">
       <img src={img} alt={title} className="h-64 w-full object-cover transition-transform duration-500 group-hover:scale-105" />
+      <div className="absolute inset-0 bg-gradient-to-t from-primary/85 to-transparent" />
+      <div className="absolute inset-x-0 bottom-0 p-5 text-primary-foreground">
+        <h3 className="font-display text-xl font-bold">{title}</h3>
+        <p className="mt-1 text-sm opacity-90">{desc}</p>
+        <div className="mt-3 inline-flex items-center gap-1 text-sm font-semibold">
+          {cta} <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
+        </div>
+      </div>
+    </Link>
+  );
+}
+
+function SlideshowPromoCard({ title, desc, images, to, cta }: { title: string; desc: string; images: string[]; to: string; cta: string }) {
+  const [current, setCurrent] = useState(0);
+  const [prev, setPrev] = useState<number | null>(null);
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setPrev(current);
+      setCurrent((c) => (c + 1) % images.length);
+    }, 3000);
+    return () => clearInterval(timer);
+  }, [current, images.length]);
+
+  return (
+    <Link to={to as any} className="group relative overflow-hidden rounded-2xl border border-border/70 shadow-soft hover:shadow-luxe transition">
+      {/* Outgoing image fades out */}
+      {prev !== null && (
+        <img
+          key={`prev-${prev}`}
+          src={images[prev]}
+          alt={title}
+          className="absolute inset-0 h-64 w-full object-cover animate-fade-out"
+        />
+      )}
+      {/* Current image fades in */}
+      <img
+        key={`cur-${current}`}
+        src={images[current]}
+        alt={title}
+        className="h-64 w-full object-cover animate-fade-in"
+      />
+      {/* Dot indicators */}
+      <div className="absolute top-3 right-3 flex gap-1.5 z-10">
+        {images.map((_, i) => (
+          <span
+            key={i}
+            className={`block h-1.5 rounded-full transition-all duration-300 ${
+              i === current ? "w-4 bg-white" : "w-1.5 bg-white/50"
+            }`}
+          />
+        ))}
+      </div>
       <div className="absolute inset-0 bg-gradient-to-t from-primary/85 to-transparent" />
       <div className="absolute inset-x-0 bottom-0 p-5 text-primary-foreground">
         <h3 className="font-display text-xl font-bold">{title}</h3>
