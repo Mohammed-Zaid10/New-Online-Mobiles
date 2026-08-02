@@ -13,14 +13,16 @@ export function Fold3D() {
           display: flex;
           align-items: center;
           justify-content: center;
-          background: transparent;
+          background: #000;
+          border-radius: 20px;
+          padding: 12px;
         }
 
         .fold-stage {
           position: relative;
           width: 160px;
           height: 260px;
-          background: transparent;
+          background: #000;
           flex-shrink: 0;
           transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
         }

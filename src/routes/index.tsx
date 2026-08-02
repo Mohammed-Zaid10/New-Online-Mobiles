@@ -174,7 +174,7 @@ function Home() {
           </div>
 
           {/* Embedded 3D Galaxy Z Fold 8 Ultra showcase positioned right beside brands */}
-          <div className="flex justify-center border-t border-border/40 pt-8 lg:border-t-0 lg:pt-0 lg:pl-6">
+          <div className="flex justify-center items-center border-t border-border/40 pt-8 lg:border-t-0 lg:pt-0 lg:pl-6 bg-black rounded-2xl">
             <Fold3D />
           </div>
         </div>
