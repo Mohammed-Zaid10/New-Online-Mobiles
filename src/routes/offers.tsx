@@ -19,7 +19,10 @@ export const Route = createFileRoute("/offers")({
 
 function OffersPage() {
   return (
-    <>
+    <div
+      className="min-h-screen bg-cover bg-center bg-fixed pb-16"
+      style={{ backgroundImage: "linear-gradient(to bottom, rgba(8,8,8,0.7), rgba(8,8,8,0.9)), url('/backgrounds/offers-bg.png')" }}
+    >
       <PageHeader eyebrow="Save more" title="Live offers & deals" />
       <div className="mx-auto max-w-7xl px-4 py-6 md:px-6">
         <Breadcrumbs items={[{ label: "Offers" }]} />
@@ -39,6 +42,6 @@ function OffersPage() {
           </div>
         ))}
       </div>
-    </>
+    </div>
   );
 }

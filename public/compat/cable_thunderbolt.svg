@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400" fill="none">
+  <rect width="400" height="400" rx="20" fill="#f8fafc"/>
+  <path d="M130,200 Q200,100 270,200" stroke="#0ea5e9" stroke-width="8" fill="none" stroke-linecap="round"/>
+  <rect x="105" y="190" width="30" height="20" rx="4" fill="#0284c7"/>
+  <rect x="110" y="195" width="10" height="10" rx="2" fill="#0369a1"/>
+  <rect x="265" y="190" width="30" height="20" rx="4" fill="#0284c7"/>
+  <rect x="280" y="195" width="10" height="10" rx="2" fill="#0369a1"/>
+  <path d="M190,155 L200,140 L210,155" stroke="#0ea5e9" stroke-width="3" fill="none" stroke-linecap="round"/>
+  <text x="200" y="370" font-family="system-ui,sans-serif" font-size="14" font-weight="700" fill="#64748b" text-anchor="middle">Thunderbolt 4</text>
+</svg>

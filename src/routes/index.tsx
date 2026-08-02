@@ -55,124 +55,71 @@ function Home() {
   const featured = mobiles.slice(0, 8);
   return (
     <>
-      {/* Hero */}
+      {/* Keynote Hero Section with Podium Background */}
       <section
-        className="relative overflow-hidden text-white"
+        className="relative min-h-[92vh] flex flex-col justify-center items-center overflow-hidden bg-[#080808] text-white px-4 py-20"
         style={{
-          backgroundImage: "url('/hero-bg.jpg')",
+          backgroundImage: "url('/backgrounds/hero-bg.png')",
           backgroundSize: "cover",
-          backgroundPosition: "center top",
+          backgroundPosition: "center 45%",
         }}
       >
-        {/* Semi-transparent overlay — keeps text readable, lets light colors shine */}
-        <div className="absolute inset-0 z-0" style={{background: "linear-gradient(110deg, rgba(8,6,20,0.78) 0%, rgba(15,10,35,0.65) 40%, rgba(20,10,40,0.25) 75%, transparent 100%)"}} />
-        <div className="absolute inset-0 z-0" style={{background: "linear-gradient(to top, rgba(8,6,20,0.60) 0%, transparent 50%)"}} />
+        {/* Soft Volumetric Vignette & Gradient Overlays */}
+        <div className="absolute inset-0 z-0 bg-gradient-to-t from-[#080808] via-[#080808]/40 to-transparent" />
+        <div className="absolute inset-0 z-0 bg-gradient-to-b from-[#080808]/80 via-transparent to-[#080808]" />
 
-        {/* Animated rings — purple/blue to match the light image palette */}
-        <div className="pointer-events-none absolute inset-0 flex items-center justify-center overflow-hidden z-0">
-          <div className="relative flex items-center justify-center w-[500px] h-[500px] sm:w-[750px] sm:h-[750px]">
-            {/* Outer Moving Glowing Ring 1 */}
-            <div className="absolute inset-0 rounded-full border-2 border-amber-500/50 shadow-[0_0_40px_rgba(245,158,11,0.3)] animate-spin-slow" />
-            
-            {/* Pulsing Glowing Ring 2 */}
-            <div className="absolute inset-10 rounded-full border border-dashed border-amber-400/60 animate-pulse" />
-            
-            {/* Counter Rotating Ring 3 */}
-            <div className="absolute inset-20 rounded-full border-2 border-dashed border-amber-300/50 animate-spin-reverse-slow" />
-            
-            {/* Inner Rotating Ring 4 */}
-            <div className="absolute inset-28 rounded-full border-4 border-amber-500/30 animate-spin-slow" />
-            
-            {/* Ambient Gold Glow Center */}
-            <div className="absolute inset-36 rounded-full bg-amber-500/20 blur-3xl animate-pulse" />
-
-            {/* Dimmed Logo Emblem */}
-            <img
-              src="/logo.jpg"
-              alt=""
-              className="h-[260px] w-[260px] sm:h-[400px] sm:w-[400px] rounded-full object-cover shadow-[0_0_60px_rgba(245,158,11,0.5)] opacity-35 filter contrast-125 brightness-110"
-            />
-          </div>
-        </div>
-
-        {/* Deep dark gradient overlays so text stays ultra-readable */}
-        <div className="absolute inset-0 z-0 bg-gradient-to-r from-[#040308] via-[#040308]/90 to-transparent" />
-        <div className="absolute inset-0 z-0 bg-gradient-to-t from-[#040308] via-transparent to-transparent" />
-
-        <div className="relative z-10 mx-auto grid max-w-7xl items-center gap-10 px-4 py-20 md:grid-cols-2 md:px-6 md:py-28">
-          {/* Left: Text content */}
-          <div className="flex flex-col justify-center">
-            <div className="inline-flex w-fit items-center gap-2 rounded-full border border-amber-500/50 bg-slate-950/90 px-4 py-1.5 text-xs text-amber-300 backdrop-blur-md shadow-[0_0_20px_rgba(245,158,11,0.2)]">
-              <span className="h-2 w-2 rounded-full bg-emerald-400 animate-pulse" />
-              Open today · {SHOP.hours}
-            </div>
-            <h1 className="mt-5 font-display text-4xl font-extrabold leading-[1.05] sm:text-6xl text-white">
-              Premium mobiles.
-              <br />
-              <span className="text-amber-400 drop-shadow-[0_0_25px_rgba(251,191,36,0.5)]">Honest service.</span>
-            </h1>
-            <p className="mt-5 max-w-lg text-slate-300 text-base sm:text-lg leading-relaxed">
-              New smartphones, certified pre-owned, expert repairs, software services and everyday
-              accessories — all under one warm, welcoming roof.
-            </p>
-            <div className="mt-8 flex flex-wrap gap-3">
-              <Link
-                to="/mobiles"
-                className="inline-flex items-center gap-2 rounded-full bg-amber-500 px-6 py-3 text-sm font-bold text-slate-950 shadow-[0_0_30px_rgba(245,158,11,0.6)] transition hover:bg-amber-400 hover:scale-105"
-              >
-                Shop mobiles <ArrowRight className="h-4 w-4" />
-              </Link>
-              <Link
-                to="/book-repair"
-                className="inline-flex items-center gap-2 rounded-full border border-slate-700 bg-slate-900/90 px-6 py-3 text-sm font-semibold text-white backdrop-blur-md hover:bg-slate-800 transition"
-              >
-                <Wrench className="h-4 w-4 text-amber-400" /> Book a repair
-              </Link>
-              <a
-                href={wa("Hi! I want to know today's offers.")}
-                target="_blank"
-                rel="noreferrer"
-                className="inline-flex items-center gap-2 rounded-full bg-emerald-600 px-6 py-3 text-sm font-semibold text-white shadow-lg hover:bg-emerald-500 transition"
-              >
-                <MessageCircle className="h-4 w-4" /> WhatsApp us
-              </a>
-            </div>
-            <div className="mt-10 grid grid-cols-3 gap-6 text-sm border-t border-slate-800/80 pt-6">
-              <div><div className="font-display text-2xl font-bold text-amber-400">15k+</div><div className="text-slate-400 text-xs">Happy customers</div></div>
-              <div><div className="font-display text-2xl font-bold text-amber-400">12+ yrs</div><div className="text-slate-400 text-xs">Experience</div></div>
-              <div><div className="font-display text-2xl font-bold text-amber-400">4.9★</div><div className="text-slate-400 text-xs">Google rating</div></div>
-            </div>
+        <div className="relative z-10 mx-auto max-w-5xl text-center space-y-8 animate-reveal mt-12">
+          <div className="inline-flex items-center gap-2 rounded-full border border-white/20 bg-[#080808]/70 px-5 py-2 text-xs font-semibold uppercase tracking-widest text-zinc-200 backdrop-blur-xl shadow-[0_0_30px_rgba(255,255,255,0.1)]">
+            <span className="h-2 w-2 rounded-full bg-white animate-pulse" />
+            The Keynote Collection · Online Mobiles
           </div>
 
-          {/* Right: High-resolution iPhone 17 Pro Max Showcase Card */}
-          <div className="relative hidden md:flex items-center justify-center">
-            <div className="relative w-full max-w-md overflow-hidden rounded-3xl border border-amber-500/40 shadow-[0_0_70px_rgba(245,158,11,0.25)] group">
-              <div className="relative">
-                <img
-                  src="/iphone17-pro-max.jpg"
-                  alt="iPhone 17 Pro Max"
-                  className="w-full rounded-3xl object-cover aspect-[4/5] transition-transform duration-700 group-hover:scale-105"
-                  style={{filter: "grayscale(55%) brightness(1.05) contrast(1.1) sepia(5%)"}}
-                />
-                {/* Grey mirror sheen overlay on the image only */}
-                <div className="absolute inset-0 rounded-3xl" style={{background: "linear-gradient(135deg, rgba(200,210,220,0.12) 0%, rgba(150,160,170,0.06) 50%, rgba(100,110,120,0.15) 100%), linear-gradient(to top, rgba(10,10,15,0.7) 0%, transparent 55%)"}} />
-                <div className="absolute inset-0 rounded-3xl pointer-events-none" style={{boxShadow: "inset 0 1px 0 rgba(255,255,255,0.12), inset 0 0 0 1px rgba(180,190,200,0.15)"}} />
-              </div>
-              
-              <div className="absolute bottom-4 left-4 right-4 rounded-2xl border border-amber-500/30 bg-slate-950/90 p-4 backdrop-blur-md">
-                <div className="flex items-center justify-between text-xs font-semibold text-white">
-                  <span className="flex items-center gap-1.5 text-amber-400">
-                    <Sparkles className="h-4 w-4" /> iPhone 17 Pro Max
-                  </span>
-                  <span className="rounded-full bg-emerald-500/20 px-2 py-0.5 text-[10px] text-emerald-400 border border-emerald-500/30">In Stock</span>
-                </div>
-                <div className="mt-1 text-[11px] text-slate-300">Titanium Design · A19 Pro Chip · Pro Camera System</div>
-              </div>
+          <h1 className="font-display text-5xl font-black uppercase tracking-tight sm:text-7xl lg:text-8xl text-white leading-[1.02] drop-shadow-[0_0_40px_rgba(255,255,255,0.3)]">
+            ENGINEERED TO INSPIRE.
+          </h1>
+
+          <p className="mx-auto max-w-3xl font-sans text-base sm:text-xl font-medium tracking-wide text-zinc-300 uppercase leading-relaxed border-y border-white/15 py-4 backdrop-blur-sm bg-black/20">
+            Flagship Smartphones • Certified Pre-Owned Devices • Accessories • Expert Repairs
+          </p>
+
+          <div className="pt-4 flex flex-wrap items-center justify-center gap-4">
+            <Link
+              to="/mobiles"
+              className="inline-flex items-center gap-3 rounded-full bg-white px-8 py-4 text-sm font-bold text-black shadow-[0_0_40px_rgba(255,255,255,0.4)] hover:bg-zinc-200 hover:scale-105 transition duration-300"
+            >
+              Explore Devices <ArrowRight className="h-4 w-4" />
+            </Link>
+            <Link
+              to="/phone-finder"
+              className="inline-flex items-center gap-2 rounded-full border border-white/30 bg-black/60 px-7 py-4 text-sm font-semibold text-white backdrop-blur-md hover:bg-white/10 hover:border-white/50 transition duration-300 shadow-[0_0_20px_rgba(255,255,255,0.08)]"
+            >
+              <Sparkles className="h-4 w-4 text-white" /> AI Phone Finder
+            </Link>
+            <Link
+              to="/trade-in"
+              className="inline-flex items-center gap-2 rounded-full border border-white/30 bg-black/60 px-7 py-4 text-sm font-semibold text-white backdrop-blur-md hover:bg-white/10 hover:border-white/50 transition duration-300"
+            >
+              <Wrench className="h-4 w-4 text-white" /> Phone Health & Trade-In
+            </Link>
+          </div>
+
+          {/* Keynote Highlights */}
+          <div className="pt-10 grid grid-cols-2 md:grid-cols-4 gap-4 text-left">
+            <div className="rounded-2xl border border-white/15 bg-black/60 p-5 backdrop-blur-xl">
+              <div className="font-display text-3xl font-extrabold text-white">100%</div>
+              <div className="text-xs text-zinc-300 font-medium uppercase tracking-wider mt-1">Authentic Guarantee</div>
             </div>
-            <div className="absolute -bottom-4 -left-4 rounded-2xl border border-amber-500/40 bg-slate-950/95 p-3.5 shadow-2xl backdrop-blur-md">
-              <div className="flex items-center gap-2 text-xs font-semibold text-white">
-                <ShieldCheck className="h-4 w-4 text-amber-400" /> Written Warranty Included
-              </div>
+            <div className="rounded-2xl border border-white/10 bg-black/60 p-5 backdrop-blur-xl">
+              <div className="font-display text-3xl font-extrabold text-white">15k+</div>
+              <div className="text-xs text-zinc-300 font-medium uppercase tracking-wider mt-1">Delighted Clients</div>
+            </div>
+            <div className="rounded-2xl border border-white/10 bg-black/60 p-5 backdrop-blur-xl">
+              <div className="font-display text-3xl font-extrabold text-white">4.9★</div>
+              <div className="text-xs text-zinc-300 font-medium uppercase tracking-wider mt-1">Keynote Rating</div>
+            </div>
+            <div className="rounded-2xl border border-white/10 bg-black/60 p-5 backdrop-blur-xl">
+              <div className="font-display text-3xl font-extrabold text-white">Same-Day</div>
+              <div className="text-xs text-zinc-300 font-medium uppercase tracking-wider mt-1">Express Service</div>
             </div>
           </div>
         </div>
@@ -233,15 +180,26 @@ function Home() {
       </section>
 
       {/* Featured */}
-      <section id="featured-mobiles" className="mx-auto max-w-7xl px-4 py-8 md:px-6">
-        <div className="flex items-end justify-between">
-          <Section eyebrow="Featured" title="Trending smartphones" />
-          <Link to="/mobiles" className="hidden text-sm font-semibold text-accent hover:underline sm:inline-flex items-center gap-1">
-            View all <ChevronRight className="h-4 w-4" />
-          </Link>
-        </div>
-        <div className="mt-8 grid gap-5 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
-          {featured.map((m) => <ProductCard key={m.id} m={m} />)}
+      <section 
+        id="featured-mobiles" 
+        className="relative mx-auto px-4 py-16 md:px-6 mt-8 overflow-hidden"
+      >
+        <div 
+          className="absolute inset-0 z-0 bg-cover bg-center"
+          style={{ backgroundImage: "url('/backgrounds/featured-bg.jpg')" }}
+        />
+        <div className="absolute inset-0 z-0 bg-black/60 dark:bg-black/70 backdrop-blur-[2px]" />
+        
+        <div className="relative z-10 mx-auto max-w-7xl">
+          <div className="flex items-end justify-between">
+            <Section eyebrow="Featured" title="Trending smartphones" />
+            <Link to="/mobiles" className="hidden text-sm font-semibold text-accent hover:underline sm:inline-flex items-center gap-1">
+              View all <ChevronRight className="h-4 w-4" />
+            </Link>
+          </div>
+          <div className="mt-8 grid gap-5 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+            {featured.map((m) => <ProductCard key={m.id} m={m} />)}
+          </div>
         </div>
       </section>
 
@@ -277,11 +235,7 @@ function Home() {
         <div className="relative overflow-hidden mt-10 rounded-3xl border border-border/60 bg-card/60 p-8 md:p-10">
           {/* Watermark Logo Background */}
           <div className="pointer-events-none absolute -right-20 -bottom-20 flex items-center justify-center opacity-10 dark:opacity-15 z-0">
-            <div className="relative flex items-center justify-center w-[400px] h-[400px]">
-              <div className="absolute inset-0 rounded-full border-2 border-dashed border-amber-500/70 animate-spin-slow" />
-              <div className="absolute inset-4 rounded-full border border-amber-400/50 animate-spin-reverse-slow" />
-              <img src="/logo.jpg" alt="" className="h-[250px] w-[250px] rounded-full object-cover" />
-            </div>
+              <img src="/logo.png" alt="" className="h-[250px] w-[250px] rounded-full object-contain" />
           </div>
           <div className="relative z-10 grid gap-8 md:grid-cols-2 md:items-center">
             <div>

@@ -48,7 +48,10 @@ function ContactPage() {
   };
 
   return (
-    <>
+    <div
+      className="min-h-screen bg-cover bg-center bg-fixed pb-16"
+      style={{ backgroundImage: "linear-gradient(to bottom, rgba(8,8,8,0.7), rgba(8,8,8,0.9)), url('/backgrounds/contact-bg.jpg')" }}
+    >
       <PageHeader eyebrow="Contact" title="Come say hi 👋" />
       <div className="mx-auto max-w-7xl px-4 py-6 md:px-6">
         <Breadcrumbs items={[{ label: "Contact" }]} />
@@ -201,7 +204,7 @@ function ContactPage() {
           </div>
         </div>
       </div>
-    </>
+    </div>
   );
 }
 

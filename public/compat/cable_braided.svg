@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400" fill="none">
+  <rect width="400" height="400" rx="20" fill="#f8fafc"/>
+  <path d="M120,200 C120,140 180,260 200,200 C220,140 280,260 280,200" stroke="#1e293b" stroke-width="10" fill="none" stroke-linecap="round"/>
+  <rect x="95" y="190" width="30" height="20" rx="4" fill="#334155"/>
+  <rect x="100" y="195" width="10" height="10" rx="2" fill="#1e293b"/>
+  <rect x="275" y="190" width="30" height="20" rx="4" fill="#334155"/>
+  <rect x="290" y="195" width="10" height="10" rx="2" fill="#1e293b"/>
+  <line x1="130" y1="170" x2="270" y2="170" stroke="#475569" stroke-width="1.5" stroke-dasharray="4 3" opacity="0.4"/>
+  <line x1="130" y1="230" x2="270" y2="230" stroke="#475569" stroke-width="1.5" stroke-dasharray="4 3" opacity="0.4"/>
+  <text x="200" y="370" font-family="system-ui,sans-serif" font-size="14" font-weight="700" fill="#64748b" text-anchor="middle">Braided USB-C (2m)</text>
+</svg>

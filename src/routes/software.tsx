@@ -19,7 +19,10 @@ export const Route = createFileRoute("/software")({
 
 function SoftwarePage() {
   return (
-    <>
+    <div
+      className="min-h-screen bg-cover bg-center bg-fixed pb-16"
+      style={{ backgroundImage: "linear-gradient(to bottom, rgba(8,8,8,0.7), rgba(8,8,8,0.95)), url('/backgrounds/services-bg.jpg')" }}
+    >
       <PageHeader eyebrow="Software" title="Mobile software services" subtitle="From FRP unlock to full data recovery — safe, legal and fast." />
       <div className="mx-auto max-w-7xl px-4 py-6 md:px-6">
         <Breadcrumbs items={[{ label: "Software Services" }]} />
@@ -41,6 +44,6 @@ function SoftwarePage() {
           );
         })}
       </div>
-    </>
+    </div>
   );
 }

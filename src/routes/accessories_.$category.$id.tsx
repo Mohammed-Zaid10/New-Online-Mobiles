@@ -47,7 +47,10 @@ function AccessoryPage() {
   const [idx, setIdx] = useState(0);
 
   return (
-    <>
+    <div
+      className="min-h-screen bg-cover bg-center bg-fixed pb-16 text-white"
+      style={{ backgroundImage: "linear-gradient(to bottom, rgba(8,8,8,0.8), rgba(8,8,8,0.95)), url('/backgrounds/shop-bg.jpg')" }}
+    >
       <div className="mx-auto max-w-7xl px-4 pt-8 md:px-6">
         <Breadcrumbs
           items={[
@@ -141,6 +144,6 @@ function AccessoryPage() {
           </div>
         </section>
       )}
-    </>
+    </div>
   );
 }

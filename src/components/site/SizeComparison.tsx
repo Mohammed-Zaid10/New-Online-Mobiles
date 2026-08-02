@@ -36,7 +36,7 @@ export const PHONE_DIMENSIONS: Record<string, PhoneDimensionData> = {
     screenToBodyRatio: 91.4,
     bezelMm: 1.36,
     colorHex: "#C8BFA6",
-    image: "/phones/iphone17-pro-max.jpg",
+    image: "/phones/variants/iphone-16-black.png",
     pocketFit: {
       jeansFront: { status: "Protrudes Slightly", text: "Extends ~12mm out of standard slim jeans pockets." },
       jeansBack: { status: "Fits Easily", text: "Fits comfortably in regular rear jeans pockets." },
@@ -55,7 +55,7 @@ export const PHONE_DIMENSIONS: Record<string, PhoneDimensionData> = {
     screenToBodyRatio: 91.2,
     bezelMm: 1.4,
     colorHex: "#22252A",
-    image: "/phones/samsung-s26-ultra.jpg",
+    image: "/phones/variants/samsung-galaxy-s24-ultra-titanium-black.png",
     pocketFit: {
       jeansFront: { status: "Tight Fit", text: "Fits snug in front pockets; boxy corners can be felt while seated." },
       jeansBack: { status: "Fits Easily", text: "Slips smoothly into back jeans pockets." },
@@ -74,7 +74,7 @@ export const PHONE_DIMENSIONS: Record<string, PhoneDimensionData> = {
     screenToBodyRatio: 88.0,
     bezelMm: 1.8,
     colorHex: "#545C52",
-    image: "/phones/pixel9-pro-xl.jpg",
+    image: "/phones/variants/pixel-8-pro-obsidian.png",
     pocketFit: {
       jeansFront: { status: "Tight Fit", text: "Camera visor bar can catch slightly on pocket rim during entry." },
       jeansBack: { status: "Fits Easily", text: "Fits comfortably in rear pockets." },
@@ -93,7 +93,7 @@ export const PHONE_DIMENSIONS: Record<string, PhoneDimensionData> = {
     screenToBodyRatio: 87.6,
     bezelMm: 2.1,
     colorHex: "#1A1A1A",
-    image: "/phones/nothing-phone-2a-plus.jpg",
+    image: "/phones/variants/nothing-phone-2a-black.png",
     pocketFit: {
       jeansFront: { status: "Fits Easily", text: "Lightweight 190g body makes it feel comfortable in front pockets." },
       jeansBack: { status: "Fits Easily", text: "Fits with zero protrusion in rear pockets." },

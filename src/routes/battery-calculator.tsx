@@ -25,7 +25,7 @@ function BatteryCalculatorPage() {
         <PageHeader
           eyebrow="Power Simulation Lab"
           title="Battery Usage & Life Calculator"
-          description="Adjust your daily gaming, video streaming, social media, camera usage, display brightness, and 5G cellular mode to calculate exact screen-on-time, battery drain breakdown, and charging recommendations."
+          subtitle="Adjust your daily gaming, video streaming, social media, camera usage, display brightness, and 5G cellular mode to calculate exact screen-on-time, battery drain breakdown, and charging recommendations."
         />
 
         <div className="mt-8">
@@ -35,3 +35,4 @@ function BatteryCalculatorPage() {
     </div>
   );
 }
+

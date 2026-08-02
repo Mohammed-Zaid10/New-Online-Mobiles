@@ -89,9 +89,9 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     ],
     links: [
       { rel: "stylesheet", href: appCss },
-      { rel: "icon", href: "/logo.jpg" },
-      { rel: "shortcut icon", href: "/logo.jpg" },
-      { rel: "apple-touch-icon", href: "/logo.jpg" },
+      { rel: "icon", href: "/logo.png" },
+      { rel: "shortcut icon", href: "/logo.png" },
+      { rel: "apple-touch-icon", href: "/logo.png" },
       { rel: "preconnect", href: "https://fonts.googleapis.com" },
       { rel: "preconnect", href: "https://fonts.gstatic.com", crossOrigin: "anonymous" },
       { rel: "preconnect", href: "https://images.unsplash.com" },
@@ -109,7 +109,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
 
 function RootShell({ children }: { children: ReactNode }) {
   return (
-    <html lang="en">
+    <html lang="en" className="dark">
       <head>
         <HeadContent />
       </head>
@@ -121,19 +121,29 @@ function RootShell({ children }: { children: ReactNode }) {
   );
 }
 
+import { useState } from "react";
+import { AuthProvider } from "@/context/AuthContext";
+import { AuthModal } from "@/components/site/AuthModal";
+import { KeynoteLoader } from "@/components/site/KeynoteLoader";
+
 function RootComponent() {
   const { queryClient } = Route.useRouteContext();
+  const [showLoader, setShowLoader] = useState(true);
 
   return (
     <QueryClientProvider client={queryClient}>
-      <div className="min-h-screen flex flex-col">
-        <SiteHeader />
-        <main className="flex-1">
-          <Outlet />
-        </main>
-        <SiteFooter />
-        <FloatingActions />
-      </div>
+      <AuthProvider>
+        {showLoader && <KeynoteLoader onComplete={() => setShowLoader(false)} />}
+        <div className={`min-h-screen flex flex-col transition-opacity duration-1000 ${showLoader ? "opacity-0" : "opacity-100"}`}>
+          <SiteHeader />
+          <main className="flex-1">
+            <Outlet />
+          </main>
+          <SiteFooter />
+          <FloatingActions />
+          <AuthModal />
+        </div>
+      </AuthProvider>
     </QueryClientProvider>
   );
 }

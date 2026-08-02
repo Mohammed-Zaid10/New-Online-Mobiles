@@ -26,6 +26,7 @@ const COL: { title: string; links: { label: string; to: string }[] }[] = [
     links: [
       { label: "Compare Phones", to: "/compare" },
       { label: "Trade-In Calculator", to: "/trade-in" },
+      { label: "Blog & Guides", to: "/blog" },
       { label: "FAQ", to: "/faq" },
       { label: "Contact", to: "/contact" },
     ],
@@ -34,7 +35,10 @@ const COL: { title: string; links: { label: string; to: string }[] }[] = [
 
 export function SiteFooter() {
   return (
-    <footer className="mt-24 border-t border-border/60 bg-card/40">
+    <footer 
+      className="mt-24 border-t border-border/60 bg-cover bg-center"
+      style={{ backgroundImage: "linear-gradient(rgba(0,0,0,0.15), rgba(0,0,0,0.15)), url('/backgrounds/footer-bg.jpg')", backgroundSize: "cover", backgroundPosition: "center" }}
+    >
       {/* Contact CTA Strip */}
       <div className="border-b border-border/40 bg-amber-500/5">
         <div className="mx-auto max-w-7xl px-4 py-6 md:px-6">
@@ -83,9 +87,9 @@ export function SiteFooter() {
           <div>
             <div className="flex items-center gap-3">
               <img
-                src="/logo.jpg"
+                src="/logo.png"
                 alt={SHOP.name}
-                className="h-12 w-12 rounded-full object-cover ring-2 ring-amber-400/80 shadow-md"
+                className="h-12 w-12 rounded-full object-contain bg-black shadow-md"
               />
               <div>
                 <div className="font-display text-lg font-bold">{SHOP.name}</div>

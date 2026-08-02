@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400" fill="none">
+  <rect width="400" height="400" rx="20" fill="#f8fafc"/>
+  <rect x="110" y="60" width="180" height="280" rx="24" fill="#1a1a1a"/>
+  <rect x="120" y="70" width="160" height="260" rx="18" fill="#222"/>
+  <rect x="130" y="80" width="140" height="240" rx="14" fill="#2a2a2a"/>
+  <pattern id="sand" patternUnits="userSpaceOnUse" width="4" height="4"><circle cx="2" cy="2" r="0.8" fill="#444"/></pattern>
+  <rect x="130" y="80" width="140" height="240" rx="14" fill="url(#sand)" opacity="0.5"/>
+  <text x="200" y="380" font-family="system-ui,sans-serif" font-size="14" font-weight="700" fill="#64748b" text-anchor="middle">OnePlus Sandstone</text>
+</svg>

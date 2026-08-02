@@ -3,14 +3,15 @@ import * as Icons from "lucide-react";
 import { Wrench, ShieldCheck, Cpu, Instagram, Sparkles, ArrowRight, CheckCircle2 } from "lucide-react";
 import { repairServices } from "@/data/repair";
 import { Breadcrumbs } from "@/components/site/Breadcrumbs";
+import { RepairCalculator } from "@/components/site/RepairCalculator";
 import { SHOP, wa } from "@/lib/shop";
 
 export const Route = createFileRoute("/repair")({
   head: () => ({
     meta: [
-      { title: "Mobile Repair Services — Screen, Battery, Motherboard & More" },
-      { name: "description", content: "12+ expert mobile repair services with warranty. Same-day screen, battery, camera, water damage & motherboard repair." },
-      { property: "og:title", content: "Mobile Repair Services — Online Mobiles" },
+      { title: "Mobile Repair Services & Instant Cost Calculator — Online Mobiles" },
+      { name: "description", content: "Calculate instant repair costs and book expert mobile repairs with warranty. Screen, battery, camera, water damage & motherboard repairs." },
+      { property: "og:title", content: "Mobile Repair Services & Instant Calculator — Online Mobiles" },
       { property: "og:url", content: `${SHOP.siteUrl}/repair` },
     ],
     links: [{ rel: "canonical", href: `${SHOP.siteUrl}/repair` }],
@@ -20,13 +21,16 @@ export const Route = createFileRoute("/repair")({
 
 function RepairHub() {
   return (
-    <>
+    <div
+      className="min-h-screen bg-cover bg-center bg-fixed pb-16"
+      style={{ backgroundImage: "linear-gradient(to bottom, rgba(8,8,8,0.8), rgba(8,8,8,0.95)), url('/backgrounds/services-bg.jpg')" }}
+    >
       {/* Dark Phone Repairing Hero Banner */}
       <section className="relative overflow-hidden bg-[#07060c] text-white py-16 md:py-24 border-b border-amber-500/20">
         {/* Background repair workstation photo with dark vignette */}
         <div className="absolute inset-0 z-0 opacity-25">
           <img
-            src="/repair-1.png"
+            src="/backgrounds/services-bg.jpg"
             alt="Phone repairing workstation"
             className="h-full w-full object-cover filter contrast-125 brightness-75 scale-105"
           />
@@ -53,12 +57,12 @@ function RepairHub() {
               From cracked glass and OLED screen replacements to motherboard soldering, battery changes, and water damage recovery. Written warranty on every single fix.
             </p>
             <div className="mt-8 flex flex-wrap gap-4">
-              <Link
-                to="/book-repair"
+              <a
+                href="#calculator"
                 className="inline-flex items-center gap-2 rounded-full bg-amber-500 px-6 py-3 text-sm font-bold text-slate-950 shadow-[0_0_25px_rgba(245,158,11,0.5)] transition hover:bg-amber-400 hover:scale-105"
               >
-                <Wrench className="h-4 w-4" /> Book a Repair Now <ArrowRight className="h-4 w-4" />
-              </Link>
+                <Wrench className="h-4 w-4" /> Calculate Repair Cost <ArrowRight className="h-4 w-4" />
+              </a>
               <a
                 href={SHOP.instagram}
                 target="_blank"
@@ -75,6 +79,11 @@ function RepairHub() {
       <div className="mx-auto max-w-7xl px-4 py-6 md:px-6">
         <Breadcrumbs items={[{ label: "Repair Services" }]} />
       </div>
+
+      {/* Embedded Instant Repair Cost Calculator Section */}
+      <section id="calculator" className="mx-auto max-w-7xl px-4 pb-14 md:px-6 scroll-mt-20">
+        <RepairCalculator />
+      </section>
 
       {/* Real Shop Repair Showcase Section */}
       <section className="mx-auto max-w-7xl px-4 pb-14 md:px-6">
@@ -197,6 +206,6 @@ function RepairHub() {
           })}
         </div>
       </div>
-    </>
+    </div>
   );
 }

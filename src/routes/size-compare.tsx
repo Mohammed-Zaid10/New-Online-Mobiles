@@ -25,7 +25,7 @@ function SizeComparePage() {
         <PageHeader
           eyebrow="1:1 Dimensional Lab"
           title="Real Size Phone Comparison Tool"
-          description="Compare physical smartphone height, width, thickness, weight, screen-to-body ratio, and test how phones fit in standard pockets with millimeter accurate scaling."
+          subtitle="Compare physical smartphone height, width, thickness, weight, screen-to-body ratio, and test how phones fit in standard pockets with millimeter accurate scaling."
         />
 
         <div className="mt-8">
@@ -35,3 +35,4 @@ function SizeComparePage() {
     </div>
   );
 }
+

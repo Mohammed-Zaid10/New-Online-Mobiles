@@ -43,48 +43,48 @@
 
 :root {
   --radius: 1.25rem;
-  --background: oklch(0.985 0.006 80);
-  --foreground: oklch(0.22 0.01 40);
-  --card: oklch(1 0 0);
-  --card-foreground: oklch(0.22 0.01 40);
-  --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.22 0.01 40);
-  --primary: oklch(0.32 0.045 40);
-  --primary-foreground: oklch(0.98 0.008 80);
-  --secondary: oklch(0.9 0.03 75);
-  --secondary-foreground: oklch(0.3 0.04 40);
-  --muted: oklch(0.94 0.015 75);
-  --muted-foreground: oklch(0.5 0.015 40);
-  --accent: oklch(0.52 0.08 50);
-  --accent-foreground: oklch(0.98 0.008 80);
-  --destructive: oklch(0.6 0.22 27);
-  --destructive-foreground: oklch(0.98 0.008 80);
-  --border: oklch(0.9 0.015 70);
-  --input: oklch(0.9 0.015 70);
-  --ring: oklch(0.52 0.08 50);
-  --success: oklch(0.68 0.16 145);
-  --cream: oklch(0.96 0.02 78);
+  --background: #ffffff;
+  --foreground: #080808;
+  --card: #f4f4f5;
+  --card-foreground: #080808;
+  --popover: #ffffff;
+  --popover-foreground: #080808;
+  --primary: #080808;
+  --primary-foreground: #ffffff;
+  --secondary: #e4e4e7;
+  --secondary-foreground: #080808;
+  --muted: #f4f4f5;
+  --muted-foreground: #71717a;
+  --accent: #080808;
+  --accent-foreground: #ffffff;
+  --destructive: #ef4444;
+  --destructive-foreground: #ffffff;
+  --border: rgba(0, 0, 0, 0.1);
+  --input: rgba(0, 0, 0, 0.12);
+  --ring: #080808;
+  --success: #10b981;
+  --cream: #fdfdfc;
 }
 
 .dark {
-  --background: oklch(0.18 0.01 40);
-  --foreground: oklch(0.96 0.01 80);
-  --card: oklch(0.23 0.015 40);
-  --card-foreground: oklch(0.96 0.01 80);
-  --popover: oklch(0.23 0.015 40);
-  --popover-foreground: oklch(0.96 0.01 80);
-  --primary: oklch(0.9 0.03 75);
-  --primary-foreground: oklch(0.22 0.02 40);
-  --secondary: oklch(0.3 0.03 40);
-  --secondary-foreground: oklch(0.96 0.01 80);
-  --muted: oklch(0.28 0.02 40);
-  --muted-foreground: oklch(0.72 0.02 70);
-  --accent: oklch(0.68 0.1 55);
-  --accent-foreground: oklch(0.18 0.01 40);
-  --border: oklch(0.32 0.02 40);
-  --input: oklch(0.32 0.02 40);
-  --ring: oklch(0.68 0.1 55);
-  --cream: oklch(0.25 0.015 40);
+  --background: #080808;
+  --foreground: #ffffff;
+  --card: #111111;
+  --card-foreground: #ffffff;
+  --popover: #111111;
+  --popover-foreground: #ffffff;
+  --primary: #ffffff;
+  --primary-foreground: #080808;
+  --secondary: #18181b;
+  --secondary-foreground: #ffffff;
+  --muted: #1c1c1f;
+  --muted-foreground: #a1a1aa;
+  --accent: #ffffff;
+  --accent-foreground: #080808;
+  --border: rgba(255, 255, 255, 0.1);
+  --input: rgba(255, 255, 255, 0.12);
+  --ring: #ffffff;
+  --cream: #121214;
 }
 
 @layer base {
@@ -165,4 +165,85 @@
   background: color-mix(in oklab, var(--card) 70%, transparent);
   backdrop-filter: blur(14px);
   -webkit-backdrop-filter: blur(14px);
+}
+@utility scrollbar-thin {
+  scrollbar-width: thin;
+  scrollbar-color: var(--border) transparent;
+}
+.scrollbar-thin::-webkit-scrollbar {
+  width: 5px;
+}
+.scrollbar-thin::-webkit-scrollbar-track {
+  background: transparent;
+}
+.scrollbar-thin::-webkit-scrollbar-thumb {
+  background: var(--border);
+  border-radius: 9999px;
+}
+.scrollbar-thin::-webkit-scrollbar-thumb:hover {
+  background: var(--muted-foreground);
+}
+
+@media print {
+  @page {
+    size: A4 portrait;
+    margin: 10mm 15mm;
+  }
+  body {
+    background: #ffffff !important;
+    color: #000000 !important;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+  .no-print, header, nav, footer, .lucide-moon, .lucide-sun {
+    display: none !important;
+  }
+  .print-only {
+    display: block !important;
+  }
+  .print-break-inside-avoid {
+    break-inside: avoid !important;
+    page-break-inside: avoid !important;
+  }
+  .print-break-before {
+    break-before: page !important;
+    page-break-before: always !important;
+  }
+  .glass {
+    backdrop-filter: none !important;
+    background: #ffffff !important;
+  }
+  .border {
+    border-color: #e5e7eb !important;
+  }
+  /* Force dark text on everything */
+  .text-muted-foreground { color: #4b5563 !important; }
+  .bg-card { background-color: #ffffff !important; }
+  .bg-muted { background-color: #f3f4f6 !important; }
+  /* Accents */
+  .text-accent { color: #6B4F3B !important; }
+  .bg-accent { background-color: #6B4F3B !important; color: #ffffff !important; }
+  .bg-amber-500 { background-color: #f59e0b !important; }
+  .text-amber-500 { color: #f59e0b !important; }
+  .bg-emerald-500 { background-color: #10b981 !important; }
+  .text-emerald-500 { color: #10b981 !important; }
+  
+  /* Layout tweaks for A4 width (approx 794px printable width) */
+  .max-w-7xl, .max-w-5xl {
+    max-width: 100% !important;
+    padding: 0 !important;
+    margin: 0 !important;
+  }
+  
+  /* Ensure images don't scale wildly */
+  img {
+    max-width: 100% !important;
+    object-fit: contain !important;
+  }
+  
+  /* Fix grids for print */
+  .print-grid-cols-2 { grid-template-columns: repeat(2, minmax(0, 1fr)) !important; }
+  .print-grid-cols-3 { grid-template-columns: repeat(3, minmax(0, 1fr)) !important; }
+  .print-grid-cols-4 { grid-template-columns: repeat(4, minmax(0, 1fr)) !important; }
+  .print-grid-cols-5 { grid-template-columns: repeat(5, minmax(0, 1fr)) !important; }
 }

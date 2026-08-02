@@ -13,23 +13,34 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as R360ViewerRouteImport } from './routes/360-viewer'
 import { Route as AboutRouteImport } from './routes/about'
 import { Route as AccessoriesRouteImport } from './routes/accessories'
+import { Route as AiRepairRouteImport } from './routes/ai-repair'
 import { Route as BatteryCalculatorRouteImport } from './routes/battery-calculator'
+import { Route as BenchmarksRouteImport } from './routes/benchmarks'
+import { Route as BlogRouteImport } from './routes/blog'
 import { Route as BookRepairRouteImport } from './routes/book-repair'
+import { Route as BundleBuilderRouteImport } from './routes/bundle-builder'
 import { Route as CameraCompareRouteImport } from './routes/camera-compare'
 import { Route as CompareRouteImport } from './routes/compare'
+import { Route as CompatibilityRouteImport } from './routes/compatibility'
 import { Route as ContactRouteImport } from './routes/contact'
 import { Route as FaqRouteImport } from './routes/faq'
 import { Route as MobilesRouteImport } from './routes/mobiles'
 import { Route as OffersRouteImport } from './routes/offers'
 import { Route as PhoneFinderRouteImport } from './routes/phone-finder'
+import { Route as PriceTrackerRouteImport } from './routes/price-tracker'
 import { Route as RepairRouteImport } from './routes/repair'
 import { Route as RepairCalculatorRouteImport } from './routes/repair-calculator'
 import { Route as SizeCompareRouteImport } from './routes/size-compare'
 import { Route as SoftwareRouteImport } from './routes/software'
+import { Route as SpinWheelRouteImport } from './routes/spin-wheel'
+import { Route as StorageCalculatorRouteImport } from './routes/storage-calculator'
 import { Route as TrackRouteImport } from './routes/track'
 import { Route as TradeInRouteImport } from './routes/trade-in'
+import { Route as UnboxingRouteImport } from './routes/unboxing'
 import { Route as UsedRouteImport } from './routes/used'
 import { Route as AccessoriesCategoryRouteImport } from './routes/accessories.$category'
+import { Route as BlogIndexRouteImport } from './routes/blog.index'
+import { Route as BlogSlugRouteImport } from './routes/blog.$slug'
 import { Route as MobilesIndexRouteImport } from './routes/mobiles.index'
 import { Route as MobilesBrandRouteImport } from './routes/mobiles.$brand'
 import { Route as RepairServiceRouteImport } from './routes/repair.$service'
@@ -57,14 +68,34 @@ const AccessoriesRoute = AccessoriesRouteImport.update({
   path: '/accessories',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AiRepairRoute = AiRepairRouteImport.update({
+  id: '/ai-repair',
+  path: '/ai-repair',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const BatteryCalculatorRoute = BatteryCalculatorRouteImport.update({
   id: '/battery-calculator',
   path: '/battery-calculator',
   getParentRoute: () => rootRouteImport,
 } as any)
+const BenchmarksRoute = BenchmarksRouteImport.update({
+  id: '/benchmarks',
+  path: '/benchmarks',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const BlogRoute = BlogRouteImport.update({
+  id: '/blog',
+  path: '/blog',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const BookRepairRoute = BookRepairRouteImport.update({
   id: '/book-repair',
   path: '/book-repair',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const BundleBuilderRoute = BundleBuilderRouteImport.update({
+  id: '/bundle-builder',
+  path: '/bundle-builder',
   getParentRoute: () => rootRouteImport,
 } as any)
 const CameraCompareRoute = CameraCompareRouteImport.update({
@@ -75,6 +106,11 @@ const CameraCompareRoute = CameraCompareRouteImport.update({
 const CompareRoute = CompareRouteImport.update({
   id: '/compare',
   path: '/compare',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CompatibilityRoute = CompatibilityRouteImport.update({
+  id: '/compatibility',
+  path: '/compatibility',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ContactRoute = ContactRouteImport.update({
@@ -102,6 +138,11 @@ const PhoneFinderRoute = PhoneFinderRouteImport.update({
   path: '/phone-finder',
   getParentRoute: () => rootRouteImport,
 } as any)
+const PriceTrackerRoute = PriceTrackerRouteImport.update({
+  id: '/price-tracker',
+  path: '/price-tracker',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const RepairRoute = RepairRouteImport.update({
   id: '/repair',
   path: '/repair',
@@ -122,6 +163,16 @@ const SoftwareRoute = SoftwareRouteImport.update({
   path: '/software',
   getParentRoute: () => rootRouteImport,
 } as any)
+const SpinWheelRoute = SpinWheelRouteImport.update({
+  id: '/spin-wheel',
+  path: '/spin-wheel',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const StorageCalculatorRoute = StorageCalculatorRouteImport.update({
+  id: '/storage-calculator',
+  path: '/storage-calculator',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const TrackRoute = TrackRouteImport.update({
   id: '/track',
   path: '/track',
@@ -130,6 +181,11 @@ const TrackRoute = TrackRouteImport.update({
 const TradeInRoute = TradeInRouteImport.update({
   id: '/trade-in',
   path: '/trade-in',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const UnboxingRoute = UnboxingRouteImport.update({
+  id: '/unboxing',
+  path: '/unboxing',
   getParentRoute: () => rootRouteImport,
 } as any)
 const UsedRoute = UsedRouteImport.update({
@@ -141,6 +197,16 @@ const AccessoriesCategoryRoute = AccessoriesCategoryRouteImport.update({
   id: '/$category',
   path: '/$category',
   getParentRoute: () => AccessoriesRoute,
+} as any)
+const BlogIndexRoute = BlogIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => BlogRoute,
+} as any)
+const BlogSlugRoute = BlogSlugRouteImport.update({
+  id: '/$slug',
+  path: '/$slug',
+  getParentRoute: () => BlogRoute,
 } as any)
 const MobilesIndexRoute = MobilesIndexRouteImport.update({
   id: '/',
@@ -178,26 +244,37 @@ export interface FileRoutesByFullPath {
   '/360-viewer': typeof R360ViewerRoute
   '/about': typeof AboutRoute
   '/accessories': typeof AccessoriesRouteWithChildren
+  '/ai-repair': typeof AiRepairRoute
   '/battery-calculator': typeof BatteryCalculatorRoute
+  '/benchmarks': typeof BenchmarksRoute
+  '/blog': typeof BlogRouteWithChildren
   '/book-repair': typeof BookRepairRoute
+  '/bundle-builder': typeof BundleBuilderRoute
   '/camera-compare': typeof CameraCompareRoute
   '/compare': typeof CompareRoute
+  '/compatibility': typeof CompatibilityRoute
   '/contact': typeof ContactRoute
   '/faq': typeof FaqRoute
   '/mobiles': typeof MobilesRouteWithChildren
   '/offers': typeof OffersRoute
   '/phone-finder': typeof PhoneFinderRoute
+  '/price-tracker': typeof PriceTrackerRoute
   '/repair': typeof RepairRouteWithChildren
   '/repair-calculator': typeof RepairCalculatorRoute
   '/size-compare': typeof SizeCompareRoute
   '/software': typeof SoftwareRoute
+  '/spin-wheel': typeof SpinWheelRoute
+  '/storage-calculator': typeof StorageCalculatorRoute
   '/track': typeof TrackRoute
   '/trade-in': typeof TradeInRoute
+  '/unboxing': typeof UnboxingRoute
   '/used': typeof UsedRouteWithChildren
   '/accessories/$category': typeof AccessoriesCategoryRoute
+  '/blog/$slug': typeof BlogSlugRoute
   '/mobiles/$brand': typeof MobilesBrandRouteWithChildren
   '/repair/$service': typeof RepairServiceRoute
   '/used/$id': typeof UsedIdRoute
+  '/blog/': typeof BlogIndexRoute
   '/mobiles/': typeof MobilesIndexRoute
   '/accessories/$category/$id': typeof AccessoriesCategoryIdRoute
   '/mobiles/$brand/$model': typeof MobilesBrandModelRoute
@@ -207,25 +284,35 @@ export interface FileRoutesByTo {
   '/360-viewer': typeof R360ViewerRoute
   '/about': typeof AboutRoute
   '/accessories': typeof AccessoriesRouteWithChildren
+  '/ai-repair': typeof AiRepairRoute
   '/battery-calculator': typeof BatteryCalculatorRoute
+  '/benchmarks': typeof BenchmarksRoute
   '/book-repair': typeof BookRepairRoute
+  '/bundle-builder': typeof BundleBuilderRoute
   '/camera-compare': typeof CameraCompareRoute
   '/compare': typeof CompareRoute
+  '/compatibility': typeof CompatibilityRoute
   '/contact': typeof ContactRoute
   '/faq': typeof FaqRoute
   '/offers': typeof OffersRoute
   '/phone-finder': typeof PhoneFinderRoute
+  '/price-tracker': typeof PriceTrackerRoute
   '/repair': typeof RepairRouteWithChildren
   '/repair-calculator': typeof RepairCalculatorRoute
   '/size-compare': typeof SizeCompareRoute
   '/software': typeof SoftwareRoute
+  '/spin-wheel': typeof SpinWheelRoute
+  '/storage-calculator': typeof StorageCalculatorRoute
   '/track': typeof TrackRoute
   '/trade-in': typeof TradeInRoute
+  '/unboxing': typeof UnboxingRoute
   '/used': typeof UsedRouteWithChildren
   '/accessories/$category': typeof AccessoriesCategoryRoute
+  '/blog/$slug': typeof BlogSlugRoute
   '/mobiles/$brand': typeof MobilesBrandRouteWithChildren
   '/repair/$service': typeof RepairServiceRoute
   '/used/$id': typeof UsedIdRoute
+  '/blog': typeof BlogIndexRoute
   '/mobiles': typeof MobilesIndexRoute
   '/accessories/$category/$id': typeof AccessoriesCategoryIdRoute
   '/mobiles/$brand/$model': typeof MobilesBrandModelRoute
@@ -236,26 +323,37 @@ export interface FileRoutesById {
   '/360-viewer': typeof R360ViewerRoute
   '/about': typeof AboutRoute
   '/accessories': typeof AccessoriesRouteWithChildren
+  '/ai-repair': typeof AiRepairRoute
   '/battery-calculator': typeof BatteryCalculatorRoute
+  '/benchmarks': typeof BenchmarksRoute
+  '/blog': typeof BlogRouteWithChildren
   '/book-repair': typeof BookRepairRoute
+  '/bundle-builder': typeof BundleBuilderRoute
   '/camera-compare': typeof CameraCompareRoute
   '/compare': typeof CompareRoute
+  '/compatibility': typeof CompatibilityRoute
   '/contact': typeof ContactRoute
   '/faq': typeof FaqRoute
   '/mobiles': typeof MobilesRouteWithChildren
   '/offers': typeof OffersRoute
   '/phone-finder': typeof PhoneFinderRoute
+  '/price-tracker': typeof PriceTrackerRoute
   '/repair': typeof RepairRouteWithChildren
   '/repair-calculator': typeof RepairCalculatorRoute
   '/size-compare': typeof SizeCompareRoute
   '/software': typeof SoftwareRoute
+  '/spin-wheel': typeof SpinWheelRoute
+  '/storage-calculator': typeof StorageCalculatorRoute
   '/track': typeof TrackRoute
   '/trade-in': typeof TradeInRoute
+  '/unboxing': typeof UnboxingRoute
   '/used': typeof UsedRouteWithChildren
   '/accessories/$category': typeof AccessoriesCategoryRoute
+  '/blog/$slug': typeof BlogSlugRoute
   '/mobiles/$brand': typeof MobilesBrandRouteWithChildren
   '/repair/$service': typeof RepairServiceRoute
   '/used/$id': typeof UsedIdRoute
+  '/blog/': typeof BlogIndexRoute
   '/mobiles/': typeof MobilesIndexRoute
   '/accessories_/$category/$id': typeof AccessoriesCategoryIdRoute
   '/mobiles/$brand/$model': typeof MobilesBrandModelRoute
@@ -267,26 +365,37 @@ export interface FileRouteTypes {
     | '/360-viewer'
     | '/about'
     | '/accessories'
+    | '/ai-repair'
     | '/battery-calculator'
+    | '/benchmarks'
+    | '/blog'
     | '/book-repair'
+    | '/bundle-builder'
     | '/camera-compare'
     | '/compare'
+    | '/compatibility'
     | '/contact'
     | '/faq'
     | '/mobiles'
     | '/offers'
     | '/phone-finder'
+    | '/price-tracker'
     | '/repair'
     | '/repair-calculator'
     | '/size-compare'
     | '/software'
+    | '/spin-wheel'
+    | '/storage-calculator'
     | '/track'
     | '/trade-in'
+    | '/unboxing'
     | '/used'
     | '/accessories/$category'
+    | '/blog/$slug'
     | '/mobiles/$brand'
     | '/repair/$service'
     | '/used/$id'
+    | '/blog/'
     | '/mobiles/'
     | '/accessories/$category/$id'
     | '/mobiles/$brand/$model'
@@ -296,25 +405,35 @@ export interface FileRouteTypes {
     | '/360-viewer'
     | '/about'
     | '/accessories'
+    | '/ai-repair'
     | '/battery-calculator'
+    | '/benchmarks'
     | '/book-repair'
+    | '/bundle-builder'
     | '/camera-compare'
     | '/compare'
+    | '/compatibility'
     | '/contact'
     | '/faq'
     | '/offers'
     | '/phone-finder'
+    | '/price-tracker'
     | '/repair'
     | '/repair-calculator'
     | '/size-compare'
     | '/software'
+    | '/spin-wheel'
+    | '/storage-calculator'
     | '/track'
     | '/trade-in'
+    | '/unboxing'
     | '/used'
     | '/accessories/$category'
+    | '/blog/$slug'
     | '/mobiles/$brand'
     | '/repair/$service'
     | '/used/$id'
+    | '/blog'
     | '/mobiles'
     | '/accessories/$category/$id'
     | '/mobiles/$brand/$model'
@@ -324,26 +443,37 @@ export interface FileRouteTypes {
     | '/360-viewer'
     | '/about'
     | '/accessories'
+    | '/ai-repair'
     | '/battery-calculator'
+    | '/benchmarks'
+    | '/blog'
     | '/book-repair'
+    | '/bundle-builder'
     | '/camera-compare'
     | '/compare'
+    | '/compatibility'
     | '/contact'
     | '/faq'
     | '/mobiles'
     | '/offers'
     | '/phone-finder'
+    | '/price-tracker'
     | '/repair'
     | '/repair-calculator'
     | '/size-compare'
     | '/software'
+    | '/spin-wheel'
+    | '/storage-calculator'
     | '/track'
     | '/trade-in'
+    | '/unboxing'
     | '/used'
     | '/accessories/$category'
+    | '/blog/$slug'
     | '/mobiles/$brand'
     | '/repair/$service'
     | '/used/$id'
+    | '/blog/'
     | '/mobiles/'
     | '/accessories_/$category/$id'
     | '/mobiles/$brand/$model'
@@ -354,21 +484,30 @@ export interface RootRouteChildren {
   R360ViewerRoute: typeof R360ViewerRoute
   AboutRoute: typeof AboutRoute
   AccessoriesRoute: typeof AccessoriesRouteWithChildren
+  AiRepairRoute: typeof AiRepairRoute
   BatteryCalculatorRoute: typeof BatteryCalculatorRoute
+  BenchmarksRoute: typeof BenchmarksRoute
+  BlogRoute: typeof BlogRouteWithChildren
   BookRepairRoute: typeof BookRepairRoute
+  BundleBuilderRoute: typeof BundleBuilderRoute
   CameraCompareRoute: typeof CameraCompareRoute
   CompareRoute: typeof CompareRoute
+  CompatibilityRoute: typeof CompatibilityRoute
   ContactRoute: typeof ContactRoute
   FaqRoute: typeof FaqRoute
   MobilesRoute: typeof MobilesRouteWithChildren
   OffersRoute: typeof OffersRoute
   PhoneFinderRoute: typeof PhoneFinderRoute
+  PriceTrackerRoute: typeof PriceTrackerRoute
   RepairRoute: typeof RepairRouteWithChildren
   RepairCalculatorRoute: typeof RepairCalculatorRoute
   SizeCompareRoute: typeof SizeCompareRoute
   SoftwareRoute: typeof SoftwareRoute
+  SpinWheelRoute: typeof SpinWheelRoute
+  StorageCalculatorRoute: typeof StorageCalculatorRoute
   TrackRoute: typeof TrackRoute
   TradeInRoute: typeof TradeInRoute
+  UnboxingRoute: typeof UnboxingRoute
   UsedRoute: typeof UsedRouteWithChildren
   AccessoriesCategoryIdRoute: typeof AccessoriesCategoryIdRoute
 }
@@ -403,6 +542,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AccessoriesRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/ai-repair': {
+      id: '/ai-repair'
+      path: '/ai-repair'
+      fullPath: '/ai-repair'
+      preLoaderRoute: typeof AiRepairRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/battery-calculator': {
       id: '/battery-calculator'
       path: '/battery-calculator'
@@ -410,11 +556,32 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof BatteryCalculatorRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/benchmarks': {
+      id: '/benchmarks'
+      path: '/benchmarks'
+      fullPath: '/benchmarks'
+      preLoaderRoute: typeof BenchmarksRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/blog': {
+      id: '/blog'
+      path: '/blog'
+      fullPath: '/blog'
+      preLoaderRoute: typeof BlogRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/book-repair': {
       id: '/book-repair'
       path: '/book-repair'
       fullPath: '/book-repair'
       preLoaderRoute: typeof BookRepairRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/bundle-builder': {
+      id: '/bundle-builder'
+      path: '/bundle-builder'
+      fullPath: '/bundle-builder'
+      preLoaderRoute: typeof BundleBuilderRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/camera-compare': {
@@ -429,6 +596,13 @@ declare module '@tanstack/react-router' {
       path: '/compare'
       fullPath: '/compare'
       preLoaderRoute: typeof CompareRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/compatibility': {
+      id: '/compatibility'
+      path: '/compatibility'
+      fullPath: '/compatibility'
+      preLoaderRoute: typeof CompatibilityRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/contact': {
@@ -466,6 +640,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PhoneFinderRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/price-tracker': {
+      id: '/price-tracker'
+      path: '/price-tracker'
+      fullPath: '/price-tracker'
+      preLoaderRoute: typeof PriceTrackerRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/repair': {
       id: '/repair'
       path: '/repair'
@@ -494,6 +675,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof SoftwareRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/spin-wheel': {
+      id: '/spin-wheel'
+      path: '/spin-wheel'
+      fullPath: '/spin-wheel'
+      preLoaderRoute: typeof SpinWheelRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/storage-calculator': {
+      id: '/storage-calculator'
+      path: '/storage-calculator'
+      fullPath: '/storage-calculator'
+      preLoaderRoute: typeof StorageCalculatorRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/track': {
       id: '/track'
       path: '/track'
@@ -506,6 +701,13 @@ declare module '@tanstack/react-router' {
       path: '/trade-in'
       fullPath: '/trade-in'
       preLoaderRoute: typeof TradeInRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/unboxing': {
+      id: '/unboxing'
+      path: '/unboxing'
+      fullPath: '/unboxing'
+      preLoaderRoute: typeof UnboxingRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/used': {
@@ -521,6 +723,20 @@ declare module '@tanstack/react-router' {
       fullPath: '/accessories/$category'
       preLoaderRoute: typeof AccessoriesCategoryRouteImport
       parentRoute: typeof AccessoriesRoute
+    }
+    '/blog/': {
+      id: '/blog/'
+      path: '/'
+      fullPath: '/blog/'
+      preLoaderRoute: typeof BlogIndexRouteImport
+      parentRoute: typeof BlogRoute
+    }
+    '/blog/$slug': {
+      id: '/blog/$slug'
+      path: '/$slug'
+      fullPath: '/blog/$slug'
+      preLoaderRoute: typeof BlogSlugRouteImport
+      parentRoute: typeof BlogRoute
     }
     '/mobiles/': {
       id: '/mobiles/'
@@ -579,6 +795,18 @@ const AccessoriesRouteWithChildren = AccessoriesRoute._addFileChildren(
   AccessoriesRouteChildren,
 )
 
+interface BlogRouteChildren {
+  BlogSlugRoute: typeof BlogSlugRoute
+  BlogIndexRoute: typeof BlogIndexRoute
+}
+
+const BlogRouteChildren: BlogRouteChildren = {
+  BlogSlugRoute: BlogSlugRoute,
+  BlogIndexRoute: BlogIndexRoute,
+}
+
+const BlogRouteWithChildren = BlogRoute._addFileChildren(BlogRouteChildren)
+
 interface MobilesBrandRouteChildren {
   MobilesBrandModelRoute: typeof MobilesBrandModelRoute
 }
@@ -630,21 +858,30 @@ const rootRouteChildren: RootRouteChildren = {
   R360ViewerRoute: R360ViewerRoute,
   AboutRoute: AboutRoute,
   AccessoriesRoute: AccessoriesRouteWithChildren,
+  AiRepairRoute: AiRepairRoute,
   BatteryCalculatorRoute: BatteryCalculatorRoute,
+  BenchmarksRoute: BenchmarksRoute,
+  BlogRoute: BlogRouteWithChildren,
   BookRepairRoute: BookRepairRoute,
+  BundleBuilderRoute: BundleBuilderRoute,
   CameraCompareRoute: CameraCompareRoute,
   CompareRoute: CompareRoute,
+  CompatibilityRoute: CompatibilityRoute,
   ContactRoute: ContactRoute,
   FaqRoute: FaqRoute,
   MobilesRoute: MobilesRouteWithChildren,
   OffersRoute: OffersRoute,
   PhoneFinderRoute: PhoneFinderRoute,
+  PriceTrackerRoute: PriceTrackerRoute,
   RepairRoute: RepairRouteWithChildren,
   RepairCalculatorRoute: RepairCalculatorRoute,
   SizeCompareRoute: SizeCompareRoute,
   SoftwareRoute: SoftwareRoute,
+  SpinWheelRoute: SpinWheelRoute,
+  StorageCalculatorRoute: StorageCalculatorRoute,
   TrackRoute: TrackRoute,
   TradeInRoute: TradeInRoute,
+  UnboxingRoute: UnboxingRoute,
   UsedRoute: UsedRouteWithChildren,
   AccessoriesCategoryIdRoute: AccessoriesCategoryIdRoute,
 }

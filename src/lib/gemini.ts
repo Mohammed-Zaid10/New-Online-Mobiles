@@ -13,7 +13,7 @@ export const chatWithGemini = createServerFn({ method: "POST" })
 
     // Format entire inventory for context (Gemini 2.5 Flash has a huge context window)
     const inventoryInfo = mobiles.map(m => 
-      `- ${m.brand} ${m.name}: ${m.price ? inr(m.price) : "Out of stock"}. Specs: Processor: ${m.specs.processor}, RAM: ${m.specs.ram}, Storage: ${m.specs.storage}. Camera: ${m.specs.camera}. Battery: ${m.specs.battery}`
+      `- ${m.brand} ${m.model}: ${m.price ? inr(m.price) : "Out of stock"}. Specs: Processor: ${m.specs.processor}, RAM: ${m.specs.ram}, Storage: ${m.storage.join("/")}. Camera: ${m.specs.camera}. Battery: ${m.specs.battery}`
     ).join("\n");
 
     const systemPrompt = `You are the expert mobile consultant and AI assistant for ${SHOP.name}.
@@ -169,5 +169,150 @@ Do not output markdown, just the JSON array.`;
     } catch (error: any) {
       console.error("Gemini API Error:", error);
       throw new Error("Failed to communicate with AI assistant.");
+    }
+  });
+
+export const analyzeRepair = createServerFn({ method: "POST" })
+  .validator((data: { brand: string; model: string; issue: string }) => data)
+  .handler(async ({ data }) => {
+    const apiKey = process.env.VITE_GEMINI_API_KEY || process.env.GEMINI_API_KEY;
+    if (!apiKey) {
+      throw new Error("GEMINI_API_KEY is not set in the environment.");
+    }
+
+    const systemPrompt = `You are an expert mobile repair technician for ${SHOP.name}.
+A customer has a ${data.brand} ${data.model} with the following issue: "${data.issue}".
+
+Analyze this issue and provide a STRICT JSON response with exactly these fields:
+- "possibleCause": A short, clear explanation of what is likely causing the issue (max 2 sentences).
+- "estimatedRepair": A brief indication of what needs to be repaired or replaced, and an estimated cost range in INR (₹).
+- "repairTime": The estimated time required to fix this issue (e.g., "30-60 mins", "24-48 hours").
+- "precautions": An array of 2-3 short, actionable strings on what the customer should or shouldn't do immediately to prevent further damage.
+
+Do not output markdown, just the JSON object.`;
+
+    try {
+      const payload = {
+        contents: [
+          { role: "user", parts: [{ text: systemPrompt }] }
+        ],
+        generationConfig: {
+          temperature: 0.2,
+          response_mime_type: "application/json"
+        }
+      };
+
+      const URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-3.5-flash-lite:generateContent?key=${apiKey}`;
+
+      const response = await fetch(URL, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload)
+      });
+
+      if (!response.ok) {
+        throw new Error(`API returned status: ${response.status}`);
+      }
+
+      const responseData = await response.json();
+      const text = responseData.candidates[0].content.parts[0].text;
+      
+      return JSON.parse(text) as {
+        possibleCause: string;
+        estimatedRepair: string;
+        repairTime: string;
+        precautions: string[];
+      };
+    } catch (error: any) {
+      console.error("Gemini API Error:", error);
+      throw new Error("Failed to analyze repair issue.");
+    }
+  });
+
+export const generateCompareReport = createServerFn({ method: "POST" })
+  .validator((data: { 
+    phones: { id: string; brand: string; model: string; price: number; processor: string; display: string }[]
+  }) => data)
+  .handler(async ({ data }) => {
+    const apiKey = process.env.VITE_GEMINI_API_KEY || process.env.GEMINI_API_KEY;
+    if (!apiKey) {
+      throw new Error("GEMINI_API_KEY is not set in the environment.");
+    }
+
+    const phoneContext = data.phones.map(p => 
+      `ID: "${p.id}" | ${p.brand} ${p.model} (Price: ${p.price}, CPU: ${p.processor}, Disp: ${p.display})`
+    ).join("\n");
+
+    const systemPrompt = `You are a smartphone expert generating a detailed comparison report.
+I have these phones:
+${phoneContext}
+
+Generate a STRICT JSON response with the following schema exactly (no markdown):
+{
+  "specs": [ // Array matching the order of the phones provided
+    {
+      "id": "phone_id_here",
+      "resolution": "e.g. 2796x1290",
+      "refreshRate": "e.g. 120Hz",
+      "gpu": "e.g. Apple GPU (6-core)",
+      "frontCamera": "e.g. 12MP",
+      "chargingSpeed": "e.g. 27W Wired, 15W MagSafe",
+      "dimensions": "e.g. 159.9 x 76.7 x 8.25 mm",
+      "wifiVersion": "e.g. Wi-Fi 6E",
+      "bluetoothVersion": "e.g. BT 5.3",
+      "nfc": "Yes" or "No",
+      "waterResistance": "e.g. IP68",
+      "fingerprintType": "e.g. In-display Ultrasonic",
+      "faceUnlock": "e.g. 3D Face ID",
+      "simType": "e.g. Dual SIM (Nano + eSIM)",
+      "pros": ["Pro 1", "Pro 2", "Pro 3"],
+      "cons": ["Con 1", "Con 2"],
+      "ratings": {
+        "camera": 0-5,
+        "gaming": 0-5,
+        "battery": 0-5,
+        "display": 0-5,
+        "performance": 0-5,
+        "value": 0-5
+      }
+    }
+  ],
+  "summary": {
+    "bestCamera": { "phoneId": "...", "reason": "..." },
+    "bestGaming": { "phoneId": "...", "reason": "..." },
+    "bestBattery": { "phoneId": "...", "reason": "..." },
+    "bestBudget": { "phoneId": "...", "reason": "..." },
+    "overallWinner": { "phoneId": "...", "reason": "..." }
+  }
+}
+
+Important: The "id" inside each spec must perfectly match the ID from the input list. Estimate accurately if exact specs are ambiguous.`;
+
+    try {
+      const payload = {
+        contents: [
+          { role: "user", parts: [{ text: systemPrompt }] }
+        ],
+        generationConfig: {
+          temperature: 0.1,
+          response_mime_type: "application/json"
+        }
+      };
+
+      const URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-3.5-flash-lite:generateContent?key=${apiKey}`;
+      const response = await fetch(URL, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload)
+      });
+
+      if (!response.ok) { throw new Error(`API returned status: ${response.status}`); }
+
+      const responseData = await response.json();
+      const text = responseData.candidates[0].content.parts[0].text;
+      return JSON.parse(text);
+    } catch (error: any) {
+      console.error("Gemini API Error:", error);
+      throw new Error("Failed to generate comparison report.");
     }
   });

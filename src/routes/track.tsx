@@ -24,7 +24,10 @@ function TrackPage() {
   const [result, setResult] = useState<{ id: string; phone: string; stage: number } | null>(null);
 
   return (
-    <>
+    <div
+      className="min-h-screen bg-cover bg-center bg-fixed pb-16"
+      style={{ backgroundImage: "linear-gradient(to bottom, rgba(8,8,8,0.8), rgba(8,8,8,0.95)), url('/backgrounds/services-bg.jpg')" }}
+    >
       <PageHeader eyebrow="Repair" title="Track your repair" />
       <div className="mx-auto max-w-7xl px-4 py-6 md:px-6">
         <Breadcrumbs items={[{ label: "Track" }]} />
@@ -62,7 +65,7 @@ function TrackPage() {
           </div>
         </div>
       )}
-    </>
+    </div>
   );
 }
 const inp = "w-full rounded-xl border border-border bg-background px-3 py-2.5 text-sm";

@@ -1,0 +1,337 @@
+{
+  "iphone-13-mini": [
+    {
+      "colorName": "Midnight",
+      "image": "/phones/variants/iphone-13-mini-midnight.png",
+      "inStock": true
+    },
+    {
+      "colorName": "Starlight",
+      "image": "/phones/variants/iphone-13-mini-starlight.png",
+      "inStock": true
+    },
+    {
+      "colorName": "Blue",
+      "image": "/phones/variants/iphone-13-mini-blue.png",
+      "inStock": true
+    },
+    {
+      "colorName": "Pink",
+      "image": "/phones/variants/iphone-13-mini-pink.png",
+      "inStock": true
+    }
+  ],
+  "iphone-13": [
+    {
+      "colorName": "Midnight",
+      "image": "/phones/variants/iphone-13-midnight.png",
+      "inStock": true
+    },
+    {
+      "colorName": "Blue",
+      "image": "/phones/variants/iphone-13-blue.png",
+      "inStock": true
+    },
+    {
+      "colorName": "Sierra Blue",
+      "image": "/phones/variants/iphone-13-sierra-blue.png",
+      "inStock": true
+    }
+  ],
+  "iphone-13-pro": [
+    {
+      "colorName": "Silver",
+      "image": "/phones/variants/iphone-13-pro-silver.png",
+      "inStock": true
+    },
+    {
+      "colorName": "Sierra Blue",
+      "image": "/phones/variants/iphone-13-pro-sierra-blue.png",
+      "inStock": true
+    }
+  ],
+  "iphone-13-pro-max": [
+    {
+      "colorName": "Silver",
+      "image": "/phones/variants/iphone-13-pro-max-silver.png",
+      "inStock": true
+    },
+    {
+      "colorName": "Alpine Green",
+      "image": "/phones/variants/iphone-13-pro-max-alpine-green.png",
+      "inStock": true
+    }
+  ],
+  "iphone-14": [
+    {
+      "colorName": "Midnight",
+      "image": "/phones/variants/iphone-14-midnight.png",
+      "inStock": true
+    },
+    {
+      "colorName": "Yellow",
+      "image": "/phones/variants/iphone-14-yellow.png",
+      "inStock": true
+    }
+  ],
+  "iphone-15": [
+    {
+      "colorName": "Black",
+      "image": "/phones/variants/iphone-15-black.png",
+      "inStock": true
+    },
+    {
+      "colorName": "Pink",
+      "image": "/phones/variants/iphone-15-pink.png",
+      "inStock": true
+    }
+  ],
+  "iphone-16": [
+    {
+      "colorName": "Black",
+      "image": "/phones/variants/iphone-16-black.png",
+      "inStock": true
+    },
+    {
+      "colorName": "Ultramarine",
+      "image": "/phones/variants/iphone-16-ultramarine.png",
+      "inStock": true
+    }
+  ],
+  "samsung-galaxy-s24-ultra": [
+    {
+      "colorName": "Titanium Black",
+      "image": "/phones/variants/samsung-galaxy-s24-ultra-titanium-black.png",
+      "inStock": true
+    },
+    {
+      "colorName": "Titanium Violet",
+      "image": "/phones/variants/samsung-galaxy-s24-ultra-titanium-violet.png",
+      "inStock": true
+    },
+    {
+      "colorName": "Titanium Yellow",
+      "image": "/phones/variants/samsung-galaxy-s24-ultra-titanium-yellow.png",
+      "inStock": true
+    }
+  ],
+  "samsung-galaxy-s24": [
+    {
+      "colorName": "Cobalt Violet",
+      "image": "/phones/variants/samsung-galaxy-s24-cobalt-violet.png",
+      "inStock": true
+    },
+    {
+      "colorName": "Marble Gray",
+      "image": "/phones/variants/samsung-galaxy-s24-marble-gray.png",
+      "inStock": true
+    }
+  ],
+  "samsung-galaxy-a55": [
+    {
+      "colorName": "Ice Blue",
+      "image": "/phones/variants/samsung-galaxy-a55-ice-blue.png",
+      "inStock": true
+    },
+    {
+      "colorName": "Lemon",
+      "image": "/phones/variants/samsung-galaxy-a55-lemon.png",
+      "inStock": true
+    }
+  ],
+  "samsung-galaxy-m35-5g": [
+    {
+      "colorName": "Mint",
+      "image": "/phones/variants/samsung-galaxy-m35-5g-mint.png",
+      "inStock": true
+    }
+  ],
+  "vivo-x100-pro": [
+    {
+      "colorName": "Blue",
+      "image": "/phones/variants/vivo-x100-pro-blue.png",
+      "inStock": true
+    },
+    {
+      "colorName": "Orange",
+      "image": "/phones/variants/vivo-x100-pro-orange.png",
+      "inStock": true
+    }
+  ],
+  "vivo-v30-pro": [
+    {
+      "colorName": "Blue",
+      "image": "/phones/variants/vivo-v30-pro-blue.png",
+      "inStock": true
+    }
+  ],
+  "vivo-y200-5g": [
+    {
+      "colorName": "Green",
+      "image": "/phones/variants/vivo-y200-5g-green.png",
+      "inStock": true
+    }
+  ],
+  "oppo-reno-12-pro": [
+    {
+      "colorName": "Pink",
+      "image": "/phones/variants/oppo-reno-12-pro-pink.png",
+      "inStock": true
+    },
+    {
+      "colorName": "Gold",
+      "image": "/phones/variants/oppo-reno-12-pro-gold.png",
+      "inStock": true
+    }
+  ],
+  "xiaomi-14": [
+    {
+      "colorName": "Green",
+      "image": "/phones/variants/xiaomi-14-green.png",
+      "inStock": true
+    },
+    {
+      "colorName": "White",
+      "image": "/phones/variants/xiaomi-14-white.png",
+      "inStock": true
+    }
+  ],
+  "redmi-note-13-pro-plus": [
+    {
+      "colorName": "Black",
+      "image": "/phones/variants/redmi-note-13-pro-plus-black.png",
+      "inStock": true
+    },
+    {
+      "colorName": "Green",
+      "image": "/phones/variants/redmi-note-13-pro-plus-green.png",
+      "inStock": true
+    }
+  ],
+  "redmi-13c-5g": [
+    {
+      "colorName": "Black",
+      "image": "/phones/variants/redmi-13c-5g-black.png",
+      "inStock": true
+    },
+    {
+      "colorName": "Silver",
+      "image": "/phones/variants/redmi-13c-5g-silver.png",
+      "inStock": true
+    }
+  ],
+  "oneplus-12": [
+    {
+      "colorName": "Silver",
+      "image": "/phones/variants/oneplus-12-silver.png",
+      "inStock": true
+    },
+    {
+      "colorName": "Black",
+      "image": "/phones/variants/oneplus-12-black.png",
+      "inStock": true
+    }
+  ],
+  "oneplus-nord-4": [
+    {
+      "colorName": "Mercurial Silver",
+      "image": "/phones/variants/oneplus-nord-4-mercurial-silver.png",
+      "inStock": true
+    },
+    {
+      "colorName": "Obsidian Midnight",
+      "image": "/phones/variants/oneplus-nord-4-obsidian-midnight.png",
+      "inStock": true
+    }
+  ],
+  "realme-gt-6": [
+    {
+      "colorName": "Fluid Silver",
+      "image": "/phones/variants/realme-gt-6-fluid-silver.png",
+      "inStock": true
+    }
+  ],
+  "realme-narzo-70-pro": [
+    {
+      "colorName": "Glass Green",
+      "image": "/phones/variants/realme-narzo-70-pro-glass-green.png",
+      "inStock": true
+    }
+  ],
+  "motorola-edge-50-ultra": [
+    {
+      "colorName": "Peach Fuzz",
+      "image": "/phones/variants/motorola-edge-50-ultra-peach-fuzz.png",
+      "inStock": true
+    },
+    {
+      "colorName": "Nordic Wood",
+      "image": "/phones/variants/motorola-edge-50-ultra-nordic-wood.png",
+      "inStock": true
+    }
+  ],
+  "moto-g84-5g": [
+    {
+      "colorName": "Viva Magenta",
+      "image": "/phones/variants/moto-g84-5g-viva-magenta.png",
+      "inStock": true
+    },
+    {
+      "colorName": "Midnight Blue",
+      "image": "/phones/variants/moto-g84-5g-midnight-blue.png",
+      "inStock": true
+    }
+  ],
+  "pixel-8-pro": [
+    {
+      "colorName": "Obsidian",
+      "image": "/phones/variants/pixel-8-pro-obsidian.png",
+      "inStock": true
+    }
+  ],
+  "pixel-8a": [
+    {
+      "colorName": "Obsidian",
+      "image": "/phones/variants/pixel-8a-obsidian.png",
+      "inStock": true
+    },
+    {
+      "colorName": "Bay",
+      "image": "/phones/variants/pixel-8a-bay.png",
+      "inStock": true
+    }
+  ],
+  "nothing-phone-2": [
+    {
+      "colorName": "White",
+      "image": "/phones/variants/nothing-phone-2-white.png",
+      "inStock": true
+    }
+  ],
+  "nothing-phone-2a": [
+    {
+      "colorName": "Black",
+      "image": "/phones/variants/nothing-phone-2a-black.png",
+      "inStock": true
+    }
+  ],
+  "honor-200-pro": [
+    {
+      "colorName": "White/Gold",
+      "image": "/phones/variants/honor-200-pro-white-gold.png",
+      "inStock": true
+    }
+  ],
+  "tecno-camon-30-pro-5g": [
+    {
+      "colorName": "Black",
+      "image": "/phones/variants/tecno-camon-30-pro-5g-black.png",
+      "inStock": true
+    },
+    {
+      "colorName": "Silver",
+      "image": "/phones/variants/tecno-camon-30-pro-5g-silver.png",
+      "inStock": true
+    }
+  ]
+}

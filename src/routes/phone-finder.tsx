@@ -333,7 +333,10 @@ function PhoneFinderPage() {
   };
 
   return (
-    <div className="min-h-screen bg-background text-foreground pb-20">
+    <div 
+      className="min-h-screen text-foreground pb-20 bg-cover bg-center bg-fixed"
+      style={{ backgroundImage: "linear-gradient(to bottom, rgba(8,8,8,0.75), rgba(8,8,8,0.95)), url('/backgrounds/features-bg.jpg')" }}
+    >
       <div className="bg-muted py-6 mb-8">
         <div className="mx-auto max-w-7xl px-4 md:px-6">
           <Breadcrumbs
@@ -344,7 +347,7 @@ function PhoneFinderPage() {
           />
           <PageHeader
             title="AI Phone Finder"
-            description="Let our AI assist you in discovering the perfect smartphone matching your lifestyle, preferences, and budget."
+            subtitle="Let our AI assist you in discovering the perfect smartphone matching your lifestyle, preferences, and budget."
           />
         </div>
       </div>
@@ -442,7 +445,7 @@ function PhoneFinderPage() {
                   >
                     <div className="relative p-6 flex justify-center bg-white">
                       <img 
-                        src={phone.isUsed ? phone.image : phone.images[0]} 
+                        src={'image' in phone ? phone.image : phone.images[0]} 
                         alt={`${phone.brand} ${phone.model}`}
                         className="h-48 object-contain drop-shadow-md"
                       />

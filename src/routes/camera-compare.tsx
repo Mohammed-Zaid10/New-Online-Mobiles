@@ -25,7 +25,7 @@ function CameraComparePage() {
         <PageHeader
           eyebrow="Interactive Camera Lab"
           title="Camera Comparison Simulator"
-          description="Drag the real-time split screen slider to analyze photo detail, low light capability, zoom sharpness, portrait edge detection, and video stabilization between top flagship smartphones."
+          subtitle="Drag the real-time split screen slider to analyze photo detail, low light capability, zoom sharpness, portrait edge detection, and video stabilization between top flagship smartphones."
         />
 
         <div className="mt-8">
@@ -35,3 +35,4 @@ function CameraComparePage() {
     </div>
   );
 }
+

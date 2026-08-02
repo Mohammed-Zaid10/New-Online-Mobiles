@@ -28,12 +28,15 @@ function RepairDetail() {
   const Icon = (Icons as any)[r.icon] ?? Icons.Wrench;
 
   return (
-    <>
+    <div
+      className="min-h-screen bg-cover bg-center bg-fixed pb-16"
+      style={{ backgroundImage: "linear-gradient(to bottom, rgba(8,8,8,0.8), rgba(8,8,8,0.95)), url('/backgrounds/services-bg.jpg')" }}
+    >
       {/* Dark Repair Header with Background Phone Repairing Workstation */}
       <section className="relative overflow-hidden bg-[#07060c] text-white py-14 border-b border-amber-500/20">
         <div className="absolute inset-0 z-0 opacity-20">
           <img
-            src="/repair-1.png"
+            src="/backgrounds/services-bg.jpg"
             alt="Phone repairing workstation background"
             className="h-full w-full object-cover filter contrast-125 brightness-75 scale-105"
           />
@@ -143,6 +146,6 @@ function RepairDetail() {
           </div>
         </div>
       </div>
-    </>
+    </div>
   );
 }

@@ -26,7 +26,10 @@ function UsedList() {
   const [cond, setCond] = useState<string | null>(null);
   const items = usedPhones.filter((p) => !cond || p.condition === cond);
   return (
-    <>
+    <div
+      className="min-h-screen bg-cover bg-center bg-fixed pb-16"
+      style={{ backgroundImage: "linear-gradient(to bottom, rgba(8,8,8,0.7), rgba(8,8,8,0.95)), url('/backgrounds/features-bg.jpg')" }}
+    >
       <PageHeader eyebrow="Second-hand" title="Certified pre-owned mobiles" subtitle="Every phone battery-tested, IMEI-verified and covered by shop warranty." />
       <div className="mx-auto max-w-7xl px-4 py-6 md:px-6">
         <Breadcrumbs items={[{ label: "Used Mobiles" }]} />
@@ -67,7 +70,7 @@ function UsedList() {
           </Link>
         ))}
       </div>
-    </>
+    </div>
   );
 }
 function Badge({ children }: { children: React.ReactNode }) {

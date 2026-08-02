@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { ProductViewer360, SAMPLE_360_PRODUCTS } from "@/components/site/ProductViewer360";
+import { ProductViewer360, PHONES } from "@/components/site/ProductViewer360";
 import { PageHeader } from "@/components/site/Section";
 import { Breadcrumbs } from "@/components/site/Breadcrumbs";
 import { SHOP } from "@/lib/shop";
@@ -17,7 +17,10 @@ export const Route = createFileRoute("/360-viewer")({
 
 function Viewer360Page() {
   return (
-    <div className="min-h-screen bg-background pb-20">
+    <div 
+      className="min-h-screen bg-cover bg-center bg-fixed text-white pb-20"
+      style={{ backgroundImage: "linear-gradient(to bottom, rgba(8,8,8,0.75), rgba(8,8,8,0.95)), url('/backgrounds/features-bg.jpg')" }}
+    >
       <PageHeader 
         eyebrow="Interactive Experience" 
         title="360° Product Studio" 

@@ -20,7 +20,10 @@ export const Route = createFileRoute("/accessories")({
 
 function AccessoriesHub() {
   return (
-    <>
+    <div
+      className="min-h-screen bg-cover bg-center bg-fixed pb-16"
+      style={{ backgroundImage: "linear-gradient(to bottom, rgba(8,8,8,0.7), rgba(8,8,8,0.9)), url('/backgrounds/accessories-bg.jpg')" }}
+    >
       <PageHeader eyebrow="Accessories" title="Everything for your phone" subtitle="20 curated categories, real prices, real stock." />
       <div className="mx-auto max-w-7xl px-4 py-6 md:px-6">
         <Breadcrumbs items={[{ label: "Accessories" }]} />
@@ -56,6 +59,6 @@ function AccessoriesHub() {
           );
         })}
       </div>
-    </>
+    </div>
   );
 }

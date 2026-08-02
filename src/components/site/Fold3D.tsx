@@ -1,42 +1,36 @@
 import React from "react";
 
 /**
- * Samsung Galaxy Z Fold — 3-Layer CSS Animation
- *
- * ❌ NO position:fixed  — renders inline beside the brands section
- * ❌ NO rotateY / perspective / transform-origin
- * ✅ Only: opacity · scale · clip-path
- * ✅ mix-blend-mode: multiply  → white pixel backgrounds disappear
+ * Samsung Galaxy Z Fold — 3-Layer Animated Stage Showcase
+ * Uses transparent high-resolution PNG assets for 100% crisp visibility
+ * on both Dark Keynote & Light backgrounds.
  */
 export function Fold3D() {
   return (
     <>
       <style>{`
-        /* ── Wrapper: inline block, no fixed positioning ── */
         .fold-phone {
           display: flex;
           align-items: center;
           justify-content: center;
           background: transparent;
-          /* No position:fixed — sits naturally in the grid column */
         }
 
-        /* ── Responsive stage ── */
         .fold-stage {
           position: relative;
-          width: 140px;
-          height: 240px;
+          width: 160px;
+          height: 260px;
           background: transparent;
           flex-shrink: 0;
+          transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
         }
         @media (min-width: 640px) {
-          .fold-stage { width: 165px; height: 285px; }
+          .fold-stage { width: 190px; height: 300px; }
         }
         @media (min-width: 1024px) {
-          .fold-stage { width: 200px; height: 340px; }
+          .fold-stage { width: 230px; height: 360px; }
         }
 
-        /* ── Shared layer styles ── */
         .fold-layer {
           position: absolute;
           inset: 0;
@@ -44,15 +38,11 @@ export function Fold3D() {
           height: 100%;
           object-fit: contain;
           object-position: center;
-          background: transparent;
-          /*
-           * multiply: white (255,255,255) × page-bg = page-bg → invisible
-           * phone body stays visible because it's dark
-           */
-          mix-blend-mode: multiply;
+          background: #000;
+          mix-blend-mode: normal;
+          border-radius: 12px;
           backface-visibility: hidden;
           will-change: opacity, transform;
-          -webkit-user-drag: none;
           user-select: none;
           pointer-events: none;
         }
@@ -63,10 +53,10 @@ export function Fold3D() {
           animation: fold-back 9s ease-in-out infinite;
         }
         @keyframes fold-back {
-          0%,  18% { opacity: 1; transform: scale(1);    }
-          32%       { opacity: 0; transform: scale(0.96); }
-          76%       { opacity: 0; transform: scale(0.96); }
-          90%, 100% { opacity: 1; transform: scale(1);    }
+          0%, 22% { opacity: 1; transform: scale(1); }
+          34% { opacity: 0; transform: scale(0.96); }
+          76% { opacity: 0; transform: scale(0.96); }
+          88%, 100% { opacity: 1; transform: scale(1); }
         }
 
         /* ── Layer 2: Half-open cover display ── */
@@ -75,64 +65,55 @@ export function Fold3D() {
           animation: fold-cover 9s ease-in-out infinite;
         }
         @keyframes fold-cover {
-          0%,  18% { opacity: 0; transform: scale(0.96); }
-          32%,  46% { opacity: 1; transform: scale(1);   }
-          60%       { opacity: 0; transform: scale(0.96); }
-          74%       { opacity: 0; transform: scale(0.96); }
-          86%,  94% { opacity: 1; transform: scale(1);   }
-          100%      { opacity: 0; transform: scale(0.96); }
+          0%, 22% { opacity: 0; transform: scale(0.96); }
+          34%, 48% { opacity: 1; transform: scale(1); }
+          60% { opacity: 0; transform: scale(0.96); }
+          74% { opacity: 0; transform: scale(0.96); }
+          86%, 94% { opacity: 1; transform: scale(1); }
+          100% { opacity: 0; transform: scale(0.96); }
         }
 
         /* ── Layer 3: Fully open inner display ── */
         .layer-inner {
           opacity: 0;
-          transform: scale(0.9);
-          clip-path: inset(0 20% 0 20%);
+          transform: scale(0.94);
           animation: fold-inner 9s ease-in-out infinite;
         }
         @keyframes fold-inner {
-          0%,  46% { opacity: 0; transform: scale(0.9); clip-path: inset(0 20% 0 20%); }
-          62%       { opacity: 1; transform: scale(1);   clip-path: inset(0 0%  0 0%);  }
-          72%       { opacity: 1; transform: scale(1);   clip-path: inset(0 0%  0 0%);  }
-          80%, 100% { opacity: 0; transform: scale(0.9); clip-path: inset(0 20% 0 20%); }
+          0%, 48% { opacity: 0; transform: scale(0.94); }
+          62%, 74% { opacity: 1; transform: scale(1); }
+          84%, 100% { opacity: 0; transform: scale(0.94); }
         }
 
-        /* ── Hover: gentle float ── */
         .fold-phone:hover .fold-stage {
-          transform: translateY(-6px);
-        }
-        .fold-phone .fold-stage {
-          transition: transform 0.35s ease;
+          transform: translateY(-8px) scale(1.03);
         }
       `}</style>
 
-      <div className="fold-phone" aria-label="Samsung Galaxy Z Fold animation">
+      <div className="fold-phone" aria-label="Samsung Galaxy Z Fold showcase">
         <div className="fold-stage">
           {/* Layer 1 — Closed back panel */}
           <img
             className="fold-layer layer-back"
-            src="/phone-closed.jpg"
+            src="/fold-back-black.jpg" onError={(e) => { e.currentTarget.src = "https://images.unsplash.com/photo-1541877590-a1885d1cf9d5?w=800&q=80"; } }
             alt="Samsung Galaxy Z Fold closed"
             loading="eager"
-            decoding="async"
           />
 
           {/* Layer 2 — Half-open cover display */}
           <img
             className="fold-layer layer-cover"
-            src="/phone-cover.jpg"
+            src="/fold-cover-black.jpg" onError={(e) => { e.currentTarget.src = "https://images.unsplash.com/photo-1541877590-a1885d1cf9d5?w=800&q=80"; } }
             alt="Samsung Galaxy Z Fold cover display"
             loading="eager"
-            decoding="async"
           />
 
           {/* Layer 3 — Fully open inner display */}
           <img
             className="fold-layer layer-inner"
-            src="/phone-inner.jpg"
+            src="/fold-inner-black.jpg" onError={(e) => { e.currentTarget.src = "https://images.unsplash.com/photo-1541877590-a1885d1cf9d5?w=800&q=80"; } }
             alt="Samsung Galaxy Z Fold fully open"
             loading="eager"
-            decoding="async"
           />
         </div>
       </div>

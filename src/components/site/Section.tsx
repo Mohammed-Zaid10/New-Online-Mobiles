@@ -33,15 +33,15 @@ export function PageHeader({
 }) {
   return (
     <div className="border-b border-border/60 bg-hero-gradient">
-      <div className="mx-auto max-w-7xl px-4 py-14 md:px-6 md:py-20">
+      <div className="mx-auto max-w-7xl px-4 py-6 md:px-6 md:py-8">
         {eyebrow && (
           <div className="text-xs font-semibold uppercase tracking-[0.25em] text-accent">
             {eyebrow}
           </div>
         )}
-        <h1 className="mt-2 font-display text-4xl font-bold sm:text-5xl">{title}</h1>
+        <h1 className="mt-2 font-display text-3xl font-bold sm:text-4xl">{title}</h1>
         {subtitle && (
-          <p className="mt-3 max-w-2xl text-muted-foreground">{subtitle}</p>
+          <p className="mt-2 max-w-2xl text-sm text-muted-foreground">{subtitle}</p>
         )}
       </div>
     </div>

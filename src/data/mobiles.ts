@@ -222,10 +222,17 @@ const PHONE_KEY: Record<string, string> = {
   "Note 40 Pro+ 5G": "infinix-note-40-pro-plus",
 };
 
+import { getVariantsForModel } from "./phoneVariants";
+
 export const mobiles: Mobile[] = rawMobiles.map((m) => {
-  const key = PHONE_KEY[m.model];
-  const real = key ? phoneImage(key) : undefined;
-  return real ? { ...m, images: [real] } : m;
+  const vars = getVariantsForModel(m.model);
+  if (vars && vars.length > 0) {
+    return {
+      ...m,
+      images: vars.map((v) => v.image),
+    };
+  }
+  return m;
 });
 
 export const getMobile = (brand: string, slug: string) =>

@@ -1,4 +1,5 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, useNavigate } from "@tanstack/react-router";
+import { useEffect } from "react";
 import { RepairCalculator } from "@/components/site/RepairCalculator";
 import { PageHeader } from "@/components/site/Section";
 import { Breadcrumbs } from "@/components/site/Breadcrumbs";
@@ -18,14 +19,14 @@ function RepairCalculatorPage() {
   return (
     <div className="space-y-8 pb-16">
       <div className="container px-4 py-4 md:py-6">
-        <Breadcrumbs items={[{ label: "Repair Cost Calculator" }]} />
+        <Breadcrumbs items={[{ label: "Repairs", to: "/repair" }, { label: "Repair Cost Calculator" }]} />
       </div>
 
       <div className="container px-4">
         <PageHeader
           eyebrow="Precision Repair Estimation"
           title="Instant Repair Cost Calculator"
-          description="Select your phone brand, exact model, and repair issue to get an instant cost quote, estimated turnaround time, warranty terms, and direct repair booking."
+          subtitle="Select your phone brand, exact model, and repair issue to get an instant cost quote, estimated turnaround time, warranty terms, and direct repair booking."
         />
 
         <div className="mt-8">
@@ -35,3 +36,4 @@ function RepairCalculatorPage() {
     </div>
   );
 }
+

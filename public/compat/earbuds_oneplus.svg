@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400" fill="none">
+  <rect width="400" height="400" rx="20" fill="#f8fafc"/>
+  <ellipse cx="155" cy="180" rx="50" ry="60" fill="#1a1a1a"/>
+  <ellipse cx="245" cy="180" rx="50" ry="60" fill="#1a1a1a"/>
+  <ellipse cx="155" cy="175" rx="18" ry="7" fill="#333"/>
+  <ellipse cx="245" cy="175" rx="18" ry="7" fill="#333"/>
+  <rect x="138" y="225" width="35" height="55" rx="8" fill="#222"/>
+  <rect x="228" y="225" width="35" height="55" rx="8" fill="#222"/>
+  <circle cx="200" cy="315" r="22" fill="#1a1a1a" stroke="#333" stroke-width="2"/>
+  <circle cx="200" cy="315" r="5" fill="#cc0000"/>
+  <text x="200" y="370" font-family="system-ui,sans-serif" font-size="14" font-weight="700" fill="#64748b" text-anchor="middle">OnePlus Buds 3</text>
+</svg>

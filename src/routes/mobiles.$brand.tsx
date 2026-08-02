@@ -31,7 +31,10 @@ export const Route = createFileRoute("/mobiles/$brand")({
 function BrandPage() {
   const { brand, items } = Route.useLoaderData();
   return (
-    <>
+    <div
+      className="min-h-screen bg-cover bg-center bg-fixed pb-16"
+      style={{ backgroundImage: "linear-gradient(to bottom, rgba(8,8,8,0.8), rgba(8,8,8,0.95)), url('/backgrounds/shop-bg.jpg')" }}
+    >
       <PageHeader eyebrow="Brand" title={`${brand.name} smartphones`} subtitle={brand.tagline} />
       <div className="mx-auto max-w-7xl px-4 py-6 md:px-6">
         <Breadcrumbs items={[{ label: "New Mobiles", to: "/mobiles" }, { label: brand.name }]} />
@@ -45,6 +48,6 @@ function BrandPage() {
           </div>
         )}
       </div>
-    </>
+    </div>
   );
 }
