@@ -97,7 +97,7 @@ export function Fold3D() {
           {/* Layer 1 — Closed back panel */}
           <img
             className="fold-layer layer-back"
-            src="/fold-back-black.jpg" onError={(e) => { e.currentTarget.src = "https://images.unsplash.com/photo-1541877590-a1885d1cf9d5?w=800&q=80"; } }
+            src="/new-fold-back.png"
             alt="Samsung Galaxy Z Fold closed"
             loading="eager"
           />
@@ -105,7 +105,7 @@ export function Fold3D() {
           {/* Layer 2 — Half-open cover display */}
           <img
             className="fold-layer layer-cover"
-            src="/fold-cover-black.jpg" onError={(e) => { e.currentTarget.src = "https://images.unsplash.com/photo-1541877590-a1885d1cf9d5?w=800&q=80"; } }
+            src="/new-fold-cover.png"
             alt="Samsung Galaxy Z Fold cover display"
             loading="eager"
           />
@@ -113,7 +113,7 @@ export function Fold3D() {
           {/* Layer 3 — Fully open inner display */}
           <img
             className="fold-layer layer-inner"
-            src="/fold-inner-black.jpg" onError={(e) => { e.currentTarget.src = "https://images.unsplash.com/photo-1541877590-a1885d1cf9d5?w=800&q=80"; } }
+            src="/new-fold-inner.png"
             alt="Samsung Galaxy Z Fold fully open"
             loading="eager"
           />
