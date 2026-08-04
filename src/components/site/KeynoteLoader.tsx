@@ -8,8 +8,17 @@ const LOADING_TEXTS = [
   "Initializing...",
   "Loading Products...",
   "Optimizing Experience...",
-  "Almost Ready..."
+  "Almost Ready...",
 ];
+
+const PARTICLES = Array.from({ length: 20 }, (_, i) => ({
+  id: i,
+  left: (i * 5.1 + 3) % 100,
+  top: (i * 11.3 + 7) % 100,
+  size: i % 3 === 0 ? 3 : 2,
+  duration: 3 + (i % 5),
+  delay: (i * 0.35) % 3,
+}));
 
 export function KeynoteLoader({ onComplete }: KeynoteLoaderProps) {
   const [progress, setProgress] = useState(0);
@@ -17,12 +26,12 @@ export function KeynoteLoader({ onComplete }: KeynoteLoaderProps) {
   const [phase, setPhase] = useState<"loading" | "flash" | "done">("loading");
 
   useEffect(() => {
-    const duration = 4000; // 4 seconds total loading time
-    const interval = 40; // 40ms interval for smooth progress
-    
+    const duration = 3500;
+    const intervalMs = 40;
     let currentProgress = 0;
+
     const timer = setInterval(() => {
-      currentProgress += (interval / duration) * 100;
+      currentProgress += (intervalMs / duration) * 100;
       if (currentProgress >= 100) {
         currentProgress = 100;
         clearInterval(timer);
@@ -33,206 +42,188 @@ export function KeynoteLoader({ onComplete }: KeynoteLoaderProps) {
         }, 800);
       }
       setProgress(currentProgress);
-      
-      // Update text index based on progress
       const newIndex = Math.min(
-        LOADING_TEXTS.length - 1, 
+        LOADING_TEXTS.length - 1,
         Math.floor((currentProgress / 100) * LOADING_TEXTS.length)
       );
-      if (newIndex !== textIndex) {
-        setTextIndex(newIndex);
-      }
-    }, interval);
+      setTextIndex(newIndex);
+    }, intervalMs);
 
     return () => clearInterval(timer);
-  }, [textIndex, onComplete]);
+  }, [onComplete]);
 
   if (phase === "done") return null;
 
   return (
     <div
-      className={`fixed inset-0 z-[9999] flex flex-col items-center justify-center bg-[#000000] text-white overflow-hidden select-none transition-opacity duration-800 ease-in-out ${
-        phase === "flash" ? "opacity-0 pointer-events-none" : "opacity-100"
-      }`}
       style={{
+        position: "fixed",
+        inset: 0,
+        zIndex: 9999,
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        justifyContent: "center",
+        backgroundColor: "#000",
+        color: "#fff",
+        overflow: "hidden",
+        userSelect: "none",
+        opacity: phase === "flash" ? 0 : 1,
+        transition: "opacity 0.8s ease-in-out",
         fontFamily: "'Poppins', sans-serif",
         WebkitFontSmoothing: "antialiased",
       }}
     >
       <style>{`
-        @keyframes float-phone {
-          0%, 100% { transform: translateY(0px); }
-          50% { transform: translateY(-15px); }
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap');
+        @keyframes particle-rise {
+          0%   { transform: translateY(0) scale(1); opacity: 0; }
+          15%  { opacity: 0.6; }
+          85%  { opacity: 0.6; }
+          100% { transform: translateY(-120px) scale(0); opacity: 0; }
         }
-        @keyframes glow-pulse {
-          0%, 100% { opacity: 0.15; transform: scale(1); }
-          50% { opacity: 0.25; transform: scale(1.1); }
+        @keyframes glow-breathe {
+          0%, 100% { opacity: 0.08; transform: scale(1); }
+          50%       { opacity: 0.18; transform: scale(1.1); }
         }
-        @keyframes unfold-back {
-          0% { opacity: 1; transform: scale(0.9); }
-          20% { opacity: 1; transform: scale(0.9); }
-          40% { opacity: 0; transform: scale(0.95); }
-          100% { opacity: 0; transform: scale(0.95); }
+        @keyframes logo-appear {
+          0%   { opacity: 0; transform: translateY(18px) scale(0.95); }
+          100% { opacity: 1; transform: translateY(0) scale(1); }
         }
-        @keyframes unfold-cover {
-          0% { opacity: 0; transform: scale(0.9); }
-          20% { opacity: 0; transform: scale(0.9); }
-          30% { opacity: 1; transform: scale(0.95); }
-          45% { opacity: 0; transform: scale(1); }
-          100% { opacity: 0; transform: scale(1); }
-        }
-        @keyframes unfold-inner {
-          0% { opacity: 0; transform: scale(0.9); }
-          40% { opacity: 0; transform: scale(0.95); }
-          55% { opacity: 1; transform: scale(1); }
-          100% { opacity: 1; transform: scale(1); }
-        }
-        @keyframes particles {
-          0% { transform: translateY(0) scale(1); opacity: 0; }
-          20% { opacity: 0.8; }
-          80% { opacity: 0.8; }
-          100% { transform: translateY(-100px) scale(0); opacity: 0; }
-        }
-        @keyframes edge-reflection {
-          0% { transform: translateX(-100%) rotate(45deg); }
-          100% { transform: translateX(200%) rotate(45deg); }
-        }
-        @keyframes flash-out {
-          0% { opacity: 0; }
-          50% { opacity: 1; }
+        @keyframes flash-white {
+          0%   { opacity: 0; }
+          40%  { opacity: 0.95; }
           100% { opacity: 0; }
         }
-        
-        .premium-loader-stage {
-          position: relative;
-          width: 280px;
-          height: 400px;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          animation: float-phone 4s ease-in-out infinite;
-          transform-style: preserve-3d;
-          perspective: 1000px;
-        }
-        
-        .premium-layer {
-          position: absolute;
-          width: 100%;
-          height: 100%;
-          object-fit: contain;
-          border-radius: 12px;
-          backface-visibility: hidden;
-          will-change: opacity, transform;
-        }
-        
-        .p-layer-back { animation: unfold-back 4s cubic-bezier(0.25, 1, 0.5, 1) forwards; }
-        .p-layer-cover { animation: unfold-cover 4s cubic-bezier(0.25, 1, 0.5, 1) forwards; }
-        .p-layer-inner { animation: unfold-inner 4s cubic-bezier(0.25, 1, 0.5, 1) forwards; }
-        
-        .chrome-edge {
-          position: absolute;
-          inset: 0;
-          border-radius: 12px;
-          overflow: hidden;
-          pointer-events: none;
-        }
-        
-        .chrome-edge::after {
-          content: "";
-          position: absolute;
-          top: -50%;
-          left: -50%;
-          width: 50%;
-          height: 200%;
-          background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
-          animation: edge-reflection 3s infinite ease-in-out;
-        }
-
-        .phone-reflection {
-          position: absolute;
-          bottom: -40px;
-          left: 50%;
-          transform: translateX(-50%);
-          width: 60%;
-          height: 20px;
-          background: radial-gradient(ellipse at center, rgba(255,255,255,0.15) 0%, transparent 70%);
-          border-radius: 50%;
-          animation: float-phone 4s ease-in-out infinite reverse;
-        }
-
-        .text-fade-enter {
-          opacity: 0;
-          transform: translateY(5px);
-        }
-        .text-fade-enter-active {
-          opacity: 1;
-          transform: translateY(0);
-          transition: opacity 300ms, transform 300ms;
+        @keyframes bar-glow {
+          0%, 100% { box-shadow: 0 0 8px rgba(255,255,255,0.6); }
+          50%       { box-shadow: 0 0 18px rgba(255,255,255,1); }
         }
       `}</style>
 
-      {/* Cinematic Flash Transition */}
-      {phase === "flash" && (
-        <div className="absolute inset-0 z-50 bg-white pointer-events-none animate-[flash-out_0.8s_ease-out_forwards]" />
-      )}
+      {/* Vignette */}
+      <div style={{
+        position: "absolute", inset: 0, pointerEvents: "none",
+        background: "radial-gradient(ellipse at center, transparent 35%, #000 100%)",
+      }} />
 
-      {/* Radial Spotlight & Fog */}
-      <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-        <div className="w-[800px] h-[800px] rounded-full bg-white blur-[150px] animate-[glow-pulse_5s_ease-in-out_infinite]" />
+      {/* Central radial glow */}
+      <div style={{ position: "absolute", inset: 0, display: "flex", alignItems: "center", justifyContent: "center", pointerEvents: "none" }}>
+        <div style={{
+          width: 600, height: 600, borderRadius: "50%",
+          background: "rgba(255,255,255,0.05)",
+          filter: "blur(100px)",
+          animation: "glow-breathe 5s ease-in-out infinite",
+        }} />
       </div>
 
-      {/* Ambient Particles */}
-      <div className="absolute inset-0 pointer-events-none">
-        {[...Array(12)].map((_, i) => (
+      {/* Ambient particles */}
+      <div style={{ position: "absolute", inset: 0, pointerEvents: "none" }}>
+        {PARTICLES.map((p) => (
           <div
-            key={i}
-            className="absolute w-1 h-1 bg-white rounded-full shadow-[0_0_10px_2px_rgba(255,255,255,0.8)]"
+            key={p.id}
             style={{
-              left: \`\${Math.random() * 100}%\`,
-              top: \`\${Math.random() * 100}%\`,
-              animation: \`particles \${3 + Math.random() * 4}s linear infinite\`,
-              animationDelay: \`\${Math.random() * 2}s\`,
-              opacity: 0
+              position: "absolute",
+              left: `${p.left}%`,
+              top: `${p.top}%`,
+              width: p.size,
+              height: p.size,
+              borderRadius: "50%",
+              background: "rgba(255,255,255,0.85)",
+              boxShadow: "0 0 6px 2px rgba(255,255,255,0.4)",
+              animation: `particle-rise ${p.duration}s linear infinite`,
+              animationDelay: `${p.delay}s`,
+              opacity: 0,
             }}
           />
         ))}
       </div>
 
-      {/* 3D Floating Phone Animation */}
-      <div className="relative z-10 flex flex-col items-center">
-        <div className="relative">
-          <div className="premium-loader-stage">
-            <img src="/new-fold-back.png" alt="Fold Back" className="premium-layer p-layer-back" />
-            <img src="/new-fold-cover.png" alt="Fold Cover" className="premium-layer p-layer-cover" />
-            
-            <div className="premium-layer p-layer-inner relative">
-              <img src="/new-fold-inner.png" alt="Fold Inner" className="w-full h-full object-contain" />
-              <div className="chrome-edge" />
-            </div>
-          </div>
-          <div className="phone-reflection" />
+      {/* White flash on complete */}
+      {phase === "flash" && (
+        <div style={{
+          position: "absolute", inset: 0, zIndex: 50,
+          background: "#fff", pointerEvents: "none",
+          animation: "flash-white 0.8s ease-out forwards",
+        }} />
+      )}
+
+      {/* Branding & progress */}
+      <div style={{
+        position: "relative", zIndex: 10,
+        display: "flex", flexDirection: "column", alignItems: "center",
+        animation: "logo-appear 1s cubic-bezier(0.22,1,0.36,1) forwards",
+      }}>
+        {/* Logo / Brand name */}
+        <div style={{ marginBottom: 12, opacity: 0.15 }}>
+          <svg width="40" height="40" viewBox="0 0 40 40" fill="none">
+            <circle cx="20" cy="20" r="19" stroke="white" strokeWidth="1.2" />
+            <path d="M13 28V12h4l3 8 3-8h4v16h-3V18l-4 10-4-10v10z" fill="white" />
+          </svg>
         </div>
 
-        {/* Branding & Typography */}
-        <div className="mt-16 text-center z-20">
-          <h1 className="text-2xl md:text-3xl font-semibold tracking-[8px] text-white">ONLINE MOBILES</h1>
-          <p className="mt-2 text-sm text-gray-400 font-medium">Premium Mobile Experience</p>
-          
-          {/* Progress Indicator */}
-          <div className="mt-8 w-64 md:w-80 h-[3px] bg-white/10 rounded-full overflow-hidden mx-auto shadow-[0_0_15px_rgba(255,255,255,0.1)]">
-            <div 
-              className="h-full bg-white rounded-full shadow-[0_0_10px_rgba(255,255,255,0.8)] transition-all ease-linear"
-              style={{ width: \`\${progress}%\`, transitionDuration: '40ms' }}
-            />
-          </div>
-          
-          {/* Fading Status Text */}
-          <div className="mt-3 h-5 relative overflow-hidden">
-            <div className="absolute inset-0 flex justify-center text-xs text-gray-400 font-medium tracking-widest uppercase transition-opacity duration-300">
-              {LOADING_TEXTS[textIndex]}
-            </div>
-          </div>
+        <h1 style={{
+          fontSize: "clamp(1.2rem, 4vw, 1.8rem)",
+          fontWeight: 600,
+          letterSpacing: "10px",
+          color: "#fff",
+          margin: 0,
+          textTransform: "uppercase",
+        }}>
+          Online Mobiles
+        </h1>
+
+        <p style={{
+          marginTop: 10,
+          fontSize: "0.75rem",
+          color: "rgba(255,255,255,0.35)",
+          letterSpacing: "4px",
+          fontWeight: 400,
+          textTransform: "uppercase",
+        }}>
+          Premium Mobile Experience
+        </p>
+
+        {/* Thin horizontal line divider */}
+        <div style={{
+          marginTop: 32,
+          width: 40,
+          height: 1,
+          background: "linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent)",
+        }} />
+
+        {/* Progress bar */}
+        <div style={{
+          marginTop: 28,
+          width: "min(300px, 70vw)",
+          height: 2,
+          background: "rgba(255,255,255,0.08)",
+          borderRadius: 99,
+          overflow: "hidden",
+        }}>
+          <div style={{
+            height: "100%",
+            width: `${progress}%`,
+            background: "#fff",
+            borderRadius: 99,
+            animation: "bar-glow 1.5s ease-in-out infinite",
+            transition: "width 40ms linear",
+          }} />
         </div>
+
+        {/* Status text */}
+        <p style={{
+          marginTop: 14,
+          fontSize: "0.6rem",
+          color: "rgba(255,255,255,0.3)",
+          letterSpacing: "3px",
+          textTransform: "uppercase",
+          fontWeight: 500,
+          transition: "opacity 0.4s",
+          minHeight: "1em",
+        }}>
+          {LOADING_TEXTS[textIndex]}
+        </p>
       </div>
     </div>
   );
