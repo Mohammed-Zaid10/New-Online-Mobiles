@@ -1,154 +1,239 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect } from "react";
 
 interface KeynoteLoaderProps {
   onComplete?: () => void;
 }
 
+const LOADING_TEXTS = [
+  "Initializing...",
+  "Loading Products...",
+  "Optimizing Experience...",
+  "Almost Ready..."
+];
+
 export function KeynoteLoader({ onComplete }: KeynoteLoaderProps) {
   const [progress, setProgress] = useState(0);
-  const [dots, setDots] = useState(".");
-  const [phase, setPhase] = useState<"loading" | "welcome" | "fadeout" | "done">("loading");
-  const [isVideoReady, setIsVideoReady] = useState(false);
-  const videoRef = useRef<HTMLVideoElement>(null);
+  const [textIndex, setTextIndex] = useState(0);
+  const [phase, setPhase] = useState<"loading" | "flash" | "done">("loading");
 
-  // Animated loading dots
   useEffect(() => {
-    if (phase !== "loading") return;
-    const interval = setInterval(() => {
-      setDots((prev) => (prev === "..." ? "." : prev + "."));
-    }, 450);
-    return () => clearInterval(interval);
-  }, [phase]);
-
-  // Ensure video starts directly at 2.0s mark (the frame shown in user image)
-  const handleLoadedMetadata = (e: React.SyntheticEvent<HTMLVideoElement>) => {
-    const video = e.currentTarget;
-    video.currentTime = 2.0;
-    video.play().catch(() => {});
-  };
-
-  const handleTimeUpdate = (e: React.SyntheticEvent<HTMLVideoElement>) => {
-    const video = e.currentTarget;
-    if (video.currentTime >= 2.0 && !isVideoReady) {
-      setIsVideoReady(true);
-    }
-  };
-
-  // Synchronized loading progress (0% -> 100%)
-  useEffect(() => {
-    const duration = 3400; // 3.4 seconds fallback duration
-    const startTime = Date.now();
-
+    const duration = 4000; // 4 seconds total loading time
+    const interval = 40; // 40ms interval for smooth progress
+    
+    let currentProgress = 0;
     const timer = setInterval(() => {
-      const elapsed = Date.now() - startTime;
-      let currentProgress = Math.min(100, Math.round((elapsed / duration) * 100));
-      
-      // Calculate from 2.0s offset onwards
-      if (videoRef.current && videoRef.current.duration) {
-        const startOffset = 2.0;
-        const totalPlayable = Math.max(0.1, videoRef.current.duration - startOffset);
-        const currentPlayable = Math.max(0, videoRef.current.currentTime - startOffset);
-        const videoRatio = Math.min(1, Math.max(0, currentPlayable / totalPlayable));
-        currentProgress = Math.min(100, Math.round(videoRatio * 100));
-      }
-
-      setProgress(currentProgress);
-
+      currentProgress += (interval / duration) * 100;
       if (currentProgress >= 100) {
+        currentProgress = 100;
         clearInterval(timer);
-        setPhase("welcome");
+        setPhase("flash");
+        setTimeout(() => {
+          setPhase("done");
+          if (onComplete) onComplete();
+        }, 800);
       }
-    }, 30);
+      setProgress(currentProgress);
+      
+      // Update text index based on progress
+      const newIndex = Math.min(
+        LOADING_TEXTS.length - 1, 
+        Math.floor((currentProgress / 100) * LOADING_TEXTS.length)
+      );
+      if (newIndex !== textIndex) {
+        setTextIndex(newIndex);
+      }
+    }, interval);
 
     return () => clearInterval(timer);
-  }, []);
-
-  // Phase 2 -> Phase 3 Transition Timeline
-  useEffect(() => {
-    if (phase === "welcome") {
-      const timer = setTimeout(() => {
-        setPhase("fadeout");
-      }, 1000);
-      return () => clearTimeout(timer);
-    } else if (phase === "fadeout") {
-      const timer = setTimeout(() => {
-        setPhase("done");
-        if (onComplete) onComplete();
-      }, 800);
-      return () => clearTimeout(timer);
-    }
-  }, [phase, onComplete]);
-
-  // Fallback video ended handler
-  const handleVideoEnded = () => {
-    setProgress(100);
-    if (phase === "loading") {
-      setPhase("welcome");
-    }
-  };
+  }, [textIndex, onComplete]);
 
   if (phase === "done") return null;
 
   return (
     <div
-      className={`fixed inset-0 z-[9999] flex flex-col items-center justify-center bg-[#050505] text-white overflow-hidden select-none transition-opacity duration-800 ease-out ${
-        phase === "fadeout" ? "opacity-0 pointer-events-none" : "opacity-100"
+      className={`fixed inset-0 z-[9999] flex flex-col items-center justify-center bg-[#000000] text-white overflow-hidden select-none transition-opacity duration-800 ease-in-out ${
+        phase === "flash" ? "opacity-0 pointer-events-none" : "opacity-100"
       }`}
       style={{
-        width: "100vw",
-        height: "100vh",
+        fontFamily: "'Poppins', sans-serif",
         WebkitFontSmoothing: "antialiased",
       }}
     >
-      {/* 1. Pure Matte Black Background with Soft Radial Pulsing Spotlight */}
-      <div className="absolute inset-0 pointer-events-none overflow-hidden flex items-center justify-center">
-        {/* Soft Radial Spotlight pulsing between 15% & 25% opacity */}
-        <div className="w-[550px] h-[550px] sm:w-[750px] sm:h-[750px] rounded-full bg-white/20 blur-[120px] animate-pulse-ring" />
-        
-        {/* Subtle Ambient Particles */}
-        <div className="absolute inset-0 opacity-20">
-          <div className="absolute top-1/4 left-1/3 w-1 h-1 bg-white rounded-full animate-float-slow" />
-          <div className="absolute top-2/3 right-1/4 w-1.5 h-1.5 bg-white/80 rounded-full animate-float-slower" />
-          <div className="absolute bottom-1/4 left-1/2 w-1 h-1 bg-white/60 rounded-full animate-float-slow" />
-          <div className="absolute top-1/3 right-1/3 w-1 h-1 bg-white/50 rounded-full animate-float-slower" />
-        </div>
-      </div>
-
-      {/* Main Full-Screen Video Box */}
-      <div className="relative z-10 flex flex-col items-center justify-center w-full h-full p-4">
-        {/* Full-Screen Video Element */}
-        <div
-          className={`relative w-full h-full max-w-6xl max-h-[85vh] flex items-center justify-center transition-all duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] ${
-            phase === "welcome" ? "scale-95 opacity-90" : isVideoReady ? "scale-100 opacity-100" : "opacity-0"
-          }`}
-        >
-          <video
-            ref={videoRef}
-            src="/phone-loading.mp4#t=2.0"
-            autoPlay
-            muted
-            playsInline
-            onLoadedMetadata={handleLoadedMetadata}
-            onTimeUpdate={handleTimeUpdate}
-            onEnded={handleVideoEnded}
-            className="w-full h-full object-contain filter brightness-105 contrast-110 shadow-[0_0_80px_rgba(255,255,255,0.08)]"
-          />
-        </div>
-      </div>
-
-      {/* Keyframes for emerging text */}
       <style>{`
-        @keyframes emerge-text {
-          0% {
-            opacity: 0;
-            transform: scale(0.9) translateY(10px);
-          }
-          100% {
-            opacity: 1;
-            transform: scale(1) translateY(0);
-          }
+        @keyframes float-phone {
+          0%, 100% { transform: translateY(0px); }
+          50% { transform: translateY(-15px); }
+        }
+        @keyframes glow-pulse {
+          0%, 100% { opacity: 0.15; transform: scale(1); }
+          50% { opacity: 0.25; transform: scale(1.1); }
+        }
+        @keyframes unfold-back {
+          0% { opacity: 1; transform: scale(0.9); }
+          20% { opacity: 1; transform: scale(0.9); }
+          40% { opacity: 0; transform: scale(0.95); }
+          100% { opacity: 0; transform: scale(0.95); }
+        }
+        @keyframes unfold-cover {
+          0% { opacity: 0; transform: scale(0.9); }
+          20% { opacity: 0; transform: scale(0.9); }
+          30% { opacity: 1; transform: scale(0.95); }
+          45% { opacity: 0; transform: scale(1); }
+          100% { opacity: 0; transform: scale(1); }
+        }
+        @keyframes unfold-inner {
+          0% { opacity: 0; transform: scale(0.9); }
+          40% { opacity: 0; transform: scale(0.95); }
+          55% { opacity: 1; transform: scale(1); }
+          100% { opacity: 1; transform: scale(1); }
+        }
+        @keyframes particles {
+          0% { transform: translateY(0) scale(1); opacity: 0; }
+          20% { opacity: 0.8; }
+          80% { opacity: 0.8; }
+          100% { transform: translateY(-100px) scale(0); opacity: 0; }
+        }
+        @keyframes edge-reflection {
+          0% { transform: translateX(-100%) rotate(45deg); }
+          100% { transform: translateX(200%) rotate(45deg); }
+        }
+        @keyframes flash-out {
+          0% { opacity: 0; }
+          50% { opacity: 1; }
+          100% { opacity: 0; }
+        }
+        
+        .premium-loader-stage {
+          position: relative;
+          width: 280px;
+          height: 400px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          animation: float-phone 4s ease-in-out infinite;
+          transform-style: preserve-3d;
+          perspective: 1000px;
+        }
+        
+        .premium-layer {
+          position: absolute;
+          width: 100%;
+          height: 100%;
+          object-fit: contain;
+          border-radius: 12px;
+          backface-visibility: hidden;
+          will-change: opacity, transform;
+        }
+        
+        .p-layer-back { animation: unfold-back 4s cubic-bezier(0.25, 1, 0.5, 1) forwards; }
+        .p-layer-cover { animation: unfold-cover 4s cubic-bezier(0.25, 1, 0.5, 1) forwards; }
+        .p-layer-inner { animation: unfold-inner 4s cubic-bezier(0.25, 1, 0.5, 1) forwards; }
+        
+        .chrome-edge {
+          position: absolute;
+          inset: 0;
+          border-radius: 12px;
+          overflow: hidden;
+          pointer-events: none;
+        }
+        
+        .chrome-edge::after {
+          content: "";
+          position: absolute;
+          top: -50%;
+          left: -50%;
+          width: 50%;
+          height: 200%;
+          background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+          animation: edge-reflection 3s infinite ease-in-out;
+        }
+
+        .phone-reflection {
+          position: absolute;
+          bottom: -40px;
+          left: 50%;
+          transform: translateX(-50%);
+          width: 60%;
+          height: 20px;
+          background: radial-gradient(ellipse at center, rgba(255,255,255,0.15) 0%, transparent 70%);
+          border-radius: 50%;
+          animation: float-phone 4s ease-in-out infinite reverse;
+        }
+
+        .text-fade-enter {
+          opacity: 0;
+          transform: translateY(5px);
+        }
+        .text-fade-enter-active {
+          opacity: 1;
+          transform: translateY(0);
+          transition: opacity 300ms, transform 300ms;
         }
       `}</style>
+
+      {/* Cinematic Flash Transition */}
+      {phase === "flash" && (
+        <div className="absolute inset-0 z-50 bg-white pointer-events-none animate-[flash-out_0.8s_ease-out_forwards]" />
+      )}
+
+      {/* Radial Spotlight & Fog */}
+      <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+        <div className="w-[800px] h-[800px] rounded-full bg-white blur-[150px] animate-[glow-pulse_5s_ease-in-out_infinite]" />
+      </div>
+
+      {/* Ambient Particles */}
+      <div className="absolute inset-0 pointer-events-none">
+        {[...Array(12)].map((_, i) => (
+          <div
+            key={i}
+            className="absolute w-1 h-1 bg-white rounded-full shadow-[0_0_10px_2px_rgba(255,255,255,0.8)]"
+            style={{
+              left: \`\${Math.random() * 100}%\`,
+              top: \`\${Math.random() * 100}%\`,
+              animation: \`particles \${3 + Math.random() * 4}s linear infinite\`,
+              animationDelay: \`\${Math.random() * 2}s\`,
+              opacity: 0
+            }}
+          />
+        ))}
+      </div>
+
+      {/* 3D Floating Phone Animation */}
+      <div className="relative z-10 flex flex-col items-center">
+        <div className="relative">
+          <div className="premium-loader-stage">
+            <img src="/new-fold-back.png" alt="Fold Back" className="premium-layer p-layer-back" />
+            <img src="/new-fold-cover.png" alt="Fold Cover" className="premium-layer p-layer-cover" />
+            
+            <div className="premium-layer p-layer-inner relative">
+              <img src="/new-fold-inner.png" alt="Fold Inner" className="w-full h-full object-contain" />
+              <div className="chrome-edge" />
+            </div>
+          </div>
+          <div className="phone-reflection" />
+        </div>
+
+        {/* Branding & Typography */}
+        <div className="mt-16 text-center z-20">
+          <h1 className="text-2xl md:text-3xl font-semibold tracking-[8px] text-white">ONLINE MOBILES</h1>
+          <p className="mt-2 text-sm text-gray-400 font-medium">Premium Mobile Experience</p>
+          
+          {/* Progress Indicator */}
+          <div className="mt-8 w-64 md:w-80 h-[3px] bg-white/10 rounded-full overflow-hidden mx-auto shadow-[0_0_15px_rgba(255,255,255,0.1)]">
+            <div 
+              className="h-full bg-white rounded-full shadow-[0_0_10px_rgba(255,255,255,0.8)] transition-all ease-linear"
+              style={{ width: \`\${progress}%\`, transitionDuration: '40ms' }}
+            />
+          </div>
+          
+          {/* Fading Status Text */}
+          <div className="mt-3 h-5 relative overflow-hidden">
+            <div className="absolute inset-0 flex justify-center text-xs text-gray-400 font-medium tracking-widest uppercase transition-opacity duration-300">
+              {LOADING_TEXTS[textIndex]}
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   );
 }
